@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TR Ingram - Geospatial AI/ML Engineer</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Add AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Consider adding a link to Google Fonts or another font library here -->
+    <!-- Add Splitting.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting.css" />
+    <link rel="stylesheet" href="https://unpkg.com/splitting/dist/splitting-cells.css" />
+</head>
+<body>
+    <!-- Canvas for 3D Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <header>
+        <nav>
+            <div class="logo">TR.dev</div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="hero">
+            <h1 data-splitting>TR Ingram</h1>
+            <p data-splitting>Geospatial AI/ML Engineer | Full-Stack GIS Systems Architect</p>
+            <!-- Optional: Add a call-to-action button -->
+            <!-- <a href="#projects" class="cta-button">View My Work</a> -->
+        </section>
+
+        <section id="about" data-aos="fade-up">
+            <h2 data-aos="fade-right">About Me</h2>
+            <p>Full-stack geospatial systems architect and AI/ML engineer specializing in end-to-end GIS solutions, scalable cloud deployment, and intelligent spatial analytics. Builder of the ForgeIQ platform, including the AI-powered ConflictIQ and SpendIQ modules. Trusted by municipal, federal, and research partners for leading data-driven, secure, and automation-enhanced systems. Seeking a role in AI-powered GIS or platform development.</p>
+            <!-- Optional: Add a profile picture -->
+            <!-- <img src="assets/profile.jpg" alt="TR Ingram"> -->
+        </section>
+
+        <section id="skills" data-aos="fade-up">
+            <h2 data-aos="fade-right">Core Skill Stack</h2>
+            <ul>
+                <li>Geospatial Stack: ArcGIS Pro, ArcGIS Enterprise, AGOL, QGIS, Field Maps, Experience Builder</li>
+                <li>Programming: Python, JavaScript, ArcPy, FastAPI, ArcGIS API for Python, JSAPI</li>
+                <li>Databases: PostgreSQL/PostGIS, DuckDB, Elasticsearch, relational schema design, query optimization</li>
+                <li>AI/ML: GPT-4, DSPy, LangChain, prompt engineering, AI-to-SQL reasoning, agent-based modeling</li>
+                <li>Frontend: React, deck.gl, D3.js, Tailwind, MUI, Chart.js</li>
+                <li>Cloud DevOps: AWS (EC2, Lambda, S3, RDS), GitHub Actions, JWT, secrets handling</li>
+                <li>Tooling: Git, GitHub, PyCharm, VSCode, OpenAI API, custom GPTs, Postman</li>
+                <li>Methodologies: CI/CD, RESTful API design, modular architecture, performance profiling, version control</li>
+            </ul>
+        </section>
+
+        <section id="projects" data-aos="fade-up">
+            <h2 data-aos="fade-right">Proof of Work</h2>
+            <div class="project-grid">
+                <article class="project-card" data-aos="fade-up" data-aos-delay="100">
+                    <h3>ForgeIQ Platform</h3>
+                    <p>Modular intelligence architecture for spatial decision systems.</p>
+                    <!-- <a href="#">View Project</a> | <a href="#">Source Code</a> -->
+                </article>
+                <article class="project-card" data-aos="fade-up" data-aos-delay="200">
+                    <h3>ConflictIQ</h3>
+                    <p>Real-time geospatial NLQ engine with AI-enhanced querying.</p>
+                    <!-- <a href="#">View Project</a> | <a href="#">Source Code</a> -->
+                </article>
+                <article class="project-card" data-aos="fade-up" data-aos-delay="300">
+                    <h3>SpendIQ</h3>
+                    <p>DSPy-based next-gen query intelligence for spatial finance data.</p>
+                    <!-- <a href="#">View Project</a> | <a href="#">Source Code</a> -->
+                </article>
+                <article class="project-card" data-aos="fade-up" data-aos-delay="400">
+                    <h3>NASA DEVELOP</h3>
+                    <p>Satellite-informed ag tech policy intelligence.</p>
+                    <!-- <a href="#">View Project</a> | <a href="#">Source Code</a> -->
+                </article>
+            </div>
+        </section>
+        <style>
+            /* Add spacing between experience items */
+            .experience-item {
+                margin-bottom: 2rem; /* Creates gap between experience items */
+            }
+            
+            /* Ensure consistent spacing for the last item */
+            .experience-item:last-child {
+                margin-bottom: 0;
+            }
+        </style>
+
+        <section id="experience" data-aos="fade-up">
+            <h2 data-aos="fade-right">Work Experience</h2>
+            <article class="experience-item">
+                <h3>GIS Programmer/Analyst/Specialist</h3>
+                <p><strong>Cheyenne Board of Public Utilities</strong> | Oct 2022 – Present</p>
+                <ul>
+                    <li>Engineered scalable municipal GIS infrastructure with ArcGIS Enterprise + AGOL/PORTAL</li>
+                    <li>Automated asset workflows via ArcGIS API for Python</li>
+                    <li>Built Field Maps, Experience Builder apps, and Portal dashboards</li>
+                    <li>Deployed LSLI workflows for regulatory compliance</li>
+                </ul>
+            </article>
+            <article class="experience-item">
+                <h3>Founder / Architect – ForgeIQ (ConflictIQ + SpendIQ)</h3>
+                <p><strong>Remote</strong> | 2024 – Present</p>
+                <ul>
+                    <li>Built ConflictIQ using OpenAI API + PostGIS + FastAPI for spatial NLQ</li>
+                    <li>Developed SpendIQ with DSPy for agentic query interpretation</li>
+                    <li>Deployed full-stack React frontend and AWS cloud backend</li>
+                    <li>Created secure data pipelines and visual analytics with brushing/filtering</li>
+                    <li></li>
+                </ul>
+            </article>
+            <article class="experience-item">
+                <h3>Project Lead – NASA DEVELOP</h3>
+                <p><strong>Remote/UCCS</strong> | May 2022 – Oct 2022</p>
+                <ul>
+                    <li>Led NDVI + Landsat analysis for USDA tech adoption</li>
+                    <li>Delivered dashboards and policy recommendations to NASA</li>
+                    <li>Resulted in NASA publication</li>
+                </ul>
+            </article>
+            <article class="experience-item">
+                <h3>GIS Conflict Researcher – UCCS</h3>
+                <p><strong>UCCS</strong> | Dec 2020 – May 2022</p>
+                <ul>
+                    <li>Modeled radiation/conflict patterns using predictive spatial analysis</li>
+                    <li>Presented findings at GIS in the Rockies</li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="education" data-aos="fade-up">
+            <h2 data-aos="fade-right">Education</h2>
+             <article class="education-item">
+                <h3>M.S. in Geospatial Information Science and Technology</h3>
+                <p>University of Wyoming — Expected 2025</p>
+            </article>
+             <article class="education-item">
+                <h3>B.A. in Geography</h3>
+                <p>University of Colorado Colorado Springs (UCCS) — 2022</p>
+            </article>
+             <article class="education-item">
+                <h3>GIS Certificate</h3>
+                <p>UCCS — 2022</p>
+            </article>
+        </section>
+
+        <section id="contact" data-aos="fade-up">
+            <h2 data-aos="fade-right">Contact Me</h2>
+            <p>Feel free to reach out!</p>
+            <ul>
+                <li>Email: <a href="mailto:tyeingram@gmail.com">tyeingram@gmail.com</a></li>
+                <li>Phone: <a href="tel:2105523320">210-552-3320</a></li>
+                <li>LinkedIn: <a href="#" target="_blank">Your LinkedIn Profile</a></li>
+                <!-- Optional: Add GitHub Link -->
+                <!-- <li>GitHub: <a href="#" target="_blank">Your GitHub Profile</a></li> -->
+            </ul>
+            <!-- Optional: Add a contact form -->
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 TR Ingram. All rights reserved.</p>
+    </footer>
+
+    <!-- Add AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init(); // Initialize AOS
+    </script>
+
+    <!-- Add Splitting.js -->
+    <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+    <script>
+      Splitting(); // Initialize Splitting.js
+    </script>
+
+    <!-- Add TWEEN.js -->
+    <script src="https://unpkg.com/@tweenjs/tween.js@23.1.1/dist/tween.umd.js"></script>
+
+    <!-- Three.js Library -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.164.1/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.164.1/examples/jsm/"
+            }
+        }
+    </script>
+
+    <!-- Link to our custom script -->
+    <script type="module" src="script.js"></script>
+</body>
+</html> 
