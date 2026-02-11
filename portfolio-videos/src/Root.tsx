@@ -83,7 +83,7 @@ export const RemotionRoot: React.FC = () => {
           key={project.title}
           id={project.title.replace(/[^a-zA-Z0-9]/g, "")}
           component={ProjectVideo}
-          durationInFrames={450} // 15 seconds at 30fps
+          durationInFrames={630} // 21 seconds at 30fps
           fps={30}
           width={1920}
           height={1080}
