@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Mail, Phone, Linkedin, ArrowUpRight, Github, ExternalLink, Star, GitBranch, Database, Workflow, Zap, Globe, Server, Play, X } from 'lucide-react'
+import { Mail, Phone, Linkedin, ArrowUpRight, Github, ExternalLink, Star, GitBranch, Database, Workflow, Zap, Globe, Server, Play, X, Calendar } from 'lucide-react'
 import './App.css'
 
 const fadeInUp = {
@@ -118,6 +118,13 @@ function ProjectCard({ project, index, onPlayVideo }) {
               <ArrowUpRight size={14} />
             </a>
           )}
+          {project.booking && (
+            <a href={project.booking} target="_blank" rel="noopener noreferrer" className="project-link project-link--booking">
+              <Calendar size={16} />
+              <span>Book a Call</span>
+              <ArrowUpRight size={14} />
+            </a>
+          )}
         </div>
       </div>
     </motion.article>
@@ -156,6 +163,7 @@ function App() {
       highlight: 'Edge computing, Zero Trust auth, live at openworker.org',
       demo: 'https://openworker.org',
       demoLabel: 'openworker.org',
+      booking: 'https://calendar.app.google/JauXioh8u8J5yLMv9',
       tech: ['Cloudflare Workers', 'R2', 'AI Gateway', 'TypeScript', 'Zero Trust'],
       icon: <Zap size={24} />,
       video: `${BASE_URL}videos/OpenWorker.mp4`
@@ -404,8 +412,8 @@ function App() {
               <h2 className="section__heading">Get in Touch</h2>
             </motion.div>
             <motion.div className="contact__links" variants={fadeInUp}>
-              <a href="mailto:tyeingram@gmail.com" className="contact__link">
-                <Mail /> tyeingram@gmail.com
+              <a href="mailto:tr@ingramgeoai.com" className="contact__link">
+                <Mail /> tr@ingramgeoai.com
               </a>
               <a href="https://www.linkedin.com/in/tr-ingram/" target="_blank" rel="noopener noreferrer" className="contact__link">
                 <Linkedin /> LinkedIn <ArrowUpRight size={14} />

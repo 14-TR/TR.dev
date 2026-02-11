@@ -29,7 +29,7 @@ const projects: ProjectVideoProps[] = [
     ],
     tech: ["Cloudflare Workers", "R2", "AI Gateway", "TypeScript"],
     accentColor: "#f97316", // orange
-    website: "openworker.org"
+    website: "openworker.org | Book a call"
   },
   {
     title: "Git-Map",
