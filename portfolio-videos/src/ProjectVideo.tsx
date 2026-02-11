@@ -137,6 +137,21 @@ const TechBadge: React.FC<{
   );
 };
 
+// Centered container for each scene
+const CenteredScene: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <AbsoluteFill
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 100,
+    }}
+  >
+    {children}
+  </AbsoluteFill>
+);
+
 export const ProjectVideo: React.FC<ProjectVideoProps> = ({
   title,
   tagline,
@@ -166,6 +181,9 @@ export const ProjectVideo: React.FC<ProjectVideoProps> = ({
   );
 
   const isVertical = height > width;
+  
+  // Get the URL to show (if any)
+  const urlToShow = website || github || null;
 
   return (
     <AbsoluteFill
@@ -194,93 +212,79 @@ export const ProjectVideo: React.FC<ProjectVideoProps> = ({
       <div
         style={{
           position: "absolute",
-          top: "30%",
+          top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 600,
-          height: 600,
-          background: `radial-gradient(circle, ${accentColor}30, transparent 70%)`,
-          filter: "blur(80px)",
+          width: 800,
+          height: 800,
+          background: `radial-gradient(circle, ${accentColor}25, transparent 70%)`,
+          filter: "blur(100px)",
         }}
       />
 
-      {/* Content - CENTERED */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: isVertical ? 60 : 120,
-          textAlign: "center",
-        }}
-      >
-        {/* Scene 1: Title (frames 0-120) */}
-        <Sequence from={0} durationInFrames={120}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <AnimatedText
-              text={title}
-              delay={0}
-              style={{
-                fontSize: isVertical ? 90 : 140,
-                fontWeight: 800,
-                letterSpacing: "-0.04em",
-                background: `linear-gradient(135deg, white 30%, ${accentColor})`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                marginBottom: 30,
-              }}
-            />
-            <AnimatedText
-              text={tagline}
-              delay={20}
-              style={{
-                fontSize: isVertical ? 40 : 52,
-                fontWeight: 500,
-                color: "rgba(255, 255, 255, 0.7)",
-                maxWidth: "80%",
-              }}
-            />
-          </div>
-        </Sequence>
+      {/* Scene 1: Title (frames 0-120) */}
+      <Sequence from={0} durationInFrames={120}>
+        <CenteredScene>
+          <AnimatedText
+            text={title}
+            delay={0}
+            style={{
+              fontSize: isVertical ? 90 : 140,
+              fontWeight: 800,
+              letterSpacing: "-0.04em",
+              background: `linear-gradient(135deg, white 30%, ${accentColor})`,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              textAlign: "center",
+            }}
+          />
+          <AnimatedText
+            text={tagline}
+            delay={20}
+            style={{
+              fontSize: isVertical ? 40 : 52,
+              fontWeight: 500,
+              color: "rgba(255, 255, 255, 0.7)",
+              marginTop: 30,
+              textAlign: "center",
+            }}
+          />
+        </CenteredScene>
+      </Sequence>
 
-        {/* Scene 2: Description (frames 120-270) */}
-        <Sequence from={120} durationInFrames={150}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <AnimatedText
-              text={description}
-              delay={0}
-              style={{
-                fontSize: isVertical ? 36 : 44,
-                lineHeight: 1.6,
-                maxWidth: isVertical ? "90%" : "75%",
-                color: "rgba(255, 255, 255, 0.9)",
-              }}
-            />
-          </div>
-        </Sequence>
+      {/* Scene 2: Description (frames 120-270) */}
+      <Sequence from={120} durationInFrames={150}>
+        <CenteredScene>
+          <AnimatedText
+            text={description}
+            delay={0}
+            style={{
+              fontSize: isVertical ? 36 : 48,
+              lineHeight: 1.6,
+              maxWidth: isVertical ? "90%" : "70%",
+              color: "rgba(255, 255, 255, 0.9)",
+              textAlign: "center",
+            }}
+          />
+        </CenteredScene>
+      </Sequence>
 
-        {/* Scene 3: Features (frames 270-450) */}
-        <Sequence from={270} durationInFrames={180}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", width: "100%", maxWidth: 800 }}>
-            <AnimatedText
-              text="Key Features"
-              delay={0}
-              style={{
-                fontSize: 28,
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.15em",
-                color: accentColor,
-                marginBottom: 40,
-                alignSelf: "center",
-              }}
-            />
+      {/* Scene 3: Features (frames 270-450) */}
+      <Sequence from={270} durationInFrames={180}>
+        <CenteredScene>
+          <AnimatedText
+            text="Key Features"
+            delay={0}
+            style={{
+              fontSize: 28,
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.15em",
+              color: accentColor,
+              marginBottom: 50,
+            }}
+          />
+          <div>
             {features.map((feature, index) => (
               <FeatureItem
                 key={feature}
@@ -291,46 +295,48 @@ export const ProjectVideo: React.FC<ProjectVideoProps> = ({
               />
             ))}
           </div>
-        </Sequence>
+        </CenteredScene>
+      </Sequence>
 
-        {/* Scene 4: Tech Stack (frames 450-570) */}
-        <Sequence from={450} durationInFrames={120}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <AnimatedText
-              text="Built With"
-              delay={0}
-              style={{
-                fontSize: 28,
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.15em",
-                color: "rgba(255, 255, 255, 0.5)",
-                marginBottom: 40,
-              }}
-            />
-            <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
-              {tech.map((t, index) => (
-                <TechBadge key={t} tech={t} index={index} startFrame={20} />
-              ))}
-            </div>
+      {/* Scene 4: Tech Stack (frames 450-570) */}
+      <Sequence from={450} durationInFrames={120}>
+        <CenteredScene>
+          <AnimatedText
+            text="Built With"
+            delay={0}
+            style={{
+              fontSize: 28,
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.15em",
+              color: "rgba(255, 255, 255, 0.5)",
+              marginBottom: 50,
+            }}
+          />
+          <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center", maxWidth: "80%" }}>
+            {tech.map((t, index) => (
+              <TechBadge key={t} tech={t} index={index} startFrame={20} />
+            ))}
           </div>
-        </Sequence>
+        </CenteredScene>
+      </Sequence>
 
-        {/* Scene 5: CTA / URL (frames 570-630) */}
+      {/* Scene 5: CTA / URL (frames 570-630) - only if URL exists */}
+      {urlToShow && (
         <Sequence from={570} durationInFrames={60}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <CenteredScene>
             <AnimatedText
-              text={website || github || ""}
+              text={urlToShow}
               delay={0}
               style={{
-                fontSize: isVertical ? 32 : 42,
+                fontSize: isVertical ? 36 : 48,
                 fontWeight: 600,
                 color: accentColor,
               }}
             />
-          </div>
+          </CenteredScene>
         </Sequence>
-      </div>
+      )}
 
       {/* TR.dev branding - bottom right */}
       <div

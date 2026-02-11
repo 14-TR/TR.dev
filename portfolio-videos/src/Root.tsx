@@ -57,7 +57,7 @@ const projects: ProjectVideoProps[] = [
     ],
     tech: ["TypeScript", "React", "Python", "SQLite", "OpenClaw"],
     accentColor: "#3b82f6", // blue
-    github: "github.com/14-TR/tr-jig"
+    // No public GitHub
   },
   {
     title: "ConflictIQ",
@@ -71,7 +71,7 @@ const projects: ProjectVideoProps[] = [
     ],
     tech: ["Python", "FastAPI", "PostGIS", "OpenAI API", "React"],
     accentColor: "#ec4899", // pink
-    github: "github.com/14-TR"
+    // No public GitHub - enterprise project
   }
 ];
 
