@@ -415,6 +415,9 @@ function App() {
               <a href="mailto:tr@ingramgeoai.com" className="contact__link">
                 <Mail /> tr@ingramgeoai.com
               </a>
+              <a href="https://calendar.app.google/JauXioh8u8J5yLMv9" target="_blank" rel="noopener noreferrer" className="contact__link contact__link--booking">
+                <Calendar /> Book a Call <ArrowUpRight size={14} />
+              </a>
               <a href="https://www.linkedin.com/in/tr-ingram/" target="_blank" rel="noopener noreferrer" className="contact__link">
                 <Linkedin /> LinkedIn <ArrowUpRight size={14} />
               </a>

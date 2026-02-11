@@ -779,3 +779,15 @@
   opacity: 0.9;
   transform: translateY(-2px);
 }
+
+/* Contact booking link */
+.contact__link--booking {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white !important;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+}
+
+.contact__link--booking:hover {
+  opacity: 0.9;
+}
