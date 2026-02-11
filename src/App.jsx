@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Mail, Phone, Linkedin, ArrowUpRight, Github, ExternalLink, Star, GitBranch, Database, Workflow } from 'lucide-react'
+import { Mail, Phone, Linkedin, ArrowUpRight, Github, ExternalLink, Star, GitBranch, Database, Workflow, Zap, Globe, Server } from 'lucide-react'
 import './App.css'
 
 const fadeInUp = {
@@ -77,15 +77,18 @@ function ProjectCard({ project, index }) {
         </div>
         
         <div className="featured-project__links">
-          <a href={project.github} target="_blank" rel="noopener noreferrer" className="project-link project-link--primary">
-            <Github size={16} />
-            <span>View on GitHub</span>
-            <ArrowUpRight size={14} />
-          </a>
+          {project.github && (
+            <a href={project.github} target="_blank" rel="noopener noreferrer" className="project-link project-link--primary">
+              <Github size={16} />
+              <span>View on GitHub</span>
+              <ArrowUpRight size={14} />
+            </a>
+          )}
           {project.demo && (
-            <a href={project.demo} target="_blank" rel="noopener noreferrer" className="project-link">
+            <a href={project.demo} target="_blank" rel="noopener noreferrer" className="project-link project-link--primary">
               <ExternalLink size={16} />
-              <span>Live Demo</span>
+              <span>{project.demoLabel || 'Live Site'}</span>
+              <ArrowUpRight size={14} />
             </a>
           )}
         </div>
@@ -97,6 +100,16 @@ function ProjectCard({ project, index }) {
 function App() {
   const featuredProjects = [
     {
+      title: 'OpenWorker',
+      tagline: 'Custom AI Agents on Cloudflare\'s Edge',
+      description: 'Multi-agent automation platform deployed on Cloudflare Workers. Autonomous agents that run 24/7 with sub-50ms global latency. Handles shell operations, browser automation, and multi-channel messaging (Slack, WhatsApp, Discord).',
+      highlight: 'Edge computing, Zero Trust auth, live at openworker.org',
+      demo: 'https://openworker.org',
+      demoLabel: 'openworker.org',
+      tech: ['Cloudflare Workers', 'R2', 'AI Gateway', 'TypeScript', 'Zero Trust'],
+      icon: <Zap size={24} />
+    },
+    {
       title: 'Git-Map',
       tagline: 'Git-like version control for ArcGIS web maps',
       description: 'Enterprise-grade version control system for ArcGIS web maps. Provides Git-style branching, merging, and history tracking for map configurations. Includes CLI tools and REST API for seamless integration into GIS workflows.',
@@ -106,43 +119,42 @@ function App() {
       icon: <GitBranch size={24} />
     },
     {
-      title: 'Know-Flow',
-      tagline: 'Interactive context graphs for AI workflows',
-      description: 'Visual knowledge management platform that creates interactive context graphs for AI-powered workflows. Features real-time collaboration, SQLite-backed persistence, and intelligent context retrieval for enhanced AI interactions.',
-      highlight: 'React + Express + SQLite, visual knowledge management',
-      github: 'https://github.com/14-TR/Know-Flow',
-      tech: ['React', 'Express', 'SQLite', 'D3.js', 'WebSockets'],
-      icon: <Workflow size={24} />
-    },
-    {
       title: 'ProjectIQ',
       tagline: 'AI-powered project intelligence platform',
-      description: 'Comprehensive project management platform enhanced with AI capabilities. Features process workflows, compliance tracking, decision logging, and intelligent task automation. Includes 56+ specialized tools for project operations.',
-      highlight: '170+ tests, 56+ tools, process workflows, compliance tracking',
+      description: 'Comprehensive project management platform enhanced with AI capabilities. Features process workflows, compliance tracking, decision logging, and intelligent task automation. Native OpenClaw skill with 67+ specialized tools.',
+      highlight: '170+ tests, 67 tools, React dashboard, process workflows',
       github: 'https://github.com/14-TR/tr-jig',
-      path: 'skills/projectiq/',
-      tech: ['TypeScript', 'React', 'Node.js', 'SQLite', 'OpenAI API'],
+      tech: ['TypeScript', 'React', 'Python', 'SQLite', 'OpenClaw'],
       icon: <Database size={24} />
+    },
+    {
+      title: 'ConflictIQ',
+      tagline: 'Natural Language Spatial Analytics Engine',
+      description: 'GeoAI system that converts natural-language queries into executable SQL over enterprise PostGIS databases. Enables non-technical users to perform complex spatial analytics through conversation.',
+      highlight: 'Production enterprise system, NLQ → SQL → PostGIS',
+      github: 'https://github.com/14-TR',
+      tech: ['Python', 'FastAPI', 'PostGIS', 'OpenAI API', 'React'],
+      icon: <Globe size={24} />
     },
   ]
 
   const skills = [
-    { category: 'Geospatial', items: ['ArcGIS Pro', 'ArcGIS Enterprise', 'QGIS', 'Field Maps', 'Experience Builder'] },
-    { category: 'Languages', items: ['Python', 'JavaScript', 'TypeScript', 'SQL', 'ArcPy'] },
-    { category: 'Backend', items: ['FastAPI', 'Express', 'PostgreSQL', 'PostGIS', 'SQLite'] },
-    { category: 'AI/ML', items: ['GPT-4', 'OpenAI API', 'LangChain', 'Prompt Engineering'] },
-    { category: 'Frontend', items: ['React', 'Vite', 'deck.gl', 'D3.js', 'Framer Motion'] },
-    { category: 'DevOps', items: ['GitHub Actions', 'AWS', 'Docker', 'Linux', 'Git'] },
+    { category: 'AI & ML', items: ['LLM Integration', 'Multi-Agent Orchestration', 'Prompt Engineering', 'OpenAI/Claude APIs'] },
+    { category: 'Edge & Cloud', items: ['Cloudflare Workers', 'R2', 'AI Gateway', 'Zero Trust', 'Docker'] },
+    { category: 'Languages', items: ['Python', 'TypeScript', 'SQL', 'PostgreSQL/PostGIS'] },
+    { category: 'Backend', items: ['FastAPI', 'REST APIs', 'Browser Rendering', 'Serverless'] },
+    { category: 'Geospatial', items: ['ArcGIS Enterprise', 'PostGIS', 'Spatial Analytics', 'Web Maps'] },
+    { category: 'Frontend', items: ['React', 'Vite', 'D3.js', 'Data Visualization'] },
   ]
 
   const otherProjects = [
     {
-      title: 'ForgeIQ Platform',
-      description: 'Modular intelligence architecture for spatial decision systems with AI-powered analytics.',
+      title: 'Know-Flow',
+      description: 'Visual knowledge management platform with interactive context graphs for AI-powered workflows.',
     },
     {
-      title: 'ConflictIQ',
-      description: 'Real-time geospatial natural language query engine with PostGIS integration.',
+      title: 'ForgeIQ Platform',
+      description: 'Modular intelligence architecture for spatial decision systems with AI-powered analytics.',
     },
     {
       title: 'SpendIQ',
@@ -156,25 +168,35 @@ function App() {
 
   const experience = [
     {
-      date: '2022 - Present',
-      title: 'GIS Programmer/Analyst',
-      company: 'Cheyenne Board of Public Utilities',
+      date: '2024 - Present',
+      title: 'AI Engineer & Founder',
+      company: 'OpenWorker',
       details: [
-        'Engineered scalable municipal GIS infrastructure with ArcGIS Enterprise',
-        'Automated asset workflows via ArcGIS API for Python',
-        'Built Field Maps, Experience Builder apps, and Portal dashboards',
-        'Deployed LSLI workflows for regulatory compliance',
+        'Architected multi-agent distributed system on Cloudflare\'s edge infrastructure',
+        'Built spec-based handoff protocol ensuring deterministic execution',
+        'Implemented Zero Trust Access for authentication and secure credential management',
+        'Operates via cron triggers, webhooks, and automated channel classification',
       ],
     },
     {
-      date: '2024 - Present',
-      title: 'Founder & Architect',
-      company: 'ForgeIQ (ConflictIQ + SpendIQ)',
+      date: '2022 - Present',
+      title: 'Geospatial Developer',
+      company: 'Cheyenne Board of Public Utilities',
       details: [
-        'Built ConflictIQ using OpenAI API + PostGIS + FastAPI for spatial NLQ',
-        'Developed SpendIQ with DSPy for agentic query interpretation',
-        'Deployed full-stack React frontend and AWS cloud backend',
-        'Created secure data pipelines and visual analytics',
+        'Lead development of enterprise data pipelines supporting critical utility infrastructure',
+        'Built and optimized PostgreSQL/PostGIS data stores for scalable analytics',
+        'Developed executive dashboards and analytic applications using ArcGIS Enterprise',
+        'Containerized analytics using Docker for reproducible distributed workflows',
+      ],
+    },
+    {
+      date: '2024',
+      title: 'AI Systems Architect',
+      company: 'ConflictIQ (Enterprise)',
+      details: [
+        'Built GeoAI system converting natural-language to executable SQL over PostGIS',
+        'Designed cloud-native pipelines for large-scale spatiotemporal analysis',
+        'Delivered predictive analytics for engineering teams and executive stakeholders',
       ],
     },
     {
@@ -187,21 +209,11 @@ function App() {
         'Research resulted in NASA publication',
       ],
     },
-    {
-      date: '2020 - 2022',
-      title: 'GIS Conflict Researcher',
-      company: 'UCCS',
-      details: [
-        'Modeled radiation/conflict patterns using predictive spatial analysis',
-        'Presented findings at GIS in the Rockies conference',
-      ],
-    },
   ]
 
   const education = [
-    { degree: 'M.S. in Geospatial Information Science and Technology', school: 'University of Wyoming — Expected 2025' },
-    { degree: 'B.A. in Geography', school: 'University of Colorado Colorado Springs — 2022' },
-    { degree: 'GIS Certificate', school: 'UCCS — 2022' },
+    { degree: 'M.S. in Geographic Information Science and Technology', school: 'University of Wyoming' },
+    { degree: 'B.A. in Geography', school: 'University of Colorado Colorado Springs' },
   ]
 
   return (
@@ -217,7 +229,10 @@ function App() {
             <a href="#projects" className="header__link">Projects</a>
             <a href="#skills" className="header__link">Skills</a>
             <a href="#experience" className="header__link">Experience</a>
-            <a href="#contact" className="header__link">Contact</a>
+            <a href="https://openworker.org" target="_blank" rel="noopener noreferrer" className="header__link header__link--cta">
+              <Zap size={14} />
+              OpenWorker
+            </a>
           </nav>
         </div>
       </header>
@@ -232,16 +247,26 @@ function App() {
           >
             <div className="hero__badge">
               <span className="hero__badge-icon">⚡</span>
-              <span>Geospatial AI/ML Engineer</span>
+              <span>AI Engineer | Distributed Systems & Edge AI</span>
             </div>
             <h1 className="hero__title">
               <span className="hero__title-main">TR Ingram</span>
-              <span className="hero__title-gradient">Building intelligent systems</span>
+              <span className="hero__title-gradient">Building AI systems at the edge</span>
             </h1>
             <p className="hero__subtitle">
-              Full-stack systems architect specializing in geospatial AI, version control for GIS, 
-              and intelligent spatial analytics. Creator of Git-Map, Know-Flow, and ProjectIQ.
+              5+ years building production systems that integrate machine learning, distributed architectures, 
+              and cloud-native infrastructure. Currently shipping AI automation on Cloudflare's edge stack.
             </p>
+            <div className="hero__cta">
+              <a href="https://openworker.org" target="_blank" rel="noopener noreferrer" className="btn btn--primary">
+                <Zap size={16} />
+                Visit OpenWorker.org
+              </a>
+              <a href="https://github.com/14-TR" target="_blank" rel="noopener noreferrer" className="btn btn--secondary">
+                <Github size={16} />
+                GitHub
+              </a>
+            </div>
           </motion.section>
 
           <Section id="projects" className="featured-projects-section">
@@ -249,7 +274,7 @@ function App() {
               <p className="section__title">Featured Work</p>
               <h2 className="section__heading">Flagship Projects</h2>
               <p className="section__description">
-                Production-grade systems powering GIS workflows, AI knowledge management, and project intelligence
+                Production systems powering edge AI automation, GIS version control, and spatial analytics
               </p>
             </motion.div>
             <div className="featured-projects">
@@ -261,8 +286,8 @@ function App() {
 
           <Section id="skills">
             <motion.div className="section__header" variants={fadeInUp}>
-              <p className="section__title">Skills</p>
-              <h2 className="section__heading">Core Technical Stack</h2>
+              <p className="section__title">Core Expertise</p>
+              <h2 className="section__heading">Technical Stack</h2>
             </motion.div>
             <div className="skills__grid">
               {skills.map((skill, index) => (
@@ -339,11 +364,11 @@ function App() {
               <a href="mailto:tyeingram@gmail.com" className="contact__link">
                 <Mail /> tyeingram@gmail.com
               </a>
-              <a href="tel:2105523320" className="contact__link">
-                <Phone /> 210-552-3320
-              </a>
               <a href="https://www.linkedin.com/in/tr-ingram/" target="_blank" rel="noopener noreferrer" className="contact__link">
                 <Linkedin /> LinkedIn <ArrowUpRight size={14} />
+              </a>
+              <a href="https://github.com/14-TR" target="_blank" rel="noopener noreferrer" className="contact__link">
+                <Github /> GitHub <ArrowUpRight size={14} />
               </a>
             </motion.div>
           </Section>
@@ -353,7 +378,7 @@ function App() {
       <footer className="footer">
         <div className="footer__content">
           <p className="footer__text">&copy; {new Date().getFullYear()} TR Ingram. All rights reserved.</p>
-          <p className="footer__subtext">Built with React + Vite</p>
+          <p className="footer__subtext">Built with React + Vite | <a href="https://openworker.org" target="_blank" rel="noopener noreferrer">openworker.org</a></p>
         </div>
       </footer>
     </div>
