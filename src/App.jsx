@@ -100,6 +100,15 @@ function ProjectCard({ project, index }) {
 function App() {
   const featuredProjects = [
     {
+      title: 'Know-Flow',
+      tagline: 'Interactive context graphs for AI workflows',
+      description: 'Visual knowledge management platform that creates interactive context graphs for AI-powered workflows. Features real-time collaboration, SQLite-backed persistence, and intelligent context retrieval for enhanced AI interactions.',
+      highlight: 'React + Express + SQLite, visual knowledge management',
+      github: 'https://github.com/14-TR/Know-Flow',
+      tech: ['React', 'Express', 'SQLite', 'D3.js', 'WebSockets'],
+      icon: <Workflow size={24} />
+    },
+    {
       title: 'OpenWorker',
       tagline: 'Custom AI Agents on Cloudflare\'s Edge',
       description: 'Multi-agent automation platform deployed on Cloudflare Workers. Autonomous agents that run 24/7 with sub-50ms global latency. Handles shell operations, browser automation, and multi-channel messaging (Slack, WhatsApp, Discord).',
@@ -148,10 +157,6 @@ function App() {
   ]
 
   const otherProjects = [
-    {
-      title: 'Know-Flow',
-      description: 'Visual knowledge management platform with interactive context graphs for AI-powered workflows.',
-    },
     {
       title: 'ForgeIQ Platform',
       description: 'Modular intelligence architecture for spatial decision systems with AI-powered analytics.',
