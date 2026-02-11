@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Mail, Phone, Linkedin, ArrowUpRight, Github, ExternalLink, Star, GitBranch, Database, Workflow, Zap, Globe, Server } from 'lucide-react'
+import { Mail, Phone, Linkedin, ArrowUpRight, Github, ExternalLink, Star, GitBranch, Database, Workflow, Zap, Globe, Server, Play, X } from 'lucide-react'
 import './App.css'
 
 const fadeInUp = {
@@ -42,7 +42,28 @@ function Section({ children, className = '' }) {
   )
 }
 
-function ProjectCard({ project, index }) {
+function VideoModal({ video, onClose }) {
+  return (
+    <motion.div
+      className="video-modal"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <div className="video-modal__content" onClick={(e) => e.stopPropagation()}>
+        <button className="video-modal__close" onClick={onClose}>
+          <X size={24} />
+        </button>
+        <video controls autoPlay className="video-modal__video">
+          <source src={video} type="video/mp4" />
+        </video>
+      </div>
+    </motion.div>
+  )
+}
+
+function ProjectCard({ project, index, onPlayVideo }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-50px' })
 
@@ -77,6 +98,12 @@ function ProjectCard({ project, index }) {
         </div>
         
         <div className="featured-project__links">
+          {project.video && (
+            <button onClick={() => onPlayVideo(project.video)} className="project-link project-link--video">
+              <Play size={16} />
+              <span>Watch Demo</span>
+            </button>
+          )}
           {project.github && (
             <a href={project.github} target="_blank" rel="noopener noreferrer" className="project-link project-link--primary">
               <Github size={16} />
@@ -98,7 +125,18 @@ function ProjectCard({ project, index }) {
 }
 
 function App() {
+  const [activeVideo, setActiveVideo] = useState(null)
+
   const featuredProjects = [
+    {
+      title: 'ProjectIQ',
+      tagline: 'AI-powered project intelligence platform',
+      description: 'Comprehensive project management platform enhanced with AI capabilities. Features process workflows, compliance tracking, decision logging, and intelligent task automation. Native OpenClaw skill with 67+ specialized tools.',
+      highlight: '170+ tests, 67 tools, React dashboard, process workflows',
+      tech: ['TypeScript', 'React', 'Python', 'SQLite', 'OpenClaw'],
+      icon: <Database size={24} />,
+      video: '/videos/ProjectIQ.mp4'
+    },
     {
       title: 'Know-Flow',
       tagline: 'Interactive context graphs for AI workflows',
@@ -106,7 +144,8 @@ function App() {
       highlight: 'React + Express + SQLite, visual knowledge management',
       github: 'https://github.com/14-TR/Know-Flow',
       tech: ['React', 'Express', 'SQLite', 'D3.js', 'WebSockets'],
-      icon: <Workflow size={24} />
+      icon: <Workflow size={24} />,
+      video: '/videos/KnowFlow.mp4'
     },
     {
       title: 'OpenWorker',
@@ -116,7 +155,8 @@ function App() {
       demo: 'https://openworker.org',
       demoLabel: 'openworker.org',
       tech: ['Cloudflare Workers', 'R2', 'AI Gateway', 'TypeScript', 'Zero Trust'],
-      icon: <Zap size={24} />
+      icon: <Zap size={24} />,
+      video: '/videos/OpenWorker.mp4'
     },
     {
       title: 'Git-Map',
@@ -125,25 +165,17 @@ function App() {
       highlight: '540+ tests, Python monorepo, CLI + API',
       github: 'https://github.com/14-TR/Git-Map',
       tech: ['Python', 'ArcGIS API', 'FastAPI', 'PostgreSQL', 'Pytest'],
-      icon: <GitBranch size={24} />
-    },
-    {
-      title: 'ProjectIQ',
-      tagline: 'AI-powered project intelligence platform',
-      description: 'Comprehensive project management platform enhanced with AI capabilities. Features process workflows, compliance tracking, decision logging, and intelligent task automation. Native OpenClaw skill with 67+ specialized tools.',
-      highlight: '170+ tests, 67 tools, React dashboard, process workflows',
-      github: 'https://github.com/14-TR/tr-jig',
-      tech: ['TypeScript', 'React', 'Python', 'SQLite', 'OpenClaw'],
-      icon: <Database size={24} />
+      icon: <GitBranch size={24} />,
+      video: '/videos/GitMap.mp4'
     },
     {
       title: 'ConflictIQ',
       tagline: 'Natural Language Spatial Analytics Engine',
       description: 'GeoAI system that converts natural-language queries into executable SQL over enterprise PostGIS databases. Enables non-technical users to perform complex spatial analytics through conversation.',
       highlight: 'Production enterprise system, NLQ → SQL → PostGIS',
-      github: 'https://github.com/14-TR',
       tech: ['Python', 'FastAPI', 'PostGIS', 'OpenAI API', 'React'],
-      icon: <Globe size={24} />
+      icon: <Globe size={24} />,
+      video: '/videos/ConflictIQ.mp4'
     },
   ]
 
@@ -284,9 +316,13 @@ function App() {
             </motion.div>
             <div className="featured-projects">
               {featuredProjects.map((project, index) => (
-                <ProjectCard key={project.title} project={project} index={index} />
+                <ProjectCard key={project.title} project={project} index={index} onPlayVideo={setActiveVideo} />
               ))}
             </div>
+            
+            {activeVideo && (
+              <VideoModal video={activeVideo} onClose={() => setActiveVideo(null)} />
+            )}
           </Section>
 
           <Section id="skills">
