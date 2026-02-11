@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Mail, Phone, Linkedin, ArrowUpRight } from 'lucide-react'
+import { Mail, Phone, Linkedin, ArrowUpRight, Github, ExternalLink, Star, GitBranch, Database, Workflow } from 'lucide-react'
 import './App.css'
 
 const fadeInUp = {
@@ -13,6 +13,15 @@ const staggerContainer = {
   visible: {
     opacity: 1,
     transition: { staggerChildren: 0.1 }
+  }
+}
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }
   }
 }
 
@@ -33,32 +42,115 @@ function Section({ children, className = '' }) {
   )
 }
 
+function ProjectCard({ project, index }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.article
+      ref={ref}
+      className={`featured-project featured-project--${index + 1}`}
+      initial="hidden"
+      animate={isInView ? 'visible' : 'hidden'}
+      variants={scaleIn}
+      transition={{ delay: index * 0.15 }}
+    >
+      <div className="featured-project__gradient"></div>
+      <div className="featured-project__content">
+        <div className="featured-project__header">
+          <div className="featured-project__icon">{project.icon}</div>
+          <h3 className="featured-project__title">{project.title}</h3>
+          <p className="featured-project__tagline">{project.tagline}</p>
+        </div>
+        
+        <p className="featured-project__description">{project.description}</p>
+        
+        <div className="featured-project__highlight">
+          <span className="featured-project__highlight-label">Highlight:</span>
+          <span className="featured-project__highlight-text">{project.highlight}</span>
+        </div>
+        
+        <div className="featured-project__tech">
+          {project.tech.map((tech) => (
+            <span key={tech} className="tech-badge">{tech}</span>
+          ))}
+        </div>
+        
+        <div className="featured-project__links">
+          <a href={project.github} target="_blank" rel="noopener noreferrer" className="project-link project-link--primary">
+            <Github size={16} />
+            <span>View on GitHub</span>
+            <ArrowUpRight size={14} />
+          </a>
+          {project.demo && (
+            <a href={project.demo} target="_blank" rel="noopener noreferrer" className="project-link">
+              <ExternalLink size={16} />
+              <span>Live Demo</span>
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.article>
+  )
+}
+
 function App() {
-  const skills = [
-    { category: 'Geospatial', items: ['ArcGIS Pro', 'ArcGIS Enterprise', 'QGIS', 'Field Maps', 'Experience Builder'] },
-    { category: 'Languages', items: ['Python', 'JavaScript', 'SQL', 'ArcPy', 'GLSL'] },
-    { category: 'Backend', items: ['FastAPI', 'PostgreSQL', 'PostGIS', 'DuckDB', 'Elasticsearch'] },
-    { category: 'AI/ML', items: ['GPT-4', 'DSPy', 'LangChain', 'Prompt Engineering', 'AI-to-SQL'] },
-    { category: 'Frontend', items: ['React', 'deck.gl', 'D3.js', 'Tailwind', 'Chart.js'] },
-    { category: 'Cloud', items: ['AWS EC2', 'Lambda', 'S3', 'RDS', 'GitHub Actions'] },
+  const featuredProjects = [
+    {
+      title: 'Git-Map',
+      tagline: 'Git-like version control for ArcGIS web maps',
+      description: 'Enterprise-grade version control system for ArcGIS web maps. Provides Git-style branching, merging, and history tracking for map configurations. Includes CLI tools and REST API for seamless integration into GIS workflows.',
+      highlight: '540+ tests, Python monorepo, CLI + API',
+      github: 'https://github.com/14-TR/Git-Map',
+      tech: ['Python', 'ArcGIS API', 'FastAPI', 'PostgreSQL', 'Pytest'],
+      icon: <GitBranch size={24} />
+    },
+    {
+      title: 'Know-Flow',
+      tagline: 'Interactive context graphs for AI workflows',
+      description: 'Visual knowledge management platform that creates interactive context graphs for AI-powered workflows. Features real-time collaboration, SQLite-backed persistence, and intelligent context retrieval for enhanced AI interactions.',
+      highlight: 'React + Express + SQLite, visual knowledge management',
+      github: 'https://github.com/14-TR/Know-Flow',
+      tech: ['React', 'Express', 'SQLite', 'D3.js', 'WebSockets'],
+      icon: <Workflow size={24} />
+    },
+    {
+      title: 'ProjectIQ',
+      tagline: 'AI-powered project intelligence platform',
+      description: 'Comprehensive project management platform enhanced with AI capabilities. Features process workflows, compliance tracking, decision logging, and intelligent task automation. Includes 56+ specialized tools for project operations.',
+      highlight: '170+ tests, 56+ tools, process workflows, compliance tracking',
+      github: 'https://github.com/14-TR/tr-jig',
+      path: 'skills/projectiq/',
+      tech: ['TypeScript', 'React', 'Node.js', 'SQLite', 'OpenAI API'],
+      icon: <Database size={24} />
+    },
   ]
 
-  const projects = [
+  const skills = [
+    { category: 'Geospatial', items: ['ArcGIS Pro', 'ArcGIS Enterprise', 'QGIS', 'Field Maps', 'Experience Builder'] },
+    { category: 'Languages', items: ['Python', 'JavaScript', 'TypeScript', 'SQL', 'ArcPy'] },
+    { category: 'Backend', items: ['FastAPI', 'Express', 'PostgreSQL', 'PostGIS', 'SQLite'] },
+    { category: 'AI/ML', items: ['GPT-4', 'OpenAI API', 'LangChain', 'Prompt Engineering'] },
+    { category: 'Frontend', items: ['React', 'Vite', 'deck.gl', 'D3.js', 'Framer Motion'] },
+    { category: 'DevOps', items: ['GitHub Actions', 'AWS', 'Docker', 'Linux', 'Git'] },
+  ]
+
+  const otherProjects = [
     {
       title: 'ForgeIQ Platform',
-      description: 'Modular intelligence architecture for spatial decision systems. Full-stack geospatial platform with AI-powered analytics.',
+      description: 'Modular intelligence architecture for spatial decision systems with AI-powered analytics.',
     },
     {
       title: 'ConflictIQ',
-      description: 'Real-time geospatial natural language query engine with AI-enhanced querying and PostGIS integration.',
+      description: 'Real-time geospatial natural language query engine with PostGIS integration.',
     },
     {
       title: 'SpendIQ',
-      description: 'DSPy-based next-generation query intelligence for spatial finance data with agentic interpretation.',
+      description: 'DSPy-based query intelligence for spatial finance data with agentic interpretation.',
     },
     {
       title: 'NASA DEVELOP',
-      description: 'Satellite-informed agricultural technology policy intelligence using NDVI and Landsat analysis.',
+      description: 'Satellite-informed agricultural technology policy using NDVI and Landsat analysis.',
     },
   ]
 
@@ -116,11 +208,14 @@ function App() {
     <div className="app">
       <header className="header">
         <div className="header__inner">
-          <a href="#" className="header__logo">TR.dev</a>
+          <a href="#" className="header__logo">
+            <span className="header__logo-text">TR</span>
+            <span className="header__logo-dot">.</span>
+            <span className="header__logo-text">dev</span>
+          </a>
           <nav className="header__nav">
-            <a href="#about" className="header__link">About</a>
-            <a href="#skills" className="header__link">Skills</a>
             <a href="#projects" className="header__link">Projects</a>
+            <a href="#skills" className="header__link">Skills</a>
             <a href="#experience" className="header__link">Experience</a>
             <a href="#contact" className="header__link">Contact</a>
           </nav>
@@ -135,23 +230,33 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            <h1 className="hero__title">TR Ingram</h1>
+            <div className="hero__badge">
+              <span className="hero__badge-icon">⚡</span>
+              <span>Geospatial AI/ML Engineer</span>
+            </div>
+            <h1 className="hero__title">
+              <span className="hero__title-main">TR Ingram</span>
+              <span className="hero__title-gradient">Building intelligent systems</span>
+            </h1>
             <p className="hero__subtitle">
-              Geospatial AI/ML Engineer & Full-Stack GIS Systems Architect.
-              Building intelligent spatial systems that transform data into decisions.
+              Full-stack systems architect specializing in geospatial AI, version control for GIS, 
+              and intelligent spatial analytics. Creator of Git-Map, Know-Flow, and ProjectIQ.
             </p>
           </motion.section>
 
-          <Section id="about">
-            <motion.div className="section__header" variants={fadeInUp}>
-              <p className="section__title">About</p>
+          <Section id="projects" className="featured-projects-section">
+            <motion.div className="section__header section__header--centered" variants={fadeInUp}>
+              <p className="section__title">Featured Work</p>
+              <h2 className="section__heading">Flagship Projects</h2>
+              <p className="section__description">
+                Production-grade systems powering GIS workflows, AI knowledge management, and project intelligence
+              </p>
             </motion.div>
-            <motion.p className="about__text" variants={fadeInUp}>
-              Full-stack geospatial systems architect specializing in end-to-end GIS solutions,
-              scalable cloud deployment, and intelligent spatial analytics. Builder of the ForgeIQ platform,
-              including the AI-powered ConflictIQ and SpendIQ modules. Trusted by municipal, federal,
-              and research partners for data-driven, secure, and automation-enhanced systems.
-            </motion.p>
+            <div className="featured-projects">
+              {featuredProjects.map((project, index) => (
+                <ProjectCard key={project.title} project={project} index={index} />
+              ))}
+            </div>
           </Section>
 
           <Section id="skills">
@@ -173,13 +278,13 @@ function App() {
             </div>
           </Section>
 
-          <Section id="projects">
+          <Section id="other-projects">
             <motion.div className="section__header" variants={fadeInUp}>
-              <p className="section__title">Projects</p>
-              <h2 className="section__heading">Proof of Work</h2>
+              <p className="section__title">Additional Work</p>
+              <h2 className="section__heading">Other Projects</h2>
             </motion.div>
             <div className="projects__grid">
-              {projects.map((project, index) => (
+              {otherProjects.map((project, index) => (
                 <motion.article key={project.title} className="project" variants={fadeInUp}>
                   <h3 className="project__title">{project.title}</h3>
                   <p className="project__description">{project.description}</p>
@@ -246,7 +351,10 @@ function App() {
       </main>
 
       <footer className="footer">
-        <p className="footer__text">&copy; {new Date().getFullYear()} TR Ingram. All rights reserved.</p>
+        <div className="footer__content">
+          <p className="footer__text">&copy; {new Date().getFullYear()} TR Ingram. All rights reserved.</p>
+          <p className="footer__subtext">Built with React + Vite</p>
+        </div>
       </footer>
     </div>
   )
