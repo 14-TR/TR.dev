@@ -124,6 +124,8 @@ function ProjectCard({ project, index, onPlayVideo }) {
   )
 }
 
+const BASE_URL = import.meta.env.BASE_URL || '/'
+
 function App() {
   const [activeVideo, setActiveVideo] = useState(null)
 
@@ -135,7 +137,7 @@ function App() {
       highlight: '170+ tests, 67 tools, React dashboard, process workflows',
       tech: ['TypeScript', 'React', 'Python', 'SQLite', 'OpenClaw'],
       icon: <Database size={24} />,
-      video: '/videos/ProjectIQ.mp4'
+      video: `${BASE_URL}videos/ProjectIQ.mp4`
     },
     {
       title: 'Know-Flow',
@@ -145,7 +147,7 @@ function App() {
       github: 'https://github.com/14-TR/Know-Flow',
       tech: ['React', 'Express', 'SQLite', 'D3.js', 'WebSockets'],
       icon: <Workflow size={24} />,
-      video: '/videos/KnowFlow.mp4'
+      video: `${BASE_URL}videos/KnowFlow.mp4`
     },
     {
       title: 'OpenWorker',
@@ -156,7 +158,7 @@ function App() {
       demoLabel: 'openworker.org',
       tech: ['Cloudflare Workers', 'R2', 'AI Gateway', 'TypeScript', 'Zero Trust'],
       icon: <Zap size={24} />,
-      video: '/videos/OpenWorker.mp4'
+      video: `${BASE_URL}videos/OpenWorker.mp4`
     },
     {
       title: 'Git-Map',
@@ -166,7 +168,7 @@ function App() {
       github: 'https://github.com/14-TR/Git-Map',
       tech: ['Python', 'ArcGIS API', 'FastAPI', 'PostgreSQL', 'Pytest'],
       icon: <GitBranch size={24} />,
-      video: '/videos/GitMap.mp4'
+      video: `${BASE_URL}videos/GitMap.mp4`
     },
     {
       title: 'ConflictIQ',
@@ -175,7 +177,7 @@ function App() {
       highlight: 'Production enterprise system, NLQ → SQL → PostGIS',
       tech: ['Python', 'FastAPI', 'PostGIS', 'OpenAI API', 'React'],
       icon: <Globe size={24} />,
-      video: '/videos/ConflictIQ.mp4'
+      video: `${BASE_URL}videos/ConflictIQ.mp4`
     },
   ]
 
