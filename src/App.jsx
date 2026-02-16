@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Mail, Phone, Linkedin, ArrowUpRight, Github, ExternalLink, Star, GitBranch, Database, Workflow, Zap, Globe, Server, Play, X, Calendar } from 'lucide-react'
+import Hero3D from './components/Hero3D'
 import './App.css'
 
 const fadeInUp = {
@@ -292,6 +293,8 @@ function App() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           >
+            <Hero3D />
+            <div className="hero__content">
             <div className="hero__badge">
               <span className="hero__badge-icon">⚡</span>
               <span>AI Engineer | Distributed Systems & Edge AI</span>
@@ -313,6 +316,7 @@ function App() {
                 <Github size={16} />
                 GitHub
               </a>
+            </div>
             </div>
           </motion.section>
 
