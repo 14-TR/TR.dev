@@ -53,18 +53,11 @@ function Hero3DCanvas() {
       // Scene setup
       scene = new THREE.Scene()
       
-      // Orthographic camera for 2D-like effect
+      // Perspective camera for dramatic 3D effect
       const aspect = width / height
-      const frustumSize = 5
-      camera = new THREE.OrthographicCamera(
-        -frustumSize * aspect / 2,
-        frustumSize * aspect / 2,
-        frustumSize / 2,
-        -frustumSize / 2,
-        0.1,
-        100
-      )
-      camera.position.z = 5
+      camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 100)
+      camera.position.set(0, 0, 8)
+      camera.lookAt(0, 0, 0)
 
       // Renderer
       renderer = new THREE.WebGLRenderer({
@@ -83,18 +76,18 @@ function Hero3DCanvas() {
       const sizes = new Float32Array(PARTICLE_COUNT)
 
       for (let i = 0; i < PARTICLE_COUNT; i++) {
-        // Spread particles across the scene
-        positions[i * 3] = (Math.random() - 0.5) * frustumSize * aspect
-        positions[i * 3 + 1] = (Math.random() - 0.5) * frustumSize
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 2
+        // Spread particles across the scene in 3D space
+        positions[i * 3] = (Math.random() - 0.5) * 12
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 8
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 8 - 2 // Spread in Z-depth
 
         // Random velocities
         velocities[i * 3] = (Math.random() - 0.5) * 0.003
         velocities[i * 3 + 1] = (Math.random() - 0.5) * 0.003
-        velocities[i * 3 + 2] = 0
+        velocities[i * 3 + 2] = (Math.random() - 0.5) * 0.002 // Z movement for depth
 
         // Varying sizes
-        sizes[i] = Math.random() * 0.08 + 0.03
+        sizes[i] = Math.random() * 0.15 + 0.05
       }
 
       posArray = positions
@@ -193,9 +186,9 @@ function Hero3DCanvas() {
         const sprite = new THREE.Sprite(material)
         
         sprite.position.set(
-          (Math.random() - 0.5) * frustumSize * aspect,
-          (Math.random() - 0.5) * frustumSize,
-          -1
+          (Math.random() - 0.5) * 10,
+          (Math.random() - 0.5) * 6,
+          -2 + Math.random() * -3 // Behind particles
         )
         sprite.scale.set(0.5, 0.25, 1)
         
@@ -231,15 +224,19 @@ function Hero3DCanvas() {
         for (let i = 0; i < PARTICLE_COUNT; i++) {
           posArray[i * 3] += velocities[i * 3] + mouseRef.current.x * MOUSE_SENSITIVITY
           posArray[i * 3 + 1] += velocities[i * 3 + 1] + mouseRef.current.y * MOUSE_SENSITIVITY
+          posArray[i * 3 + 2] += velocities[i * 3 + 2]
           
-          // Boundary wrapping
-          const boundX = frustumSize * aspect / 2 + 0.5
-          const boundY = frustumSize / 2 + 0.5
+          // Boundary wrapping with perspective bounds
+          const boundX = 6
+          const boundY = 4
+          const boundZ = 4
           
           if (posArray[i * 3] > boundX) posArray[i * 3] = -boundX
           if (posArray[i * 3] < -boundX) posArray[i * 3] = boundX
           if (posArray[i * 3 + 1] > boundY) posArray[i * 3 + 1] = -boundY
           if (posArray[i * 3 + 1] < -boundY) posArray[i * 3 + 1] = boundY
+          if (posArray[i * 3 + 2] > boundZ) posArray[i * 3 + 2] = -boundZ
+          if (posArray[i * 3 + 2] < -boundZ) posArray[i * 3 + 2] = boundZ
           
           // Damping for mouse effect
           mouseRef.current.x *= 0.95
@@ -282,6 +279,11 @@ function Hero3DCanvas() {
           sprite.material.opacity = 0.2 + Math.sin(time + offset) * 0.15
         })
         
+        // Subtle camera rotation for 3D effect
+        camera.position.x = Math.sin(time * 0.1) * 1.5
+        camera.position.y = Math.cos(time * 0.08) * 0.8
+        camera.lookAt(0, 0, 0)
+        
         renderer.render(scene, camera)
       }
 
@@ -292,12 +294,8 @@ function Hero3DCanvas() {
       const handleResize = () => {
         const newWidth = container.clientWidth
         const newHeight = container.clientHeight
-        const newAspect = newWidth / newHeight
         
-        camera.left = -frustumSize * newAspect / 2
-        camera.right = frustumSize * newAspect / 2
-        camera.top = frustumSize / 2
-        camera.bottom = -frustumSize / 2
+        camera.aspect = newWidth / newHeight
         camera.updateProjectionMatrix()
         
         renderer.setSize(newWidth, newHeight)
