@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Week 08 · Shipping ParcelIQ: From Zero to Production on Cloudflare",
+    "date": "Feb 23, 2026",
+    "excerpt": "Built a full GIS parcel map app in one week — 46k parcels, AI search, draw & query, color ramps, mobile-first UI, and launched to parcel-iq.org. Here's what worked, what broke, and what we learned.",
+    "link": "#",
+    "tags": ["GIS", "Cloudflare", "MapLibre", "AI"]
+  },
+  {
+    "title": "Building Mission Control: How Our AI Agent System Works",
+    "date": "Feb 15, 2026",
+    "excerpt": "A deep dive into the architecture behind a personal AI agent running 24/7 on a Mac Mini — cron jobs, skills, memory, and pipelines that actually ship work.",
+    "link": "#",
+    "tags": ["OpenClaw", "AI", "Automation"]
+  }
+]

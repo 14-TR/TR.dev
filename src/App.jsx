@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import HeroCanvas from './components/HeroCanvas'
 import ProjectCard from './components/ProjectCard'
 import ArticleCard from './components/ArticleCard'
@@ -79,16 +79,15 @@ const STACK = [
   'Discord Bots', 'Automation', 'OpenClaw', 'Node.js',
 ]
 
-const ARTICLES = [
-  {
-    title: 'Building Mission Control: How Our AI Agent System Works',
-    date: 'Feb 15, 2026',
-    excerpt: 'A deep dive into the architecture behind a personal AI agent running 24/7 on a Mac Mini — cron jobs, skills, memory, and pipelines that actually ship work.',
-    link: '#',
-  },
-]
-
 export default function App() {
+  const [articles, setArticles] = useState([])
+
+  useEffect(() => {
+    fetch('/TR.dev/articles.json')
+      .then(r => r.json())
+      .then(setArticles)
+      .catch(() => setArticles([]))
+  }, [])
   return (
     <div className="app">
       {/* ── HERO ── */}
@@ -175,7 +174,7 @@ export default function App() {
           </p>
 
           <div className="articles-grid">
-            {ARTICLES.map((a) => (
+            {articles.map((a) => (
               <ArticleCard key={a.title} {...a} />
             ))}
           </div>
