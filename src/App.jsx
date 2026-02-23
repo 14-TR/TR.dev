@@ -2,6 +2,7 @@ import { Suspense, useState, useEffect } from 'react'
 import HeroCanvas from './components/HeroCanvas'
 import ProjectCard from './components/ProjectCard'
 import ArticleCard from './components/ArticleCard'
+import ArticleModal from './components/ArticleModal'
 import './App.css'
 
 const PROJECTS = [
@@ -81,6 +82,7 @@ const STACK = [
 
 export default function App() {
   const [articles, setArticles] = useState([])
+  const [activeArticle, setActiveArticle] = useState(null)
 
   useEffect(() => {
     fetch('/articles.json')
@@ -175,7 +177,7 @@ export default function App() {
 
           <div className="articles-grid">
             {articles.map((a) => (
-              <ArticleCard key={a.title} {...a} />
+              <ArticleCard key={a.title} {...a} onClick={() => setActiveArticle(a)} />
             ))}
           </div>
         </div>
@@ -200,6 +202,10 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {activeArticle && (
+        <ArticleModal article={activeArticle} onClose={() => setActiveArticle(null)} />
+      )}
     </div>
   )
 }

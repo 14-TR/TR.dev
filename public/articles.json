@@ -1,36 +1,26 @@
 [
   {
-    "title": "Week 09 \u00b7 What We Shipped: ParcelIQ & More",
+    "title": "Week 09 · What We Shipped: ParcelIQ & More",
     "date": "Feb 22, 2026",
-    "excerpt": "This week marks the launch of ParcelIQ to production with a host of new features including dark/light theme toggle and draw/query tools. Dive into our progress and pain points.",
-    "tags": [
-      "ParcelIQ",
-      "Cloudflare",
-      "MapLibre"
-    ],
-    "link": "#"
+    "excerpt": "Domain migration, dynamic articles pipeline, weekly cron publish, and a bunch of fixes — what actually shipped this week.",
+    "tags": ["ParcelIQ", "Cloudflare", "MapLibre"],
+    "link": "#",
+    "content": "## What We Shipped This Week\n\nA busy week of infrastructure, pipelines, and polish across multiple projects.\n\n### ingramgeoai.com is Live\nMigrated the portfolio site from GitHub Pages subdirectory to a proper custom domain. Set up Cloudflare DNS, wired up GitHub Pages, and got HTTPS running via Cloudflare's Universal SSL.\n\n### Weekly Article Pipeline\nBuilt an end-to-end article publishing pipeline: a build log lives at `~/Desktop/tr-jig/build-log/current-week.md`, a Python script reads it, sends it through Ollama (qwen2.5:14b) for formatting, pushes the result to GitHub via the Contents API, and resets the log. Runs automatically every Sunday night via cron.\n\n### ParcelIQ Fixes\nFixed a filter panel overflow on mobile, cleaned up the draw banner CSS, and confirmed all production URLs are stable.\n\n### OpenClaw Ops\nAll four cron jobs healthy: bookmark-digest, gitmap-nightly, 8bit-stoic-daily, projectiq-native-nightly. Dashboard running on Tailscale at port 4242.\n\n### Pain Points\n- GitHub Pages custom domain cert provisioning is opaque — no API to force it, just wait.\n- Context compaction mid-session can leave stale tool IDs in the conversation (fixed with gateway restart).\n- CNAME files in gh-pages branches are sneaky — easy to forget they exist and cause redirect loops."
   },
   {
-    "title": "Week 08 \u00b7 Shipping ParcelIQ: From Zero to Production on Cloudflare",
+    "title": "Week 08 · Shipping ParcelIQ: From Zero to Production on Cloudflare",
     "date": "Feb 23, 2026",
-    "excerpt": "Built a full GIS parcel map app in one week \u2014 46k parcels, AI search, draw & query, color ramps, mobile-first UI, and launched to parcel-iq.org. Here's what worked, what broke, and what we learned.",
+    "excerpt": "Built a full GIS parcel map app in ~90 minutes of active coding — 46k parcels, AI search, draw & query, color ramps, mobile-first UI. Here's what worked, what broke, and what we learned.",
     "link": "#",
-    "tags": [
-      "GIS",
-      "Cloudflare",
-      "MapLibre",
-      "AI"
-    ]
+    "tags": ["GIS", "Cloudflare", "MapLibre", "AI"],
+    "content": "## ParcelIQ: Built in ~90 Minutes\n\nParcelIQ is a Laramie County Wyoming parcel map — 46,000 parcels, full attribute search, AI-powered NLP queries, and a mobile-first UI. The core app went from zero to production in about 90 minutes of active coding.\n\n### The Stack\n- **Cloudflare Pages** — frontend hosting, free tier\n- **Cloudflare Worker** — API layer with rate limiting and CORS\n- **Cloudflare D1** — SQLite at the edge, stores all 46k parcel records\n- **Cloudflare R2** — serves the PMTiles vector tile file\n- **MapLibre GL JS** — map rendering\n- **Workers AI** — NLP search via llama-3.1-8b-instruct\n\n### Features Shipped\n- Symbology switcher: Actual Value / Assessed / $/Acre / Acreage\n- 6 color ramp presets with dark/light variants\n- Draw & Query: polygon draw → bbox query → highlighted parcels + stats\n- CSV export\n- Filter sliders (value range + acreage range)\n- Owner portfolio view\n- Shareable URLs with parcel pre-selection\n- Legal disclaimer modal\n\n### Pain Points\n- Multi-origin CORS on Cloudflare Workers requires explicit `Vary: Origin` headers\n- PMTiles source setup in MapLibre has a specific initialization order\n- D1 batch inserts cap at 100 rows — need chunking for large datasets\n- Aerial imagery proxy still broken (bbox comma encoding in ArcGIS exportImage)\n\n### Live\n**https://parcel-iq.org** — free, public, no login required."
   },
   {
     "title": "Building Mission Control: How Our AI Agent System Works",
     "date": "Feb 15, 2026",
-    "excerpt": "A deep dive into the architecture behind a personal AI agent running 24/7 on a Mac Mini \u2014 cron jobs, skills, memory, and pipelines that actually ship work.",
+    "excerpt": "A deep dive into the architecture behind a personal AI agent running 24/7 on a Mac Mini — cron jobs, skills, memory, and pipelines that actually ship work.",
     "link": "#",
-    "tags": [
-      "OpenClaw",
-      "AI",
-      "Automation"
-    ]
+    "tags": ["OpenClaw", "AI", "Automation"],
+    "content": "## Mission Control: Personal AI Infrastructure\n\nA Mac Mini running 24/7 as a personal AI operations center. Here's what's actually running.\n\n### The Core: OpenClaw\nOpenClaw is the gateway — it routes messages from Discord, manages sessions, runs cron jobs, and gives the AI agent access to tools: file system, shell, browser, camera, messaging, and more.\n\n### The Agent\nClaude Sonnet 4 running as the main agent. Persistent memory via markdown files in a workspace directory. Identity, soul, and operating rules defined in SOUL.md and AGENTS.md. Wakes up each session and reads its memory files.\n\n### The Pipelines\n- **bookmark-digest** — runs at 8am and 8pm, pulls Twitter bookmarks, runs expert analysis through Ollama (qwen2.5:14b), delivers a filtered digest\n- **8bit-stoic-daily** — generates a daily stoic quote with pixel art, posts to Discord\n- **gitmap-nightly** — maps GitHub activity overnight\n- **projectiq-native-nightly** — project status tracking\n\n### Local AI: Ollama\nqwen2.5:14b running locally on the Mac Mini handles formatting, summarization, and digest generation. No API costs for the heavy lifting.\n\n### The Philosophy\nThe goal isn't to automate everything — it's to automate the boring parts so the interesting parts get more attention. Ship faster. Think less about infrastructure. Focus on the work."
   }
 ]
