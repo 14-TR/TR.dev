@@ -1,16 +1,36 @@
 [
   {
-    "title": "Week 08 · Shipping ParcelIQ: From Zero to Production on Cloudflare",
+    "title": "Week 09 \u00b7 What We Shipped: ParcelIQ & More",
+    "date": "Feb 22, 2026",
+    "excerpt": "This week marks the launch of ParcelIQ to production with a host of new features including dark/light theme toggle and draw/query tools. Dive into our progress and pain points.",
+    "tags": [
+      "ParcelIQ",
+      "Cloudflare",
+      "MapLibre"
+    ],
+    "link": "#"
+  },
+  {
+    "title": "Week 08 \u00b7 Shipping ParcelIQ: From Zero to Production on Cloudflare",
     "date": "Feb 23, 2026",
-    "excerpt": "Built a full GIS parcel map app in one week — 46k parcels, AI search, draw & query, color ramps, mobile-first UI, and launched to parcel-iq.org. Here's what worked, what broke, and what we learned.",
+    "excerpt": "Built a full GIS parcel map app in one week \u2014 46k parcels, AI search, draw & query, color ramps, mobile-first UI, and launched to parcel-iq.org. Here's what worked, what broke, and what we learned.",
     "link": "#",
-    "tags": ["GIS", "Cloudflare", "MapLibre", "AI"]
+    "tags": [
+      "GIS",
+      "Cloudflare",
+      "MapLibre",
+      "AI"
+    ]
   },
   {
     "title": "Building Mission Control: How Our AI Agent System Works",
     "date": "Feb 15, 2026",
-    "excerpt": "A deep dive into the architecture behind a personal AI agent running 24/7 on a Mac Mini — cron jobs, skills, memory, and pipelines that actually ship work.",
+    "excerpt": "A deep dive into the architecture behind a personal AI agent running 24/7 on a Mac Mini \u2014 cron jobs, skills, memory, and pipelines that actually ship work.",
     "link": "#",
-    "tags": ["OpenClaw", "AI", "Automation"]
+    "tags": [
+      "OpenClaw",
+      "AI",
+      "Automation"
+    ]
   }
 ]
