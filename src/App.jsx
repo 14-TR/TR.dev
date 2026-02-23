@@ -83,7 +83,7 @@ export default function App() {
   const [articles, setArticles] = useState([])
 
   useEffect(() => {
-    fetch('/TR.dev/articles.json')
+    fetch('/articles.json')
       .then(r => r.json())
       .then(setArticles)
       .catch(() => setArticles([]))
