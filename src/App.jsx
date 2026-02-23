@@ -6,6 +6,12 @@ import './App.css'
 
 const PROJECTS = [
   {
+    title: 'ParcelIQ',
+    description: 'Interactive parcel map for Laramie County, Wyoming. 46,000+ parcels with AI natural language search, value symbology, draw & query, CSV export, and aerial imagery.',
+    tags: ['GIS', 'Cloudflare', 'MapLibre'],
+    link: 'https://parcel-iq.org',
+  },
+  {
     title: 'ProjectIQ',
     description: 'AI-powered project intelligence native to OpenClaw. SQLite backend, React dashboard, 56+ tools for projects, tasks, decisions, and knowledge graphs.',
     tags: ['AI', 'React', 'SQLite'],
