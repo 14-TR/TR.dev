@@ -1,5 +1,6 @@
 import { Suspense, useState, useEffect } from 'react'
 import HeroCanvas from './components/HeroCanvas'
+import CodeGraphBg from './components/CodeGraphBg'
 import ProjectCard from './components/ProjectCard'
 import ArticleCard from './components/ArticleCard'
 import ArticleModal from './components/ArticleModal'
@@ -92,6 +93,8 @@ export default function App() {
   }, [])
   return (
     <div className="app">
+      {/* ── CODE GRAPH AMBIENT BACKGROUND ── */}
+      <CodeGraphBg />
       {/* ── HERO ── */}
       <section className="hero" id="home">
         <div className="hero-canvas-wrap">
