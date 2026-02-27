@@ -197,7 +197,7 @@ export default function App() {
           <div className="footer-links">
             <a href="https://github.com/14-TR" target="_blank" rel="noreferrer">GitHub</a>
             <a href="https://x.com/tr_jig" target="_blank" rel="noreferrer">X / @tr_jig</a>
-            <a href="#" rel="noreferrer">LinkedIn</a>
+            <a href="https://linkedin.com/in/tr-ingram" target="_blank" rel="noreferrer">LinkedIn</a>
           </div>
 
           <div className="footer-right">
