@@ -1,5 +1,16 @@
 [
   {
+    "title": "Week 10 \u00b7 Developer Highlights: Sudokish Launch & Cloud Cost Savings",
+    "date": "Mar 01, 2026",
+    "excerpt": "This week saw the launch of Sudokish with stunning Metal GPU shaders and a caching fix for ParcelIQ cutting costs significantly. Dive in to see what else was achieved!",
+    "tags": [
+      "iOS Development",
+      "Cloud Optimization",
+      "Project Launch"
+    ],
+    "link": "#"
+  },
+  {
     "title": "Week 09 \u00b7 What We Shipped: OpenClaw Enhancements",
     "date": "Mar 01, 2026",
     "excerpt": "This week marks significant improvements in OpenClaw with new features and resolved pain points. Dive into the details of our latest updates!",
