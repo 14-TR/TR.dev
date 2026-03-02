@@ -1,18 +1,38 @@
 [
   {
-    "title": "Week 09 · Pipelines, Domain, and Polish",
-    "date": "Feb 22, 2026",
-    "excerpt": "Custom domain live, automated weekly article publishing, and a week of fixes and tooling improvements.",
-    "tags": ["Automation", "Cloudflare", "AI"],
-    "link": "#",
-    "content": "## What Shipped This Week\n\nA productive week focused on infrastructure polish and automation.\n\n### ingramgeoai.com\nMoved the portfolio off GitHub's default subdirectory path onto a proper custom domain. DNS on Cloudflare, HTTPS via Cloudflare's Universal SSL. Clean URL, no subdirectory weirdness.\n\n### Weekly Article Pipeline\nBuilt an automated publishing pipeline for this site. A build log tracks what gets shipped each week. Every Sunday night, a script reads the log, formats it with local AI, pushes the result to the site, and resets for the next week. No manual publishing step.\n\n### ParcelIQ Fixes\nFilter panel overflow on mobile, draw UI polish, and confirmed production stability at parcel-iq.org.\n\n### Pain Points\n- GitHub Pages custom domain cert provisioning has no API trigger — it's fully async and opaque. Just have to wait.\n- Cloudflare's proxy and GitHub Pages HTTPS don't play well together out of the box — workaround: keep proxy on, set SSL mode to Flexible."
+    "title": "Week 09 \u00b7 What We Shipped: OpenClaw Enhancements",
+    "date": "Mar 01, 2026",
+    "excerpt": "This week marks significant improvements in OpenClaw with new features and resolved pain points. Dive into the details of our latest updates!",
+    "tags": [
+      "OpenClaw",
+      "Weekly Build Log",
+      "Developer Updates"
+    ],
+    "link": "#"
   },
   {
-    "title": "Week 08 · Shipping ParcelIQ: From Zero to Production",
-    "date": "Feb 16, 2026",
-    "excerpt": "Built a full GIS parcel map app in ~90 minutes of active coding — 46k parcels, AI search, draw & query, color ramps, mobile-first UI. Here's what worked and what broke.",
+    "title": "Week 09 \u00b7 Pipelines, Domain, and Polish",
+    "date": "Feb 22, 2026",
+    "excerpt": "Custom domain live, automated weekly article publishing, and a week of fixes and tooling improvements.",
+    "tags": [
+      "Automation",
+      "Cloudflare",
+      "AI"
+    ],
     "link": "#",
-    "tags": ["GIS", "Cloudflare", "MapLibre", "AI"],
-    "content": "## ParcelIQ: Built in ~90 Minutes\n\nParcelIQ is a Laramie County Wyoming parcel map — 46,000 parcels, full attribute search, AI-powered natural language queries, and a mobile-first UI. Core app went from zero to production in about 90 minutes.\n\n### The Stack\n- **Cloudflare Pages** — frontend hosting\n- **Cloudflare Worker** — API layer with rate limiting and CORS\n- **Cloudflare D1** — SQLite at the edge, stores all 46k parcel records\n- **Cloudflare R2** — vector tile storage\n- **MapLibre GL JS** — map rendering\n- **Workers AI** — natural language parcel search\n\n### Features Shipped\n- Symbology switcher: Actual Value / Assessed / $/Acre / Acreage\n- 6 color ramp presets with dark/light mode variants\n- Draw & Query: polygon draw → spatial query → stats panel\n- CSV export\n- Value and acreage filter sliders\n- Owner portfolio view\n- Shareable URLs with parcel pre-selection\n\n### Pain Points\n- Multi-origin CORS on Cloudflare Workers requires explicit `Vary: Origin` headers\n- D1 batch inserts cap at 100 rows — need chunking for large datasets\n- Aerial imagery proxy still broken (URL encoding edge case in ArcGIS exportImage)\n\n### Live\n**https://parcel-iq.org** — free and public."
+    "content": "## What Shipped This Week\n\nA productive week focused on infrastructure polish and automation.\n\n### ingramgeoai.com\nMoved the portfolio off GitHub's default subdirectory path onto a proper custom domain. DNS on Cloudflare, HTTPS via Cloudflare's Universal SSL. Clean URL, no subdirectory weirdness.\n\n### Weekly Article Pipeline\nBuilt an automated publishing pipeline for this site. A build log tracks what gets shipped each week. Every Sunday night, a script reads the log, formats it with local AI, pushes the result to the site, and resets for the next week. No manual publishing step.\n\n### ParcelIQ Fixes\nFilter panel overflow on mobile, draw UI polish, and confirmed production stability at parcel-iq.org.\n\n### Pain Points\n- GitHub Pages custom domain cert provisioning has no API trigger \u2014 it's fully async and opaque. Just have to wait.\n- Cloudflare's proxy and GitHub Pages HTTPS don't play well together out of the box \u2014 workaround: keep proxy on, set SSL mode to Flexible."
+  },
+  {
+    "title": "Week 08 \u00b7 Shipping ParcelIQ: From Zero to Production",
+    "date": "Feb 16, 2026",
+    "excerpt": "Built a full GIS parcel map app in ~90 minutes of active coding \u2014 46k parcels, AI search, draw & query, color ramps, mobile-first UI. Here's what worked and what broke.",
+    "link": "#",
+    "tags": [
+      "GIS",
+      "Cloudflare",
+      "MapLibre",
+      "AI"
+    ],
+    "content": "## ParcelIQ: Built in ~90 Minutes\n\nParcelIQ is a Laramie County Wyoming parcel map \u2014 46,000 parcels, full attribute search, AI-powered natural language queries, and a mobile-first UI. Core app went from zero to production in about 90 minutes.\n\n### The Stack\n- **Cloudflare Pages** \u2014 frontend hosting\n- **Cloudflare Worker** \u2014 API layer with rate limiting and CORS\n- **Cloudflare D1** \u2014 SQLite at the edge, stores all 46k parcel records\n- **Cloudflare R2** \u2014 vector tile storage\n- **MapLibre GL JS** \u2014 map rendering\n- **Workers AI** \u2014 natural language parcel search\n\n### Features Shipped\n- Symbology switcher: Actual Value / Assessed / $/Acre / Acreage\n- 6 color ramp presets with dark/light mode variants\n- Draw & Query: polygon draw \u2192 spatial query \u2192 stats panel\n- CSV export\n- Value and acreage filter sliders\n- Owner portfolio view\n- Shareable URLs with parcel pre-selection\n\n### Pain Points\n- Multi-origin CORS on Cloudflare Workers requires explicit `Vary: Origin` headers\n- D1 batch inserts cap at 100 rows \u2014 need chunking for large datasets\n- Aerial imagery proxy still broken (URL encoding edge case in ArcGIS exportImage)\n\n### Live\n**https://parcel-iq.org** \u2014 free and public."
   }
 ]
