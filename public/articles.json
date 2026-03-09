@@ -1,5 +1,16 @@
 [
   {
+    "title": "Week 09 \u00b7 Quantum Leap and Beyond",
+    "date": "Mar 09, 2026",
+    "excerpt": "This week saw the completion of quantum teleportation protocols and the launch of new features in Git-Map and ParcelIQ. Dive into the latest developments and upcoming plans.",
+    "tags": [
+      "Quantum Computing",
+      "Git-Map",
+      "ParcelIQ"
+    ],
+    "link": "#"
+  },
+  {
     "title": "Week 10 \u00b7 Developer Highlights: Sudokish Launch & Cloud Cost Savings",
     "date": "Mar 01, 2026",
     "excerpt": "This week saw the launch of Sudokish with stunning Metal GPU shaders and a caching fix for ParcelIQ cutting costs significantly. Dive in to see what else was achieved!",
