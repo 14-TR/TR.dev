@@ -91,7 +91,7 @@ const CASE_STUDIES = [
     problem: 'ArcGIS web maps need reviewable version history, branching, and rollback patterns that normal GIS tooling does not expose cleanly.',
     artifact: 'A Git-like CLI for ArcGIS web maps with clone, pull, commit, branch, and merge workflows documented for safe first-user trials.',
     proof: 'Current focused docs PR passed strict MkDocs build; core test suite has 786 passing tests on the feature branch.',
-    status: 'Draft PR / user-trust proof',
+    status: 'First-user proof',
     tags: ['ArcGIS', 'CLI', 'Version Control'],
     link: 'https://github.com/14-TR/Git-Map',
     linkLabel: 'View repo',
@@ -99,9 +99,9 @@ const CASE_STUDIES = [
   {
     title: 'ProjectIQ / OpenClaw',
     problem: 'AI-assisted projects lose context unless decisions, tasks, memory, and agent runs are made durable.',
-    artifact: 'A local-first operating system for agent work: SQLite-backed project intelligence, React dashboard, memory discipline, and Paperclip issue coordination.',
-    proof: '119 native tools covered; README refresh validated with 99/99 Vitest, API build, client typecheck/build, and seeded local health checks.',
-    status: 'Local proof / draft PR',
+    artifact: 'A local-first operating system for AI-assisted project work: durable tasks, decision history, memory, and operating dashboards.',
+    proof: 'Validated with 99/99 Vitest, API build, client typecheck/build, and seeded health checks across the project workspace.',
+    status: 'Working prototype',
     tags: ['AI Ops', 'SQLite', 'React'],
     link: 'https://github.com/14-TR/Know-Flow',
     linkLabel: 'View repo',
@@ -134,8 +134,8 @@ const PROOF_POINTS = [
     label: 'version-control workflow shipped for web maps',
   },
   {
-    value: '24/7',
-    label: 'local agent systems coordinating project work',
+    value: 'Ops',
+    label: 'durable project workflows, checks, and handoffs',
   },
 ]
 
@@ -267,7 +267,7 @@ export default function App() {
               ))}
             </div>
             <p className="contact-note">
-              Email is the connected contact path in this draft. Calendar booking, forms, analytics, and account wiring remain approval-required before launch.
+              Send a quick note with the workflow, data sources, and the first result you want to see. I will reply with the smallest useful proof to build first.
             </p>
           </div>
 
