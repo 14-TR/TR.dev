@@ -88,6 +88,7 @@ export default function CodeGraphBg() {
     let scrollY = 0
     const onScroll = () => { scrollY = window.scrollY }
     window.addEventListener('scroll', onScroll, { passive: true })
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     // ── Group everything and add to scene ──────────────────────────────────
     const group = new THREE.Group()
@@ -110,10 +111,14 @@ export default function CodeGraphBg() {
 
       renderer.render(scene, camera)
     }
-    animate()
+    if (reduceMotion) {
+      renderer.render(scene, camera)
+    } else {
+      animate()
+    }
 
     return () => {
-      cancelAnimationFrame(frameId)
+      if (frameId) cancelAnimationFrame(frameId)
       window.removeEventListener('resize', onResize)
       window.removeEventListener('scroll', onScroll)
       renderer.dispose()

@@ -15,7 +15,7 @@ const PROJECTS = [
   },
   {
     title: 'ProjectIQ',
-    description: 'AI-powered project intelligence native to OpenClaw. SQLite backend, React dashboard, 56+ tools for projects, tasks, decisions, and knowledge graphs.',
+    description: 'AI-powered project intelligence native to OpenClaw. SQLite backend, React dashboard, and 119 native tools for projects, tasks, decisions, and knowledge graphs.',
     tags: ['AI', 'React', 'SQLite'],
     link: 'https://github.com/14-TR',
   },
@@ -33,7 +33,7 @@ const PROJECTS = [
   },
   {
     title: 'Git-Map',
-    description: 'Git-like version control for ArcGIS web maps. Branching, merging, commit history for geospatial assets. 450+ tests.',
+    description: 'Git-like version control for ArcGIS web maps. Branching, merging, commit history for geospatial assets, and 786 passing tests on the current feature branch.',
     tags: ['GIS', 'ArcGIS', 'Python'],
     link: 'https://github.com/14-TR/Git-Map',
   },
@@ -75,10 +75,74 @@ const PROJECTS = [
   },
 ]
 
+const CASE_STUDIES = [
+  {
+    title: 'ParcelIQ',
+    problem: 'County parcel research is split across map viewers, property tables, and manual export workflows.',
+    artifact: 'A public parcel intelligence surface for Laramie County with map search, value symbology, draw/query workflows, aerial context, and gated CSV/GeoJSON exports.',
+    proof: '46,000+ parcels indexed; production JSON /bbox smoke returns HTTP 200; anonymous exports remain Pro-gated.',
+    status: 'Live product proof',
+    tags: ['GIS', 'Parcel Data', 'Cloudflare'],
+    link: 'https://parcel-iq.org',
+    linkLabel: 'View live site',
+  },
+  {
+    title: 'Git-Map',
+    problem: 'ArcGIS web maps need reviewable version history, branching, and rollback patterns that normal GIS tooling does not expose cleanly.',
+    artifact: 'A Git-like CLI for ArcGIS web maps with clone, pull, commit, branch, and merge workflows documented for safe first-user trials.',
+    proof: 'Current focused docs PR passed strict MkDocs build; core test suite has 786 passing tests on the feature branch.',
+    status: 'Draft PR / user-trust proof',
+    tags: ['ArcGIS', 'CLI', 'Version Control'],
+    link: 'https://github.com/14-TR/Git-Map',
+    linkLabel: 'View repo',
+  },
+  {
+    title: 'ProjectIQ / OpenClaw',
+    problem: 'AI-assisted projects lose context unless decisions, tasks, memory, and agent runs are made durable.',
+    artifact: 'A local-first operating system for agent work: SQLite-backed project intelligence, React dashboard, memory discipline, and Paperclip issue coordination.',
+    proof: '119 native tools covered; README refresh validated with 99/99 Vitest, API build, client typecheck/build, and seeded local health checks.',
+    status: 'Local proof / draft PR',
+    tags: ['AI Ops', 'SQLite', 'React'],
+    link: 'https://github.com/14-TR/Know-Flow',
+    linkLabel: 'View repo',
+  },
+  {
+    title: 'Content Automation Pipeline',
+    problem: 'Daily content channels fail when rendering, dependencies, upload state, and checks are handled manually.',
+    artifact: 'Automated 8bit Bible production pipeline with doctor/preflight gates, Remotion rendering, upload scheduling, and local readiness reporting.',
+    proof: 'Daily scheduled uploads recovered for May 12-13; weekly readiness routine reports 8bit Bible green from local checks.',
+    status: 'Operating pipeline',
+    tags: ['Remotion', 'YouTube', 'Automation'],
+    link: 'https://github.com/14-TR',
+    linkLabel: 'View GitHub',
+  },
+]
+
 const STACK = [
   'Python', 'React', 'Next.js', 'Three.js', 'ArcGIS', 'AGOL',
   'PostgreSQL', 'SQLite', 'Ollama / LLMs', 'Remotion', 'FastAPI',
   'Discord Bots', 'Automation', 'OpenClaw', 'Node.js',
+]
+
+const PROOF_POINTS = [
+  {
+    value: '46K+',
+    label: 'public parcel records mapped in ParcelIQ',
+  },
+  {
+    value: 'ArcGIS',
+    label: 'version-control workflow shipped for web maps',
+  },
+  {
+    value: '24/7',
+    label: 'local agent systems coordinating project work',
+  },
+]
+
+const CONTACT_PROMPTS = [
+  'What GIS / AI workflow needs to become less manual',
+  'Which systems, maps, data sources, or users are involved',
+  'What a useful first proof would show in 2-4 weeks',
 ]
 
 export default function App() {
@@ -93,12 +157,13 @@ export default function App() {
   }, [])
   return (
     <div className="app">
+      <a className="skip-link" href="#projects">Skip to proof of work</a>
       {/* ── CODE GRAPH AMBIENT BACKGROUND ── */}
       <CodeGraphBg />
       {/* ── HERO ── */}
       <section className="hero" id="home">
         <div className="hero-canvas-wrap">
-          <Suspense fallback={null}>
+          <Suspense fallback={<div className="hero-canvas-fallback" aria-hidden="true" />}>
             <HeroCanvas />
           </Suspense>
         </div>
@@ -109,26 +174,32 @@ export default function App() {
         <div className="hero-content">
           <div className="hero-status">
             <span className="status-dot" />
-            SYSTEMS ONLINE
+            GIS / GEOAI SYSTEMS
           </div>
 
           <h1 className="hero-name">TR INGRAM</h1>
           <p className="hero-sub">
-            GIS Professional&nbsp;&nbsp;·&nbsp;&nbsp;AI Systems Builder&nbsp;&nbsp;·&nbsp;&nbsp;Wyoming
+            GIS Professional&nbsp;&nbsp;·&nbsp;&nbsp;GeoAI Product Builder&nbsp;&nbsp;·&nbsp;&nbsp;Wyoming
           </p>
           <p className="hero-tagline">
-            Building the infrastructure for tomorrow's automated workflows.
+            I build practical geospatial software and AI-assisted operations for teams that need maps, data, and automation to turn into working products.
           </p>
 
           <div className="hero-ctas">
-            <a href="#projects" className="btn btn-primary">VIEW PROJECTS</a>
-            <a href="#articles" className="btn btn-outline">READ ARTICLES</a>
+            <a href="#contact" className="btn btn-primary">START A GIS / AI CONSULT</a>
+            <a href="#projects" className="btn btn-outline">SEE PROOF</a>
+          </div>
+
+          <div className="hero-audience" aria-label="Primary audience and offer">
+            <span>For GIS teams</span>
+            <span>AI workflow builders</span>
+            <span>product evaluators</span>
           </div>
 
           <div className="hero-coords">
             <span>41.1400° N · 104.8197° W</span>
             <span className="divider">|</span>
-            <span>github.com/14-TR</span>
+            <span>GIS systems, product proofs, automation loops</span>
           </div>
         </div>
 
@@ -141,15 +212,71 @@ export default function App() {
       {/* ── PROJECTS ── */}
       <section className="section" id="projects">
         <div className="container">
-          <div className="section-label">// PROJECTS</div>
-          <h2 className="section-title">What I Build</h2>
+          <div className="section-label">// PROOF</div>
+          <h2 className="section-title">Case Studies</h2>
           <p className="section-sub">
-            Automated systems, AI pipelines, and geospatial tooling.
+            Evidence-led snapshots of shipped geospatial products, agent systems, and automation pipelines.
+          </p>
+
+          <div className="case-grid">
+            {CASE_STUDIES.map((study) => (
+              <ProjectCard key={study.title} variant="case" {...study} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PROJECTS ── */}
+      <section className="section section-project-index" id="project-index">
+        <div className="container">
+          <div className="section-label">// PROJECT INDEX</div>
+          <h2 className="section-title">Broader Build Surface</h2>
+          <p className="section-sub">
+            Additional tools, experiments, and systems that support the GIS / AI operating stack.
           </p>
 
           <div className="projects-grid">
-            {PROJECTS.map((p) => (
-              <ProjectCard key={p.title} {...p} />
+            {PROJECTS.map((project) => (
+              <ProjectCard key={project.title} {...project} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CONTACT ── */}
+      <section className="section section-contact" id="contact">
+        <div className="container contact-grid">
+          <div>
+            <div className="section-label">// CONTACT</div>
+            <h2 className="section-title">Start with the workflow.</h2>
+            <p className="section-sub contact-sub">
+              Best fit: parcel intelligence, ArcGIS workflow automation, internal AI operations, product proof builds, and decision-support systems that need to become real software.
+            </p>
+            <div className="contact-actions">
+              <a className="btn btn-primary" href="mailto:tr@ingramgeoai.com?subject=GIS%20/%20AI%20systems%20consult&body=What%20workflow%20are%20you%20trying%20to%20improve%3F%0A%0AWhat%20maps%2C%20data%2C%20or%20systems%20are%20involved%3F%0A%0AWhat%20would%20a%20useful%20first%20proof%20show%3F">
+                EMAIL TR
+              </a>
+              <a className="btn btn-outline" href="mailto:tr@ingramgeoai.com?subject=Booking%20request%20-%20GIS%20/%20AI%20consult&body=I%27d%20like%20to%20book%20a%20short%20call%20about%3A%0A%0ABest%20times%3A%0A%0ARelevant%20links%20or%20context%3A">
+                REQUEST A CALL
+              </a>
+            </div>
+            <div className="contact-intake" aria-label="Lead intake prompts">
+              <span className="contact-intake-label">Helpful context</span>
+              {CONTACT_PROMPTS.map((prompt) => (
+                <span key={prompt}>{prompt}</span>
+              ))}
+            </div>
+            <p className="contact-note">
+              Email is the connected contact path in this draft. Calendar booking, forms, analytics, and account wiring remain approval-required before launch.
+            </p>
+          </div>
+
+          <div className="proof-panel" aria-label="Selected proof metrics">
+            {PROOF_POINTS.map((point) => (
+              <div className="proof-item" key={point.value}>
+                <span className="proof-value">{point.value}</span>
+                <span className="proof-label">{point.label}</span>
+              </div>
             ))}
           </div>
         </div>

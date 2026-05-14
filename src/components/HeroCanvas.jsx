@@ -5,8 +5,10 @@ import * as THREE from 'three'
 function WireframeGlobe() {
   const meshRef = useRef()
   const gridRef = useRef()
+  const reduceMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  useFrame((state) => {
+  useFrame(() => {
+    if (reduceMotion) return
     if (meshRef.current) {
       meshRef.current.rotation.y += 0.0015
       meshRef.current.rotation.x += 0.0003
