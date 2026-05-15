@@ -2,6 +2,14 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import graphData from '../data/graph.json'
 
+function createRenderer(canvas) {
+  try {
+    return new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false })
+  } catch {
+    return null
+  }
+}
+
 export default function CodeGraphBg() {
   const canvasRef = useRef()
 
@@ -10,7 +18,8 @@ export default function CodeGraphBg() {
     if (!canvas) return
 
     // ── Scene ──────────────────────────────────────────────────────────────
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false })
+    const renderer = createRenderer(canvas)
+    if (!renderer) return
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     renderer.setClearColor(0x000000, 0)
 

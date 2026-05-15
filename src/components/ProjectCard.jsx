@@ -27,7 +27,10 @@ export default function ProjectCard({
             </div>
           </div>
         ) : (
-          <p className="project-desc">{description}</p>
+          <>
+            {status && <div className="project-status">{status}</div>}
+            <p className="project-desc">{description}</p>
+          </>
         )}
         <div className="project-tags">
           {tags.map((tag) => (

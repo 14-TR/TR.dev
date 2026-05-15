@@ -2,6 +2,22 @@ import { useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
+function canUseWebGL() {
+  if (typeof document === 'undefined') return false
+
+  try {
+    const canvas = document.createElement('canvas')
+    return !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+  } catch {
+    return false
+  }
+}
+
+function seededUnit(seed) {
+  const x = Math.sin(seed * 12.9898) * 43758.5453
+  return x - Math.floor(x)
+}
+
 function WireframeGlobe() {
   const meshRef = useRef()
   const gridRef = useRef()
@@ -21,9 +37,9 @@ function WireframeGlobe() {
   const points = useMemo(() => {
     const pts = []
     for (let i = 0; i < 200; i++) {
-      const theta = Math.random() * Math.PI * 2
-      const phi = Math.acos(2 * Math.random() - 1)
-      const r = 2.2 + (Math.random() - 0.5) * 0.4
+      const theta = seededUnit(i + 1) * Math.PI * 2
+      const phi = Math.acos(2 * seededUnit(i + 201) - 1)
+      const r = 2.2 + (seededUnit(i + 401) - 0.5) * 0.4
       pts.push(
         r * Math.sin(phi) * Math.cos(theta),
         r * Math.sin(phi) * Math.sin(theta),
@@ -92,6 +108,12 @@ function WireframeGlobe() {
 }
 
 export default function HeroCanvas() {
+  const webglAvailable = useMemo(() => canUseWebGL(), [])
+
+  if (!webglAvailable) {
+    return <div className="hero-canvas-fallback" aria-hidden="true" />
+  }
+
   return (
     <Canvas
       camera={{ position: [0, 0, 6], fov: 45 }}
