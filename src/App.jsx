@@ -1,10 +1,11 @@
-import { Suspense, useState, useEffect } from 'react'
-import HeroCanvas from './components/HeroCanvas'
-import CodeGraphBg from './components/CodeGraphBg'
+import { Suspense, lazy, useCallback, useState, useEffect } from 'react'
 import ProjectCard from './components/ProjectCard'
 import ArticleCard from './components/ArticleCard'
 import ArticleModal from './components/ArticleModal'
 import './App.css'
+
+const HeroCanvas = lazy(() => import('./components/HeroCanvas'))
+const CodeGraphBg = lazy(() => import('./components/CodeGraphBg'))
 
 const PROJECTS = [
   {
@@ -54,7 +55,7 @@ const PROJECTS = [
     status: 'iOS release prep',
     description: 'SwiftUI Killer Sudoku app with Metal shader polish, release-preflight automation, and local iPhone install testing path.',
     tags: ['SwiftUI', 'Metal', 'iOS'],
-    link: 'https://github.com/14-TR/sudokish',
+    link: null,
   },
   {
     title: 'The Broken Mask',
@@ -157,6 +158,27 @@ const STACK_GROUPS = [
   },
 ]
 
+const ENGAGEMENT_PATHS = [
+  {
+    title: 'Workflow Audit',
+    fit: 'For teams losing time to repeated ArcGIS, parcel, reporting, or handoff steps.',
+    firstProof: 'Map the current process, identify the highest-friction step, and produce a small automation or decision-support proof.',
+    outcome: 'A scoped build path with evidence, risks, and the next decision clearly separated.',
+  },
+  {
+    title: 'GIS Product Proof',
+    fit: 'For founders or operators turning spatial data into a product, dashboard, or customer-facing tool.',
+    firstProof: 'Ship a narrow local or private prototype that proves the data path, user task, and verification gate.',
+    outcome: 'A demo surface that can be inspected before public launch, paid plans, or production hardening.',
+  },
+  {
+    title: 'Agent Ops Setup',
+    fit: 'For technical teams experimenting with AI agents but missing durable tasks, memory, blockers, and review gates.',
+    firstProof: 'Create an operating loop where agents leave issues, artifacts, test evidence, and human review points behind.',
+    outcome: 'A controlled system that improves throughput without hiding decisions inside chat transcripts.',
+  },
+]
+
 const PROOF_POINTS = [
   {
     value: '46K+',
@@ -194,6 +216,22 @@ export default function App() {
   const [activeArticle, setActiveArticle] = useState(null)
   const currentYear = new Date().getFullYear()
 
+  const scrollToCurrentHash = useCallback(() => {
+    const hash = window.location.hash.slice(1)
+
+    if (!hash) return
+
+    let targetId = hash
+
+    try {
+      targetId = decodeURIComponent(hash)
+    } catch {
+      targetId = hash
+    }
+
+    document.getElementById(targetId)?.scrollIntoView({ block: 'start' })
+  }, [])
+
   useEffect(() => {
     fetch('/articles.json')
       .then(r => r.json())
@@ -207,11 +245,47 @@ export default function App() {
         setArticlesStatus('error')
       })
   }, [])
+
+  useEffect(() => {
+    const previousScrollRestoration = window.history.scrollRestoration
+    let frameId
+    let timerId
+
+    window.history.scrollRestoration = 'manual'
+
+    const settleHashScroll = () => {
+      window.clearTimeout(timerId)
+      window.cancelAnimationFrame(frameId)
+      frameId = window.requestAnimationFrame(scrollToCurrentHash)
+      timerId = window.setTimeout(scrollToCurrentHash, 250)
+    }
+
+    settleHashScroll()
+    window.addEventListener('hashchange', settleHashScroll)
+    window.addEventListener('load', settleHashScroll)
+
+    return () => {
+      window.history.scrollRestoration = previousScrollRestoration
+      window.clearTimeout(timerId)
+      window.cancelAnimationFrame(frameId)
+      window.removeEventListener('hashchange', settleHashScroll)
+      window.removeEventListener('load', settleHashScroll)
+    }
+  }, [scrollToCurrentHash])
+
+  useEffect(() => {
+    if (articlesStatus !== 'loading') {
+      window.setTimeout(scrollToCurrentHash, 0)
+    }
+  }, [articlesStatus, scrollToCurrentHash])
+
   return (
     <div className="app">
       <a className="skip-link" href="#content">Skip to main content</a>
       {/* ── CODE GRAPH AMBIENT BACKGROUND ── */}
-      <CodeGraphBg />
+      <Suspense fallback={null}>
+        <CodeGraphBg />
+      </Suspense>
       {/* ── HERO ── */}
       <section className="hero" id="home">
         <div className="hero-canvas-wrap">
@@ -291,6 +365,39 @@ export default function App() {
             <div className="projects-grid">
               {PROJECTS.map((project) => (
                 <ProjectCard key={project.title} {...project} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── ENGAGEMENT PATHS ── */}
+        <section className="section section-engagement" id="engagement">
+          <div className="container">
+            <div className="section-label">// ENGAGEMENT PATHS</div>
+            <h2 className="section-title">Where the work usually starts</h2>
+            <p className="section-sub engagement-sub">
+              Three practical entry points for GIS / AI work: diagnose the workflow, prove the product surface, or make agent-assisted execution reviewable.
+            </p>
+
+            <div className="engagement-grid">
+              {ENGAGEMENT_PATHS.map((path) => (
+                <article className="engagement-card" key={path.title}>
+                  <h3>{path.title}</h3>
+                  <dl>
+                    <div>
+                      <dt>Best fit</dt>
+                      <dd>{path.fit}</dd>
+                    </div>
+                    <div>
+                      <dt>First proof</dt>
+                      <dd>{path.firstProof}</dd>
+                    </div>
+                    <div>
+                      <dt>Outcome</dt>
+                      <dd>{path.outcome}</dd>
+                    </div>
+                  </dl>
+                </article>
               ))}
             </div>
           </div>

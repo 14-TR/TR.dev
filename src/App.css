@@ -674,6 +674,64 @@ button:focus-visible {
   border-color: var(--border-hl);
 }
 
+/* ─── ENGAGEMENT PATHS ─────────────────────────────────────────────────── */
+.section-engagement {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.025), transparent 42%),
+    var(--bg);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.engagement-sub {
+  max-width: 720px;
+}
+
+.engagement-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.engagement-card {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top: 3px solid var(--amber);
+  background: rgba(20,20,20,0.84);
+  padding: 1.35rem;
+}
+
+.engagement-card h3 {
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  margin-bottom: 1.1rem;
+  text-transform: uppercase;
+}
+
+.engagement-card dl {
+  display: grid;
+  gap: 1rem;
+}
+
+.engagement-card dt {
+  margin-bottom: 0.25rem;
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.engagement-card dd {
+  color: var(--steel-lt);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
 /* ─── ARTICLES ──────────────────────────────────────────────────────────── */
 .articles-grid {
   display: grid;
@@ -841,6 +899,7 @@ button:focus-visible {
   .section-project-index { padding-top: 1rem; }
   .case-grid,
   .projects-grid,
+  .engagement-grid,
   .articles-grid {
     grid-template-columns: 1fr;
   }
