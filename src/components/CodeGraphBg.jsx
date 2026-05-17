@@ -2,6 +2,14 @@ import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import graphData from '../data/graph.json'
 
+function createRenderer(canvas) {
+  try {
+    return new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false })
+  } catch {
+    return null
+  }
+}
+
 export default function CodeGraphBg() {
   const canvasRef = useRef()
 
@@ -10,7 +18,8 @@ export default function CodeGraphBg() {
     if (!canvas) return
 
     // ── Scene ──────────────────────────────────────────────────────────────
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false })
+    const renderer = createRenderer(canvas)
+    if (!renderer) return
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
     renderer.setClearColor(0x000000, 0)
 
@@ -88,6 +97,7 @@ export default function CodeGraphBg() {
     let scrollY = 0
     const onScroll = () => { scrollY = window.scrollY }
     window.addEventListener('scroll', onScroll, { passive: true })
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
     // ── Group everything and add to scene ──────────────────────────────────
     const group = new THREE.Group()
@@ -110,10 +120,14 @@ export default function CodeGraphBg() {
 
       renderer.render(scene, camera)
     }
-    animate()
+    if (reduceMotion) {
+      renderer.render(scene, camera)
+    } else {
+      animate()
+    }
 
     return () => {
-      cancelAnimationFrame(frameId)
+      if (frameId) cancelAnimationFrame(frameId)
       window.removeEventListener('resize', onResize)
       window.removeEventListener('scroll', onScroll)
       renderer.dispose()

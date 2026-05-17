@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">TR Ingram - GIS / GeoAI Systems Builder</title>
+  <desc id="desc">A dark social share card for TR Ingram, focused on GIS, GeoAI, maps, automation, and shipped product proof.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101720"/>
+      <stop offset="0.55" stop-color="#17352f"/>
+      <stop offset="1" stop-color="#f2c14e"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8f3e7" stop-opacity="0.96"/>
+      <stop offset="1" stop-color="#e8f0df" stop-opacity="0.9"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="#f8f3e7" stroke-opacity="0.12" stroke-width="2"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <path d="M0 480 C180 410 270 520 430 454 C610 380 710 224 895 260 C1020 284 1094 372 1200 326 L1200 630 L0 630 Z" fill="#101720" fill-opacity="0.42"/>
+  <g fill="none" stroke="#f8f3e7" stroke-opacity="0.35" stroke-width="3">
+    <path d="M820 128 L990 168 L1070 296 L934 394 L768 346 L712 214 Z"/>
+    <path d="M820 128 L934 394"/>
+    <path d="M990 168 L768 346"/>
+    <path d="M712 214 L1070 296"/>
+  </g>
+  <g transform="translate(88 86)">
+    <rect width="706" height="456" rx="28" fill="url(#panel)"/>
+    <text x="56" y="92" fill="#17352f" font-family="Inter, Arial, sans-serif" font-size="32" font-weight="700" letter-spacing="0">TR INGRAM</text>
+    <text x="56" y="188" fill="#101720" font-family="Inter, Arial, sans-serif" font-size="66" font-weight="700" letter-spacing="0">GIS / GeoAI</text>
+    <text x="56" y="264" fill="#101720" font-family="Inter, Arial, sans-serif" font-size="66" font-weight="700" letter-spacing="0">Systems Builder</text>
+    <text x="56" y="336" fill="#314a45" font-family="Inter, Arial, sans-serif" font-size="28" letter-spacing="0">Maps, data workflows, AI automation,</text>
+    <text x="56" y="376" fill="#314a45" font-family="Inter, Arial, sans-serif" font-size="28" letter-spacing="0">and shipped product proof.</text>
+    <rect x="56" y="414" width="310" height="50" rx="25" fill="#17352f"/>
+    <text x="86" y="448" fill="#f8f3e7" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="0">ingramgeoai.com</text>
+  </g>
+  <g transform="translate(880 430)">
+    <circle cx="0" cy="0" r="58" fill="#f8f3e7" fill-opacity="0.94"/>
+    <path d="M-22 16 L-7 -24 L10 6 L28 -30" fill="none" stroke="#17352f" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

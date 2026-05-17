@@ -1,60 +1,35 @@
 [
   {
-    "title": "Week 09 \u00b7 Quantum Leap and Beyond",
-    "date": "Mar 09, 2026",
-    "excerpt": "This week saw the completion of quantum teleportation protocols and the launch of new features in Git-Map and ParcelIQ. Dive into the latest developments and upcoming plans.",
+    "title": "How Our System Works: Local Proof Before Public Polish",
+    "date": "May 14, 2026",
+    "excerpt": "The current TR.dev refresh is being rebuilt around proof: shipped products, current operating systems, verification evidence, and public copy that stays focused on outcomes.",
     "tags": [
-      "Quantum Computing",
-      "Git-Map",
-      "ParcelIQ"
+      "TR.dev",
+      "Verification",
+      "Product Positioning"
     ],
-    "link": "#"
+    "content": "## What changed\n\nThe site refresh moved away from generic portfolio language and toward visible proof of work. The case-study section now centers ParcelIQ, Git-Map, ProjectIQ / OpenClaw, and Open World Model as evidence-led examples instead of a long undifferentiated project list.\n\n### Why it matters\n\nA public site for GIS and AI consulting should make the work inspectable. The useful questions are simple: what problem was solved, what artifact exists, what evidence supports it, and what a reader can safely evaluate.\n\n### Current gate\n\n- Keep public copy focused on outcomes and evidence.\n- Keep sensitive infrastructure, credential paths, and operator-only workflow details out of public-facing text.\n- Verify the rendered page before any deploy or public release.\n\n### Next content\n\nThe next durable article should turn the homepage refresh into a short public note: how to make AI-assisted project work credible through evidence, review gates, and clear boundaries."
   },
   {
-    "title": "Week 10 \u00b7 Developer Highlights: Sudokish Launch & Cloud Cost Savings",
-    "date": "Mar 01, 2026",
-    "excerpt": "This week saw the launch of Sudokish with stunning Metal GPU shaders and a caching fix for ParcelIQ cutting costs significantly. Dive in to see what else was achieved!",
-    "tags": [
-      "iOS Development",
-      "Cloud Optimization",
-      "Project Launch"
-    ],
-    "link": "#"
-  },
-  {
-    "title": "Week 09 \u00b7 What We Shipped: OpenClaw Enhancements",
-    "date": "Mar 01, 2026",
-    "excerpt": "This week marks significant improvements in OpenClaw with new features and resolved pain points. Dive into the details of our latest updates!",
+    "title": "How Our System Works: Durable Agent Operations",
+    "date": "May 14, 2026",
+    "excerpt": "ProjectIQ and OpenClaw are converging into an operations layer where agent-assisted work leaves behind issues, evidence, blockers, and reviewable handoffs.",
     "tags": [
       "OpenClaw",
-      "Weekly Build Log",
-      "Developer Updates"
+      "ProjectIQ",
+      "Project Ops"
     ],
-    "link": "#"
+    "content": "## The system behind the work\n\nThe useful part of agent-assisted development is not chat. It is the trail left after the work: issue state, comments, proof artifacts, verification output, blockers, and a clear next action.\n\n### Current pattern\n\nEach meaningful work slice should answer four questions:\n\n- What changed?\n- How was it verified?\n- What is still blocked?\n- Who owns the next action?\n\n### Recent proof\n\nProjectIQ now has 119 native tools and 1,149+ tests. The operations layer around it is being shaped to assign work, record evidence, and force clear terminal states instead of vague progress notes.\n\n### Why this belongs on TR.dev\n\nThis is the operating pattern behind the public-facing products. Showing the pattern, without exposing operator-only details, helps explain why the work can move quickly while still staying reviewable."
   },
   {
-    "title": "Week 09 \u00b7 Pipelines, Domain, and Polish",
-    "date": "Feb 22, 2026",
-    "excerpt": "Custom domain live, automated weekly article publishing, and a week of fixes and tooling improvements.",
-    "tags": [
-      "Automation",
-      "Cloudflare",
-      "AI"
-    ],
-    "link": "#",
-    "content": "## What Shipped This Week\n\nA productive week focused on infrastructure polish and automation.\n\n### ingramgeoai.com\nMoved the portfolio off GitHub's default subdirectory path onto a proper custom domain. DNS on Cloudflare, HTTPS via Cloudflare's Universal SSL. Clean URL, no subdirectory weirdness.\n\n### Weekly Article Pipeline\nBuilt an automated publishing pipeline for this site. A build log tracks what gets shipped each week. Every Sunday night, a script reads the log, formats it with local AI, pushes the result to the site, and resets for the next week. No manual publishing step.\n\n### ParcelIQ Fixes\nFilter panel overflow on mobile, draw UI polish, and confirmed production stability at parcel-iq.org.\n\n### Pain Points\n- GitHub Pages custom domain cert provisioning has no API trigger \u2014 it's fully async and opaque. Just have to wait.\n- Cloudflare's proxy and GitHub Pages HTTPS don't play well together out of the box \u2014 workaround: keep proxy on, set SSL mode to Flexible."
-  },
-  {
-    "title": "Week 08 \u00b7 Shipping ParcelIQ: From Zero to Production",
-    "date": "Feb 16, 2026",
-    "excerpt": "Built a full GIS parcel map app in ~90 minutes of active coding \u2014 46k parcels, AI search, draw & query, color ramps, mobile-first UI. Here's what worked and what broke.",
-    "link": "#",
+    "title": "How Our System Works: GIS Products Need Verification Paths",
+    "date": "May 14, 2026",
+    "excerpt": "ParcelIQ and Git-Map are useful proof because they pair GIS workflows with specific checks: production smokes, export gates, docs builds, and repeatable tests.",
     "tags": [
       "GIS",
-      "Cloudflare",
-      "MapLibre",
-      "AI"
+      "ParcelIQ",
+      "Git-Map"
     ],
-    "content": "## ParcelIQ: Built in ~90 Minutes\n\nParcelIQ is a Laramie County Wyoming parcel map \u2014 46,000 parcels, full attribute search, AI-powered natural language queries, and a mobile-first UI. Core app went from zero to production in about 90 minutes.\n\n### The Stack\n- **Cloudflare Pages** \u2014 frontend hosting\n- **Cloudflare Worker** \u2014 API layer with rate limiting and CORS\n- **Cloudflare D1** \u2014 SQLite at the edge, stores all 46k parcel records\n- **Cloudflare R2** \u2014 vector tile storage\n- **MapLibre GL JS** \u2014 map rendering\n- **Workers AI** \u2014 natural language parcel search\n\n### Features Shipped\n- Symbology switcher: Actual Value / Assessed / $/Acre / Acreage\n- 6 color ramp presets with dark/light mode variants\n- Draw & Query: polygon draw \u2192 spatial query \u2192 stats panel\n- CSV export\n- Value and acreage filter sliders\n- Owner portfolio view\n- Shareable URLs with parcel pre-selection\n\n### Pain Points\n- Multi-origin CORS on Cloudflare Workers requires explicit `Vary: Origin` headers\n- D1 batch inserts cap at 100 rows \u2014 need chunking for large datasets\n- Aerial imagery proxy still broken (URL encoding edge case in ArcGIS exportImage)\n\n### Live\n**https://parcel-iq.org** \u2014 free and public."
+    "content": "## GIS proof is more than a demo\n\nA map can look convincing while the underlying workflow is still fragile. The stronger proof is a working path that can be rerun: API smoke checks, export authorization checks, docs builds, test suites, and public-safe descriptions of what was verified.\n\n### ParcelIQ\n\nParcelIQ turns Laramie County parcel records into a public search product with map workflows, value symbology, draw/query behavior, aerial context, and gated export paths. The important part is not just the map; it is knowing which public requests work and which paid-tier exports stay protected.\n\n### Git-Map\n\nGit-Map brings Git-like workflows to ArcGIS web maps. The credible path is first-user safety: disposable test maps, clear clone/pull/commit/branch/merge documentation, and a test suite broad enough to catch workflow regressions.\n\n### Next content\n\nThe next GIS article should compare these two systems as a practical pattern: build the visible tool, then build the verification path that makes it safe to trust."
   }
 ]
