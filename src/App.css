@@ -732,6 +732,75 @@ button:focus-visible {
   line-height: 1.55;
 }
 
+/* ─── PROOF SPRINT ─────────────────────────────────────────────────────── */
+.section-proof-sprint {
+  background:
+    linear-gradient(135deg, rgba(245,158,11,0.07), transparent 38%),
+    var(--bg-mid);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.proof-sprint-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.82fr) minmax(0, 1.18fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+.proof-sprint-copy {
+  position: sticky;
+  top: 2rem;
+}
+
+.proof-sprint-link {
+  width: fit-content;
+}
+
+.proof-loop {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.proof-loop-item {
+  display: grid;
+  grid-template-columns: 4.25rem 1fr;
+  gap: 1rem;
+  align-items: start;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(10,10,10,0.72);
+  padding: 1.15rem;
+}
+
+.proof-loop-step {
+  display: inline-flex;
+  min-height: 2.6rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.proof-loop-item h3 {
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+}
+
+.proof-loop-item p {
+  color: var(--steel-lt);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
 /* ─── ARTICLES ──────────────────────────────────────────────────────────── */
 .articles-grid {
   display: grid;
@@ -948,6 +1017,23 @@ button:focus-visible {
     font-size: 0.68rem;
     padding: 0.42rem 0.66rem;
   }
+  .proof-sprint-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .proof-sprint-copy {
+    position: static;
+  }
+  .proof-sprint-link {
+    width: 100%;
+  }
+  .proof-loop-item {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+  }
+  .proof-loop-step {
+    width: 4rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1049,8 +1135,13 @@ button:focus-visible {
 
 .modal-p { margin: .5rem 0; font-size: .9rem; }
 
+.modal-list {
+  margin: .5rem 0 .5rem 1.25rem;
+  padding-left: 1rem;
+}
+
 .modal-li {
-  margin: .35rem 0 .35rem 1.25rem;
+  margin: .35rem 0;
   font-size: .9rem;
   list-style: disc;
 }

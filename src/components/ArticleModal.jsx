@@ -27,15 +27,40 @@ export default function ArticleModal({ article, onClose }) {
   }
 
   const renderContent = (text) => {
-    return text.split('\n').map((line, i) => {
-      if (line.startsWith('## ')) return <h2 key={i} className="modal-h2">{line.slice(3)}</h2>
-      if (line.startsWith('### ')) return <h3 key={i} className="modal-h3">{line.slice(4)}</h3>
+    const nodes = []
+    let listItems = []
+
+    const flushList = () => {
+      if (listItems.length === 0) return
+      nodes.push(
+        <ul key={`list-${nodes.length}`} className="modal-list">
+          {listItems}
+        </ul>
+      )
+      listItems = []
+    }
+
+    text.split('\n').forEach((line, i) => {
       if (line.startsWith('- ')) {
-        return <li key={i} className="modal-li">{renderInline(line.slice(2))}</li>
+        listItems.push(<li key={i} className="modal-li">{renderInline(line.slice(2))}</li>)
+        return
       }
-      if (line.trim() === '') return <br key={i} />
-      return <p key={i} className="modal-p">{renderInline(line)}</p>
+
+      flushList()
+
+      if (line.startsWith('## ')) {
+        nodes.push(<h2 key={i} className="modal-h2">{line.slice(3)}</h2>)
+      } else if (line.startsWith('### ')) {
+        nodes.push(<h3 key={i} className="modal-h3">{line.slice(4)}</h3>)
+      } else if (line.trim() === '') {
+        nodes.push(<br key={i} />)
+      } else {
+        nodes.push(<p key={i} className="modal-p">{renderInline(line)}</p>)
+      }
     })
+
+    flushList()
+    return nodes
   }
 
   return (

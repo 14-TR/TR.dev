@@ -179,6 +179,29 @@ const ENGAGEMENT_PATHS = [
   },
 ]
 
+const PROOF_SPRINT_STEPS = [
+  {
+    step: '01',
+    title: 'Frame the business question',
+    detail: 'Name the decision a map, model, automation, or agent loop needs to support, plus the people who will trust or reject it.',
+  },
+  {
+    step: '02',
+    title: 'Prove the data path',
+    detail: 'Connect the real sources, constraints, and update rhythm before polishing the interface or expanding scope.',
+  },
+  {
+    step: '03',
+    title: 'Build the inspection surface',
+    detail: 'Ship a narrow page, dashboard, CLI, map, or report that makes the output reviewable by a real operator.',
+  },
+  {
+    step: '04',
+    title: 'Leave the launch decision clear',
+    detail: 'Separate what is production-ready, what still needs review, and what evidence should be gathered next.',
+  },
+]
+
 const PROOF_POINTS = [
   {
     value: '46K+',
@@ -403,6 +426,34 @@ export default function App() {
           </div>
         </section>
 
+        {/* ── PROOF SPRINT ── */}
+        <section className="section section-proof-sprint" id="proof-sprint">
+          <div className="container proof-sprint-layout">
+            <div className="proof-sprint-copy">
+              <div className="section-label">// PROOF SPRINT</div>
+              <h2 className="section-title">A useful first build answers one decision.</h2>
+              <p className="section-sub">
+                The fastest path is a constrained proof with real data, visible tradeoffs, and enough evidence to choose build, pause, or harden.
+              </p>
+              <a className="btn btn-outline proof-sprint-link" href="#contact">
+                SCOPE THE FIRST PROOF
+              </a>
+            </div>
+
+            <div className="proof-loop" aria-label="Proof sprint shape">
+              {PROOF_SPRINT_STEPS.map((item) => (
+                <article className="proof-loop-item" key={item.step}>
+                  <span className="proof-loop-step">{item.step}</span>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.detail}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── CONTACT ── */}
         <section className="section section-contact" id="contact">
           <div className="container contact-grid">
@@ -417,7 +468,7 @@ export default function App() {
                   EMAIL A BRIEF
                 </a>
                 <a className="btn btn-outline" href={CONTACT_CALL_MAILTO}>
-                  BOOK A CALL
+                  REQUEST A CALL
                 </a>
               </div>
               <div className="contact-intake" aria-label="Lead intake prompts">
