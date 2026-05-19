@@ -217,6 +217,36 @@ const PROOF_POINTS = [
   },
 ]
 
+const FIT_CHECKS = [
+  {
+    title: 'Good first proof',
+    summary: 'A focused GIS / AI build is worth scoping when the decision, operator, and first data path are already visible.',
+    items: [
+      'A map, dataset, report, or workflow is used often enough that friction compounds',
+      'Someone can review a narrow prototype and say what would make it trustworthy',
+      'The useful answer is a go / no-go, not a vague exploration deck',
+    ],
+  },
+  {
+    title: 'Bring first',
+    summary: 'The first message does not need to be polished. It should make the workflow and decision inspectable.',
+    items: [
+      'Current tools, maps, source systems, or screenshots',
+      'The specific handoff, bottleneck, or customer question that keeps repeating',
+      'What a credible proof would need to show in the first few weeks',
+    ],
+  },
+  {
+    title: 'Not the first move',
+    summary: 'Some work should wait until the operating facts are clearer.',
+    items: [
+      'Public launch, outreach, or monetization before the proof can be checked privately',
+      'Sensitive data sharing without a clear review boundary',
+      'Broad AI transformation work with no named workflow owner',
+    ],
+  },
+]
+
 const CONTACT_PROMPTS = [
   'The workflow, decision, or handoff that is costing time now',
   'Current maps, data sources, tools, users, and constraints',
@@ -450,6 +480,40 @@ export default function App() {
                   </div>
                 </article>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── FIT CHECK ── */}
+        <section className="section section-fit-check" id="fit-check">
+          <div className="container">
+            <div className="fit-check-header">
+              <div>
+                <div className="section-label">// FIT CHECK</div>
+                <h2 className="section-title">Before the first call, make the proof inspectable.</h2>
+              </div>
+              <p className="section-sub fit-check-sub">
+                The best starting point is a small decision-support build with a real reviewer, real constraints, and a clear reason to trust or reject the output.
+              </p>
+            </div>
+
+            <div className="fit-check-grid">
+              {FIT_CHECKS.map((check) => (
+                <article className="fit-check-card" key={check.title}>
+                  <h3>{check.title}</h3>
+                  <p>{check.summary}</p>
+                  <ul>
+                    {check.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+
+            <div className="fit-check-cta">
+              <span>Have one of these workflows now?</span>
+              <a className="btn btn-outline" href="#contact">SEND THE ROUGH CONTEXT</a>
             </div>
           </div>
         </section>
