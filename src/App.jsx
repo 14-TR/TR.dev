@@ -18,7 +18,7 @@ const PROJECTS = [
   {
     title: 'Git-Map',
     status: 'First-user proof',
-    description: 'Git-like version control for ArcGIS web maps with clone, pull, commit, branch, and merge workflows. Current branch carries 786 passing tests.',
+    description: 'Git-like version control for ArcGIS web maps with clone, pull, commit, branch, and merge workflows. Current proof collects 791 core tests.',
     tags: ['GIS', 'ArcGIS', 'Python'],
     link: 'https://github.com/14-TR/Git-Map',
   },
@@ -102,7 +102,7 @@ const CASE_STUDIES = [
     title: 'Git-Map',
     problem: 'ArcGIS web maps need reviewable history, branching, rollback, and safer trial workflows than the platform exposes by default.',
     artifact: 'A Git-like CLI for ArcGIS web maps with clone, pull, commit, branch, and merge workflows documented for first-user trials on disposable maps.',
-    proof: 'Current feature branch carries 786 passing tests plus strict docs-build coverage for the onboarding and trust path.',
+    proof: 'Current proof collects 791 core tests plus strict docs-build coverage for the onboarding and trust path.',
     status: 'First-user proof',
     tags: ['ArcGIS', 'CLI', 'Version Control'],
     link: 'https://github.com/14-TR/Git-Map',
@@ -122,7 +122,7 @@ const CASE_STUDIES = [
     title: 'Open World Model',
     problem: 'GeoAI systems need benchmarkable answers with source provenance, trust precedence, and visible uncertainty before anyone can rely on them.',
     artifact: 'A local geospatial reasoning benchmark that replays Denver-area cases, scores provenance completeness, and tests conflict handling across trusted and lower-trust sources.',
-    proof: '25-case fixture plus BENCH-026 trust-precedence conflict coverage now validate source ranking, replay gates, and public-safe benchmark evidence.',
+    proof: 'Current 26-case replay evidence validates source ranking, replay gates, conflict handling, and public-safe benchmark reporting.',
     status: 'GeoAI benchmark proof',
     tags: ['GeoAI', 'Benchmarks', 'Provenance'],
     link: null,
@@ -208,8 +208,8 @@ const PROOF_POINTS = [
     label: 'public parcel records mapped into a live search product',
   },
   {
-    value: '786',
-    label: 'passing Git-Map tests around ArcGIS version-control workflows',
+    value: '791+',
+    label: 'Git-Map core tests around ArcGIS version-control workflows',
   },
   {
     value: '119',
