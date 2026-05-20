@@ -253,6 +253,13 @@ const CONTACT_PROMPTS = [
   'What a credible first proof should answer in 2-4 weeks',
 ]
 
+const CONTACT_AREAS = [
+  'ArcGIS workflow automation',
+  'GIS product or map proof',
+  'GeoAI benchmark / decision support',
+  'Agent ops and review gates',
+]
+
 const CONTACT_BRIEF_MAILTO = 'mailto:tr@ingramgeoai.com?subject=GIS%20/%20AI%20workflow%20brief&body=What%20workflow%20or%20decision%20needs%20to%20improve%3F%0A%0AWhat%20maps%2C%20data%20sources%2C%20tools%2C%20or%20users%20are%20involved%3F%0A%0AWhat%20would%20a%20credible%20first%20proof%20need%20to%20show%20in%202-4%20weeks%3F%0A%0ARelevant%20links%20or%20context%3A'
 
 const CONTACT_CALL_MAILTO = 'mailto:tr@ingramgeoai.com?subject=Consult%20call%20-%20GIS%20/%20AI%20workflow&body=I%27d%20like%20to%20talk%20about%20a%20GIS%20/%20AI%20workflow%20or%20product%20proof.%0A%0ABest%20times%3A%0A%0ATeam%20/%20organization%3A%0A%0AUseful%20context%20before%20the%20call%3A'
@@ -534,6 +541,14 @@ export default function App() {
                 <a className="btn btn-outline" href={CONTACT_CALL_MAILTO}>
                   REQUEST A CALL
                 </a>
+              </div>
+              <div className="contact-areas" aria-label="Common work areas">
+                <span className="contact-areas-label">Common starting points</span>
+                <div>
+                  {CONTACT_AREAS.map((area) => (
+                    <span key={area}>{area}</span>
+                  ))}
+                </div>
               </div>
               <div className="contact-intake" aria-label="Lead intake prompts">
                 <span className="contact-intake-label">Helpful context</span>
