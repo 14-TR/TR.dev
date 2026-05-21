@@ -506,6 +506,38 @@ button:focus-visible {
   margin-bottom: 1.25rem;
 }
 
+.contact-areas {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 680px;
+  margin-bottom: 1.35rem;
+}
+
+.contact-areas-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--amber);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.contact-areas div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.contact-areas div span {
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.03);
+  color: var(--steel-lt);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+  padding: 0.38rem 0.6rem;
+}
+
 .contact-intake {
   display: grid;
   gap: 0.55rem;

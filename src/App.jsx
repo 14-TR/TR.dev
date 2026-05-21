@@ -18,7 +18,7 @@ const PROJECTS = [
   {
     title: 'Git-Map',
     status: 'First-user proof',
-    description: 'Git-like version control for ArcGIS web maps with clone, pull, commit, branch, and merge workflows. Current branch carries 786 passing tests.',
+    description: 'Git-like version control for ArcGIS web maps with clone, pull, commit, branch, and merge workflows. Current proof collects 791 core tests.',
     tags: ['GIS', 'ArcGIS', 'Python'],
     link: 'https://github.com/14-TR/Git-Map',
   },
@@ -102,7 +102,7 @@ const CASE_STUDIES = [
     title: 'Git-Map',
     problem: 'ArcGIS web maps need reviewable history, branching, rollback, and safer trial workflows than the platform exposes by default.',
     artifact: 'A Git-like CLI for ArcGIS web maps with clone, pull, commit, branch, and merge workflows documented for first-user trials on disposable maps.',
-    proof: 'Current feature branch carries 786 passing tests plus strict docs-build coverage for the onboarding and trust path.',
+    proof: 'Current proof collects 791 core tests plus strict docs-build coverage for the onboarding and trust path.',
     status: 'First-user proof',
     tags: ['ArcGIS', 'CLI', 'Version Control'],
     link: 'https://github.com/14-TR/Git-Map',
@@ -122,7 +122,7 @@ const CASE_STUDIES = [
     title: 'Open World Model',
     problem: 'GeoAI systems need benchmarkable answers with source provenance, trust precedence, and visible uncertainty before anyone can rely on them.',
     artifact: 'A local geospatial reasoning benchmark that replays Denver-area cases, scores provenance completeness, and tests conflict handling across trusted and lower-trust sources.',
-    proof: '25-case fixture plus BENCH-026 trust-precedence conflict coverage now validate source ranking, replay gates, and public-safe benchmark evidence.',
+    proof: 'Current 26-case replay evidence validates source ranking, replay gates, conflict handling, and public-safe benchmark reporting.',
     status: 'GeoAI benchmark proof',
     tags: ['GeoAI', 'Benchmarks', 'Provenance'],
     link: null,
@@ -208,8 +208,8 @@ const PROOF_POINTS = [
     label: 'public parcel records mapped into a live search product',
   },
   {
-    value: '786',
-    label: 'passing Git-Map tests around ArcGIS version-control workflows',
+    value: '791+',
+    label: 'Git-Map core tests around ArcGIS version-control workflows',
   },
   {
     value: '119',
@@ -251,6 +251,13 @@ const CONTACT_PROMPTS = [
   'The workflow, decision, or handoff that is costing time now',
   'Current maps, data sources, tools, users, and constraints',
   'What a credible first proof should answer in 2-4 weeks',
+]
+
+const CONTACT_AREAS = [
+  'ArcGIS workflow automation',
+  'GIS product or map proof',
+  'GeoAI benchmark / decision support',
+  'Agent ops and review gates',
 ]
 
 const CONTACT_BRIEF_MAILTO = 'mailto:tr@ingramgeoai.com?subject=GIS%20/%20AI%20workflow%20brief&body=What%20workflow%20or%20decision%20needs%20to%20improve%3F%0A%0AWhat%20maps%2C%20data%20sources%2C%20tools%2C%20or%20users%20are%20involved%3F%0A%0AWhat%20would%20a%20credible%20first%20proof%20need%20to%20show%20in%202-4%20weeks%3F%0A%0ARelevant%20links%20or%20context%3A'
@@ -534,6 +541,14 @@ export default function App() {
                 <a className="btn btn-outline" href={CONTACT_CALL_MAILTO}>
                   REQUEST A CALL
                 </a>
+              </div>
+              <div className="contact-areas" aria-label="Common work areas">
+                <span className="contact-areas-label">Common starting points</span>
+                <div>
+                  {CONTACT_AREAS.map((area) => (
+                    <span key={area}>{area}</span>
+                  ))}
+                </div>
               </div>
               <div className="contact-intake" aria-label="Lead intake prompts">
                 <span className="contact-intake-label">Helpful context</span>
