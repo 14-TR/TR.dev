@@ -506,6 +506,54 @@ button:focus-visible {
   margin-bottom: 1.25rem;
 }
 
+.contact-next {
+  max-width: 760px;
+  margin-bottom: 1.35rem;
+  border: 1px solid rgba(245,158,11,0.18);
+  background: rgba(20,20,20,0.56);
+}
+
+.contact-next-label {
+  display: block;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  padding: 0.85rem 1rem;
+  text-transform: uppercase;
+}
+
+.contact-next-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.contact-next article {
+  min-width: 0;
+  padding: 1rem;
+}
+
+.contact-next article + article {
+  border-left: 1px solid rgba(255,255,255,0.08);
+}
+
+.contact-next h3 {
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+  margin-bottom: 0.45rem;
+  text-transform: uppercase;
+}
+
+.contact-next p {
+  color: var(--steel-lt);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
 .contact-areas {
   display: grid;
   gap: 0.65rem;
@@ -1116,6 +1164,13 @@ button:focus-visible {
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
+  }
+  .contact-next-grid {
+    grid-template-columns: 1fr;
+  }
+  .contact-next article + article {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    border-left: 0;
   }
   .proof-item {
     grid-template-columns: 1fr;
