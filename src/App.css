@@ -812,6 +812,92 @@ button:focus-visible {
   line-height: 1.55;
 }
 
+/* ─── STARTER PACKAGES ─────────────────────────────────────────────────── */
+.section-proof-packages {
+  background:
+    linear-gradient(180deg, rgba(245,158,11,0.055), transparent 38%),
+    var(--bg-mid);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.proof-packages-header {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(280px, 0.78fr);
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 2.5rem;
+}
+
+.proof-packages-sub {
+  max-width: 520px;
+  margin-bottom: 0;
+}
+
+.proof-package-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.proof-package-card {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 3px solid var(--amber);
+  background: rgba(10,10,10,0.68);
+  padding: 1.35rem;
+}
+
+.proof-package-card h3 {
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 0.94rem;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.proof-package-card dl {
+  display: grid;
+  gap: 0.95rem;
+  margin-bottom: 1.25rem;
+}
+
+.proof-package-card dt {
+  margin-bottom: 0.25rem;
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.proof-package-card dd {
+  color: var(--steel-lt);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.proof-package-link {
+  width: fit-content;
+  margin-top: auto;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  padding-top: 0.85rem;
+  text-transform: uppercase;
+}
+
+.proof-package-link:hover,
+.proof-package-link:focus-visible {
+  color: #fbbf24;
+}
+
 /* ─── PROOF SPRINT ─────────────────────────────────────────────────────── */
 .section-proof-sprint {
   background:
@@ -1142,6 +1228,7 @@ button:focus-visible {
   .case-grid,
   .projects-grid,
   .engagement-grid,
+  .proof-package-grid,
   .fit-check-grid,
   .articles-grid {
     grid-template-columns: 1fr;
@@ -1214,6 +1301,11 @@ button:focus-visible {
   }
   .proof-loop-step {
     width: 4rem;
+  }
+  .proof-packages-header {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    margin-bottom: 1.75rem;
   }
   .fit-check-header {
     grid-template-columns: 1fr;
