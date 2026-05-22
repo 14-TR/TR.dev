@@ -18,7 +18,7 @@ const PROJECTS = [
   {
     title: 'Git-Map',
     status: 'First-user proof',
-    description: 'Git-like version control for ArcGIS web maps with clone, pull, commit, branch, and merge workflows. Current proof collects 791 core tests.',
+    description: 'Git-like version control for ArcGIS web maps with clone, pull, commit, branch, and merge workflows. Current proof collects 794 core tests.',
     tags: ['GIS', 'ArcGIS', 'Python'],
     link: 'https://github.com/14-TR/Git-Map',
   },
@@ -102,7 +102,7 @@ const CASE_STUDIES = [
     title: 'Git-Map',
     problem: 'ArcGIS web maps need reviewable history, branching, rollback, and safer trial workflows than the platform exposes by default.',
     artifact: 'A Git-like CLI for ArcGIS web maps with clone, pull, commit, branch, and merge workflows documented for first-user trials on disposable maps.',
-    proof: 'Current proof collects 791 core tests plus strict docs-build coverage for the onboarding and trust path.',
+    proof: 'Current proof collects 794 core tests plus strict docs-build coverage for the onboarding and trust path.',
     status: 'First-user proof',
     tags: ['ArcGIS', 'CLI', 'Version Control'],
     link: 'https://github.com/14-TR/Git-Map',
@@ -229,7 +229,7 @@ const PROOF_POINTS = [
     label: 'public parcel records mapped into a live search product',
   },
   {
-    value: '791+',
+    value: '794+',
     label: 'Git-Map core tests around ArcGIS version-control workflows',
   },
   {
