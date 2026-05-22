@@ -18,7 +18,7 @@ const PROJECTS = [
   {
     title: 'Git-Map',
     status: 'First-user proof',
-    description: 'Git-like version control for ArcGIS web maps with clone, pull, commit, branch, and merge workflows. Current proof collects 791 core tests.',
+    description: 'Git-like version control for ArcGIS web maps with clone, pull, commit, branch, and merge workflows. Current proof collects 794 core tests.',
     tags: ['GIS', 'ArcGIS', 'Python'],
     link: 'https://github.com/14-TR/Git-Map',
   },
@@ -102,7 +102,7 @@ const CASE_STUDIES = [
     title: 'Git-Map',
     problem: 'ArcGIS web maps need reviewable history, branching, rollback, and safer trial workflows than the platform exposes by default.',
     artifact: 'A Git-like CLI for ArcGIS web maps with clone, pull, commit, branch, and merge workflows documented for first-user trials on disposable maps.',
-    proof: 'Current proof collects 791 core tests plus strict docs-build coverage for the onboarding and trust path.',
+    proof: 'Current proof collects 794 core tests plus strict docs-build coverage for the onboarding and trust path.',
     status: 'First-user proof',
     tags: ['ArcGIS', 'CLI', 'Version Control'],
     link: 'https://github.com/14-TR/Git-Map',
@@ -179,6 +179,27 @@ const ENGAGEMENT_PATHS = [
   },
 ]
 
+const STARTER_PROOF_PACKAGES = [
+  {
+    title: 'Parcel / Spatial Data Product Audit',
+    audience: 'For operators with spatial data, map viewers, customer questions, or export workflows that need to become a clearer product surface.',
+    proof: 'A short product-readiness pass: source inventory, user task, trust gaps, first demo surface, and the one metric that proves whether the idea deserves hardening.',
+    decision: 'Ship a focused prototype, pause until data/access is cleaner, or turn the highest-friction step into an automation slice.',
+  },
+  {
+    title: 'ArcGIS Workflow Proof',
+    audience: 'For GIS teams repeating the same AGOL, Portal, map-update, reporting, or QA handoff steps by hand.',
+    proof: 'A narrow local build around one real workflow, with before/after steps, failure modes, and the exact human review gate before production use.',
+    decision: 'Automate the step, document a safer manual path, or define the next integration needed for a deployable tool.',
+  },
+  {
+    title: 'Agent Ops Review Loop',
+    audience: 'For teams trying AI agents but missing durable tasks, blockers, evidence, and review points.',
+    proof: 'A lightweight operating loop that turns work into issues, artifacts, verification notes, and approval gates instead of losing decisions in chat.',
+    decision: 'Keep the loop private, expand to a project pod, or stop before autonomy adds more risk than leverage.',
+  },
+]
+
 const PROOF_SPRINT_STEPS = [
   {
     step: '01',
@@ -208,7 +229,7 @@ const PROOF_POINTS = [
     label: 'public parcel records mapped into a live search product',
   },
   {
-    value: '791+',
+    value: '794+',
     label: 'Git-Map core tests around ArcGIS version-control workflows',
   },
   {
@@ -472,6 +493,46 @@ export default function App() {
                       <dd>{path.outcome}</dd>
                     </div>
                   </dl>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── STARTER PACKAGES ── */}
+        <section className="section section-proof-packages" id="starter-packages">
+          <div className="container">
+            <div className="proof-packages-header">
+              <div>
+                <div className="section-label">// STARTER PACKAGES</div>
+                <h2 className="section-title">Pick the first proof by decision, not by feature list.</h2>
+              </div>
+              <p className="section-sub proof-packages-sub">
+                These are small, reviewable starting points for turning GIS / AI ambiguity into a scoped build decision.
+              </p>
+            </div>
+
+            <div className="proof-package-grid">
+              {STARTER_PROOF_PACKAGES.map((pkg) => (
+                <article className="proof-package-card" key={pkg.title}>
+                  <h3>{pkg.title}</h3>
+                  <dl>
+                    <div>
+                      <dt>Best for</dt>
+                      <dd>{pkg.audience}</dd>
+                    </div>
+                    <div>
+                      <dt>First proof</dt>
+                      <dd>{pkg.proof}</dd>
+                    </div>
+                    <div>
+                      <dt>Decision left behind</dt>
+                      <dd>{pkg.decision}</dd>
+                    </div>
+                  </dl>
+                  <a className="proof-package-link" href="#contact">
+                    Start from rough context
+                  </a>
                 </article>
               ))}
             </div>
