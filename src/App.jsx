@@ -6,6 +6,7 @@ import './App.css'
 
 const HeroCanvas = lazy(() => import('./components/HeroCanvas'))
 const CodeGraphBg = lazy(() => import('./components/CodeGraphBg'))
+const CartographicProductShowcase = lazy(() => import('./components/CartographicProductShowcase'))
 
 const PROJECTS = [
   {
@@ -448,6 +449,10 @@ export default function App() {
             </div>
           </div>
         </section>
+
+        <Suspense fallback={null}>
+          <CartographicProductShowcase />
+        </Suspense>
 
         {/* ── PROJECTS ── */}
         <section className="section section-project-index" id="project-index">
