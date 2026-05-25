@@ -297,7 +297,32 @@ const CONTACT_NEXT_STEPS = [
   },
 ]
 
-const CONTACT_BRIEF_MAILTO = 'mailto:tr@ingramgeoai.com?subject=GIS%20/%20AI%20workflow%20brief&body=What%20workflow%20or%20decision%20needs%20to%20improve%3F%0A%0AWhat%20maps%2C%20data%20sources%2C%20tools%2C%20or%20users%20are%20involved%3F%0A%0AWhat%20would%20a%20credible%20first%20proof%20need%20to%20show%20in%202-4%20weeks%3F%0A%0ARelevant%20links%20or%20context%3A'
+const CONTACT_BRIEF_FIELDS = [
+  {
+    label: 'Workflow',
+    prompt: 'What process, map, report, or handoff is slowing down the team?',
+  },
+  {
+    label: 'Decision',
+    prompt: 'What should a first proof help someone decide?',
+  },
+  {
+    label: 'Sources',
+    prompt: 'Which maps, data systems, screenshots, users, or constraints matter?',
+  },
+  {
+    label: 'Proof',
+    prompt: 'What would make the output credible enough to keep building?',
+  },
+]
+
+const CONTACT_QUALIFIERS = [
+  'A real operator can review the output',
+  'The data path is available or can be inspected',
+  'A narrow 2-4 week proof would change the next decision',
+]
+
+const CONTACT_BRIEF_MAILTO = 'mailto:tr@ingramgeoai.com?subject=GIS%20/%20AI%20workflow%20brief&body=Workflow%3A%0AWhat%20process%2C%20map%2C%20report%2C%20or%20handoff%20is%20slowing%20down%20the%20team%3F%0A%0ADecision%3A%0AWhat%20should%20a%20first%20proof%20help%20someone%20decide%3F%0A%0ASources%3A%0AWhich%20maps%2C%20data%20systems%2C%20screenshots%2C%20users%2C%20or%20constraints%20matter%3F%0A%0AProof%3A%0AWhat%20would%20make%20the%20output%20credible%20enough%20to%20keep%20building%3F%0A%0ALinks%20or%20context%3A'
 
 const CONTACT_CALL_MAILTO = 'mailto:tr@ingramgeoai.com?subject=Consult%20call%20-%20GIS%20/%20AI%20workflow&body=I%27d%20like%20to%20talk%20about%20a%20GIS%20/%20AI%20workflow%20or%20product%20proof.%0A%0ABest%20times%3A%0A%0ATeam%20/%20organization%3A%0A%0AUseful%20context%20before%20the%20call%3A'
 
@@ -615,6 +640,11 @@ export default function App() {
               <p className="section-sub contact-sub">
                 Best fit: parcel intelligence, ArcGIS workflow automation, GeoAI proof builds, and team-facing decision-support tools that need to move from messy process to working software.
               </p>
+              <div className="contact-fit-strip" aria-label="Good fit signals">
+                {CONTACT_QUALIFIERS.map((qualifier) => (
+                  <span key={qualifier}>{qualifier}</span>
+                ))}
+              </div>
               <div className="contact-actions">
                 <a className="btn btn-primary" href={CONTACT_BRIEF_MAILTO}>
                   EMAIL A BRIEF
@@ -653,17 +683,34 @@ export default function App() {
               </p>
             </div>
 
-            <div className="proof-panel" aria-label="Selected proof metrics">
-              <div className="proof-panel-header">
-                <span>Selected proof</span>
-                <strong>Built systems, not slideware.</strong>
-              </div>
-              {PROOF_POINTS.map((point) => (
-                <div className="proof-item" key={point.value}>
-                  <span className="proof-value">{point.value}</span>
-                  <span className="proof-label">{point.label}</span>
+            <div className="contact-side">
+              <div className="brief-panel" aria-label="Brief template">
+                <div className="brief-panel-header">
+                  <span>Brief template</span>
+                  <strong>Four answers are enough to scope the first useful proof.</strong>
                 </div>
-              ))}
+                <dl className="brief-field-list">
+                  {CONTACT_BRIEF_FIELDS.map((field) => (
+                    <div key={field.label}>
+                      <dt>{field.label}</dt>
+                      <dd>{field.prompt}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+
+              <div className="proof-panel" aria-label="Selected proof metrics">
+                <div className="proof-panel-header">
+                  <span>Selected proof</span>
+                  <strong>Built systems, not slideware.</strong>
+                </div>
+                {PROOF_POINTS.map((point) => (
+                  <div className="proof-item" key={point.value}>
+                    <span className="proof-value">{point.value}</span>
+                    <span className="proof-label">{point.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
