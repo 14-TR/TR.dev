@@ -6,7 +6,6 @@ import './App.css'
 
 const HeroCanvas = lazy(() => import('./components/HeroCanvas'))
 const CodeGraphBg = lazy(() => import('./components/CodeGraphBg'))
-const CartographicProductShowcase = lazy(() => import('./components/CartographicProductShowcase'))
 
 const PROJECTS = [
   {
@@ -186,18 +185,24 @@ const STARTER_PROOF_PACKAGES = [
     audience: 'For operators with spatial data, map viewers, customer questions, or export workflows that need to become a clearer product surface.',
     proof: 'A short product-readiness pass: source inventory, user task, trust gaps, first demo surface, and the one metric that proves whether the idea deserves hardening.',
     decision: 'Ship a focused prototype, pause until data/access is cleaner, or turn the highest-friction step into an automation slice.',
+    inquiryLabel: 'Email this audit brief',
+    inquirySubject: 'Parcel / spatial data product audit',
   },
   {
     title: 'ArcGIS Workflow Proof',
     audience: 'For GIS teams repeating the same AGOL, Portal, map-update, reporting, or QA handoff steps by hand.',
     proof: 'A narrow local build around one real workflow, with before/after steps, failure modes, and the exact human review gate before production use.',
     decision: 'Automate the step, document a safer manual path, or define the next integration needed for a deployable tool.',
+    inquiryLabel: 'Email this workflow brief',
+    inquirySubject: 'ArcGIS workflow proof',
   },
   {
     title: 'Agent Ops Review Loop',
     audience: 'For teams trying AI agents but missing durable tasks, blockers, evidence, and review points.',
     proof: 'A lightweight operating loop that turns work into issues, artifacts, verification notes, and approval gates instead of losing decisions in chat.',
     decision: 'Keep the loop private, expand to a project pod, or stop before autonomy adds more risk than leverage.',
+    inquiryLabel: 'Email this ops brief',
+    inquirySubject: 'Agent ops review loop',
   },
 ]
 
@@ -331,6 +336,15 @@ const FOOTER_LINKS = [
   { label: 'LinkedIn', href: 'https://linkedin.com/in/tr-ingram', external: true },
   { label: 'Email', href: 'mailto:tr@ingramgeoai.com' },
 ]
+
+function createPackageInquiryMailto(title) {
+  const subject = encodeURIComponent(`${title} inquiry`)
+  const body = encodeURIComponent(
+    `${title}\n\nWorkflow or decision:\n\nCurrent tools, maps, data sources, or users involved:\n\nWhat a credible first proof should answer in 2-4 weeks:\n\nRelevant links or context:\n`
+  )
+
+  return `mailto:tr@ingramgeoai.com?subject=${subject}&body=${body}`
+}
 
 export default function App() {
   const [articles, setArticles] = useState([])
@@ -475,10 +489,6 @@ export default function App() {
           </div>
         </section>
 
-        <Suspense fallback={null}>
-          <CartographicProductShowcase />
-        </Suspense>
-
         {/* ── PROJECTS ── */}
         <section className="section section-project-index" id="project-index">
           <div className="container">
@@ -560,8 +570,11 @@ export default function App() {
                       <dd>{pkg.decision}</dd>
                     </div>
                   </dl>
-                  <a className="proof-package-link" href="#contact">
-                    Start from rough context
+                  <a
+                    className="proof-package-link"
+                    href={createPackageInquiryMailto(pkg.inquirySubject)}
+                  >
+                    {pkg.inquiryLabel}
                   </a>
                 </article>
               ))}
