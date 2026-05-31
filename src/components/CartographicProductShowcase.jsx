@@ -27,16 +27,16 @@ const CAMERA_PRESETS = {
 
 const PRODUCT_MODULES = [
   {
-    title: 'ParcelScene',
-    summary: '3D property intelligence with parcel boundaries, constraint overlays, measured callouts, and report-ready views.',
+    title: 'LiDAR Parcel Scene',
+    summary: 'LiDAR-informed parcel review with terrain, boundary context, measured callouts, and report-ready spatial proof.',
   },
   {
-    title: 'TerrainLens',
-    summary: 'Terrain, slope, contour, and access surfaces for site planning, routing, wildfire, hydrology, and due diligence.',
+    title: 'Point Cloud To Terrain',
+    summary: 'Point-cloud and elevation surfaces translated into slope, contour, access, and site-readiness views for fast due diligence.',
   },
   {
-    title: 'GeoAI Evidence Board',
-    summary: 'Map outputs with confidence, source lineage, review status, and visible uncertainty instead of black-box magic.',
+    title: 'Scan Evidence Board',
+    summary: 'LiDAR outputs with source lineage, review state, and visible uncertainty instead of a black-box 3D render.',
   },
 ]
 
@@ -242,10 +242,10 @@ export default function CartographicProductShowcase() {
       <div className="container">
         <div className="carto-layout">
           <div className="carto-copy">
-            <div className="section-label">// 3D CARTOGRAPHIC PRODUCTS</div>
-            <h2 className="section-title">Sharp spatial products for decisions about real places.</h2>
+            <div className="section-label">// LIDAR SHOWCASE</div>
+            <h2 className="section-title">LiDAR proof surfaces for decisions about real places.</h2>
             <p className="section-sub carto-sub">
-              A first proof should feel like a serious geospatial instrument: terrain, parcels, constraints, evidence, and report-ready views in one inspectable surface.
+              The right first impression is not generic 3D. It is a LiDAR-informed surface that turns terrain, parcels, scan detail, and site constraints into something inspectable and decision-ready.
             </p>
             <div className="carto-module-list" aria-label="3D cartographic product modules">
               {PRODUCT_MODULES.map((module) => (
@@ -256,11 +256,11 @@ export default function CartographicProductShowcase() {
               ))}
             </div>
             <a className="btn btn-outline carto-cta" href="#contact">
-              SCOPE A 3D MAP PROOF
+              SCOPE A LIDAR PROOF
             </a>
           </div>
 
-          <div className="carto-showcase" aria-label="Interactive 3D parcel and terrain proof">
+          <div className="carto-showcase" aria-label="Interactive LiDAR parcel and terrain proof">
             <div className="carto-toolbar" aria-label="Map camera presets">
               {Object.entries(CAMERA_PRESETS).map(([key, preset]) => (
                 <button
@@ -285,26 +285,26 @@ export default function CartographicProductShowcase() {
                 <ShowcaseFallback />
               )}
               <div className="carto-map-label carto-map-label-primary">
-                <span>Parcel boundary</span>
-                <strong>18.7 ac review area</strong>
+                <span>LiDAR capture</span>
+                <strong>18.7 ac terrain + parcel review</strong>
               </div>
               <div className="carto-map-label carto-map-label-secondary">
                 <span>Constraint stack</span>
-                <strong>access · slope · water</strong>
+                <strong>slope · access · drainage</strong>
               </div>
             </div>
             <div className="carto-readout">
               <div>
                 <span>Output</span>
-                <strong>reviewable 3D site brief</strong>
+                <strong>reviewable LiDAR site brief</strong>
               </div>
               <div>
                 <span>Proof</span>
-                <strong>map view → insight → report</strong>
+                <strong>scan → terrain → decision</strong>
               </div>
               <div>
                 <span>Data path</span>
-                <strong>static demo now, real sources later</strong>
+                <strong>capture, clean, model, communicate</strong>
               </div>
             </div>
           </div>
