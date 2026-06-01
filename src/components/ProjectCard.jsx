@@ -51,7 +51,7 @@ export default function ProjectCard({
       href={link}
       className={`project-card ${isCase ? 'case-study-card' : ''}`}
       target="_blank"
-      rel="noopener noreferrer"
+      rel="noreferrer"
       aria-label={`${title} ${isCase ? 'case study proof link' : 'project link'}`}
     >
       {body}
