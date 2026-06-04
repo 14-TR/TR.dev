@@ -18,12 +18,12 @@ export default function ProjectCard({
         <h3 className="project-title">{title}</h3>
         {isCase ? (
           <div className="case-study-details">
-            <p><span>Problem</span>{problem}</p>
-            <p><span>Shipped artifact</span>{artifact}</p>
-            <p><span>Proof metric / status</span>{proof}</p>
+            <p><span>What it is</span>{problem}</p>
+            <p><span>My role</span>{artifact}</p>
+            <p><span>Result</span>{proof}</p>
             <div className="case-study-footer">
               <span className="case-study-status">{status}</span>
-              {link && <span className="case-study-link">{linkLabel || 'View proof'}</span>}
+              {link && <span className="case-study-link">{linkLabel || 'View project'}</span>}
             </div>
           </div>
         ) : (
@@ -52,7 +52,7 @@ export default function ProjectCard({
       className={`project-card ${isCase ? 'case-study-card' : ''}`}
       target="_blank"
       rel="noreferrer"
-      aria-label={`${title} ${isCase ? 'case study proof link' : 'project link'}`}
+      aria-label={`${title} ${isCase ? 'selected work link' : 'project link'}`}
     >
       {body}
     </a>

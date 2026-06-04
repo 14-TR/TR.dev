@@ -67,10 +67,19 @@ tags: [tag1, tag2, tag3]
 - [ ] Links work (internal references, external resources)
 - [ ] Images optimized (if any)
 - [ ] SEO: clear title, first paragraph hooks readers
+- [ ] Content does not mention Barkie, Granite, private client repositories, NDA-bound work, or protected implementation details
 - [ ] Build site: `npm run build`
 - [ ] Test locally: `npm run preview`
 - [ ] Deploy: `git push origin main` (auto-deploys via GitHub Pages)
 - [ ] Share on socials (LinkedIn, X)
+
+## Public Content Boundary
+
+Articles may cover public GIS, ArcGIS, parcel, and engineering-process lessons.
+They must not cover Barkie, Granite, client NDA work, private repositories, or
+protected implementation details. If a weekly build log is mostly about blocked
+subjects, publish a general process note that omits names, repo details, and
+client/product specifics.
 
 ## Archive
 

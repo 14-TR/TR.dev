@@ -1,25 +1,34 @@
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useMemo, useRef, useState } from 'react'
+import { useGLTF } from '@react-three/drei'
+import { Suspense, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 
-const CAMERA_PRESETS = {
-  site: {
-    label: 'Site',
+const SURFACE_VIEWS = {
+  elevation: {
+    label: 'Elevation',
+    metric: 'colored by height',
+    readout: 'low - high terrain',
     position: [4.6, 3.1, 5.6],
     target: [0.1, 0, 0.15],
   },
-  access: {
-    label: 'Access',
+  slope: {
+    label: 'Slope',
+    metric: 'steepness response',
+    readout: 'flat - steep surface',
     position: [1.2, 5.4, 4.4],
     target: [-0.45, 0, 0.2],
   },
-  risk: {
-    label: 'Risk',
+  aspect: {
+    label: 'Aspect',
+    metric: 'surface direction',
+    readout: 'north/east/south/west',
     position: [-4.8, 3.8, 3.6],
     target: [0.25, 0.05, -0.2],
   },
-  report: {
-    label: 'Report',
+  relief: {
+    label: 'Relief',
+    metric: 'shaded terrain',
+    readout: 'hillshade + elevation',
     position: [0, 7.2, 0.01],
     target: [0, 0, 0],
   },
@@ -27,18 +36,20 @@ const CAMERA_PRESETS = {
 
 const PRODUCT_MODULES = [
   {
-    title: 'LiDAR Parcel Scene',
-    summary: 'LiDAR-informed parcel review with terrain, boundary context, measured callouts, and report-ready spatial proof.',
+    title: 'Filament-Ready Terrain GLB',
+    summary: 'A real LiDAR-derived GLB terrain asset rendered as a clean inspection surface.',
   },
   {
-    title: 'Point Cloud To Terrain',
-    summary: 'Point-cloud and elevation surfaces translated into slope, contour, access, and site-readiness views for fast due diligence.',
+    title: 'Surface Symbology',
+    summary: 'The same mesh can be viewed as elevation, slope, aspect, or shaded relief.',
   },
   {
-    title: 'Scan Evidence Board',
-    summary: 'LiDAR outputs with source lineage, review state, and visible uncertainty instead of a black-box 3D render.',
+    title: 'Native 3D Ready',
+    summary: 'GLB keeps the render artifact portable for a future Google Filament-style mobile surface.',
   },
 ]
+
+const TERRAIN_GLB_URL = '/models/lidar-terrain-demo.glb'
 
 function canUseWebGL() {
   if (typeof document === 'undefined') return false
@@ -51,151 +62,115 @@ function canUseWebGL() {
   }
 }
 
-function makeTerrainGeometry() {
-  const geometry = new THREE.PlaneGeometry(7.2, 4.8, 84, 56)
-  const positions = geometry.attributes.position
+function mixColor(stops, t) {
+  const nextT = THREE.MathUtils.clamp(t, 0, 0.9999)
+  const scaled = nextT * (stops.length - 1)
+  const index = Math.floor(scaled)
+  const localT = scaled - index
+  return new THREE.Color(stops[index]).lerp(new THREE.Color(stops[index + 1]), localT)
+}
 
-  for (let i = 0; i < positions.count; i += 1) {
-    const x = positions.getX(i)
-    const y = positions.getY(i)
-    const ridge = Math.sin(x * 1.15) * 0.22
-    const draw = Math.cos((x + y) * 1.55) * 0.12
-    const shoulder = Math.sin(y * 2.35) * 0.08
-    const basin = Math.max(0, 1.1 - Math.hypot(x + 1.8, y - 0.7)) * -0.18
-    positions.setZ(i, ridge + draw + shoulder + basin)
+function colorForVertex(mode, position, normal, bounds) {
+  const elevation = bounds.zRange === 0 ? 0 : (position.z - bounds.zMin) / bounds.zRange
+  const slope = THREE.MathUtils.clamp(1 - Math.abs(normal.z), 0, 1)
+  const aspect = (Math.atan2(normal.y, normal.x) + Math.PI) / (Math.PI * 2)
+
+  if (mode === 'slope') {
+    return mixColor(['#0f766e', '#84cc16', '#facc15', '#f97316', '#dc2626'], slope)
   }
 
+  if (mode === 'aspect') {
+    return mixColor(['#2563eb', '#06b6d4', '#22c55e', '#facc15', '#f97316', '#ef4444', '#a855f7', '#2563eb'], aspect)
+  }
+
+  if (mode === 'relief') {
+    const light = new THREE.Vector3(-0.42, -0.58, 0.7).normalize()
+    const shade = THREE.MathUtils.clamp(0.38 + normal.dot(light) * 0.62, 0.18, 1)
+    const base = mixColor(['#174f63', '#2f8f66', '#a3c957', '#f0c15b', '#d46a35'], elevation)
+    return base.multiplyScalar(shade)
+  }
+
+  return mixColor(['#1e3a8a', '#2563eb', '#06b6d4', '#34c759', '#facc15', '#f97316', '#dc2626'], elevation)
+}
+
+function applySurfaceSymbology(geometry, mode) {
+  const position = geometry.attributes.position
+  if (!position) return
+
   geometry.computeVertexNormals()
-  return geometry
+
+  const normal = geometry.attributes.normal
+  const colors = new Float32Array(position.count * 3)
+  const vertex = new THREE.Vector3()
+  const vertexNormal = new THREE.Vector3()
+  const bounds = {
+    zMin: Infinity,
+    zMax: -Infinity,
+    zRange: 0,
+  }
+
+  for (let i = 0; i < position.count; i += 1) {
+    const z = position.getZ(i)
+    bounds.zMin = Math.min(bounds.zMin, z)
+    bounds.zMax = Math.max(bounds.zMax, z)
+  }
+  bounds.zRange = bounds.zMax - bounds.zMin
+
+  for (let i = 0; i < position.count; i += 1) {
+    vertex.fromBufferAttribute(position, i)
+    vertexNormal.fromBufferAttribute(normal, i).normalize()
+    const color = colorForVertex(mode, vertex, vertexNormal, bounds)
+    colors[i * 3] = color.r
+    colors[i * 3 + 1] = color.g
+    colors[i * 3 + 2] = color.b
+  }
+
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+  geometry.attributes.color.needsUpdate = true
 }
 
-function TerrainSurface() {
-  const geometry = useMemo(() => makeTerrainGeometry(), [])
+function LidarTerrainModel({ mode }) {
+  const { scene } = useGLTF(TERRAIN_GLB_URL)
+
+  const model = useMemo(() => {
+    const clone = scene.clone(true)
+
+    clone.traverse((child) => {
+      if (!child.isMesh) return
+      child.geometry = child.geometry.clone()
+      applySurfaceSymbology(child.geometry, mode)
+      child.material = new THREE.MeshStandardMaterial({
+        vertexColors: true,
+        roughness: 0.84,
+        metalness: 0.03,
+        side: THREE.DoubleSide,
+      })
+      child.castShadow = false
+      child.receiveShadow = true
+    })
+
+    return clone
+  }, [mode, scene])
 
   return (
-    <mesh geometry={geometry} rotation={[-Math.PI / 2, 0, 0]}>
-      <meshStandardMaterial
-        color="#1d2a2c"
-        roughness={0.84}
-        metalness={0.08}
-        emissive="#0f1718"
-        emissiveIntensity={0.35}
-      />
-    </mesh>
+    <primitive
+      object={model}
+      rotation={[-Math.PI / 2, 0, Math.PI]}
+      scale={0.045}
+      position={[0, 0.02, 0]}
+    />
   )
 }
 
-function ParcelShape() {
-  const shape = useMemo(() => {
-    const parcel = new THREE.Shape()
-    parcel.moveTo(-1.45, -0.8)
-    parcel.lineTo(1.28, -1.02)
-    parcel.lineTo(1.78, 0.68)
-    parcel.lineTo(0.62, 1.12)
-    parcel.lineTo(-1.68, 0.72)
-    parcel.lineTo(-1.45, -0.8)
-    return parcel
-  }, [])
-
-  return (
-    <group rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.1, 0]}>
-      <mesh>
-        <shapeGeometry args={[shape]} />
-        <meshBasicMaterial color="#f59e0b" transparent opacity={0.16} side={THREE.DoubleSide} />
-      </mesh>
-      <line>
-        <bufferGeometry>
-          <bufferAttribute
-            attach="attributes-position"
-            count={6}
-            array={new Float32Array([
-              -1.45, -0.8, 0.04,
-              1.28, -1.02, 0.04,
-              1.78, 0.68, 0.04,
-              0.62, 1.12, 0.04,
-              -1.68, 0.72, 0.04,
-              -1.45, -0.8, 0.04,
-            ])}
-            itemSize={3}
-          />
-        </bufferGeometry>
-        <lineBasicMaterial color="#fbbf24" linewidth={2} />
-      </line>
-    </group>
-  )
-}
-
-function ConstraintLayers({ activePreset }) {
-  const showRisk = activePreset === 'risk' || activePreset === 'report'
-
-  return (
-    <group position={[0, 0.18, 0]}>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-1.7, 0, 0.35]}>
-        <circleGeometry args={[1.35, 64, 0.3, 4.2]} />
-        <meshBasicMaterial color="#38bdf8" transparent opacity={0.18} side={THREE.DoubleSide} />
-      </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[1.25, 0, -0.95]}>
-        <ringGeometry args={[0.62, 1.1, 64]} />
-        <meshBasicMaterial color={showRisk ? '#f97316' : '#f59e0b'} transparent opacity={showRisk ? 0.36 : 0.14} side={THREE.DoubleSide} />
-      </mesh>
-      <mesh rotation={[0, 0.35, 0]} position={[0.12, 0.16, -1.24]}>
-        <boxGeometry args={[4.7, 0.018, 0.09]} />
-        <meshBasicMaterial color="#e5e7eb" transparent opacity={0.72} />
-      </mesh>
-    </group>
-  )
-}
-
-function SiteMassing() {
-  return (
-    <group position={[0.18, 0.16, 0.03]}>
-      <mesh position={[0, 0.22, 0]}>
-        <boxGeometry args={[0.72, 0.44, 0.92]} />
-        <meshStandardMaterial color="#d7b56d" roughness={0.62} metalness={0.18} />
-      </mesh>
-      <mesh position={[0.58, 0.13, 0.42]}>
-        <boxGeometry args={[0.42, 0.26, 0.38]} />
-        <meshStandardMaterial color="#f0c77b" roughness={0.66} metalness={0.1} />
-      </mesh>
-      <mesh position={[-0.62, 0.1, -0.34]}>
-        <boxGeometry args={[0.36, 0.2, 0.48]} />
-        <meshStandardMaterial color="#f7d794" roughness={0.7} metalness={0.06} />
-      </mesh>
-    </group>
-  )
-}
-
-function Contours() {
-  const rings = useMemo(() => {
-    return Array.from({ length: 10 }, (_, index) => ({
-      scale: 1 + index * 0.22,
-      x: Math.sin(index * 1.7) * 0.24,
-      z: Math.cos(index * 1.1) * 0.16,
-      opacity: 0.28 - index * 0.016,
-    }))
-  }, [])
-
-  return (
-    <group>
-      {rings.map((ring) => (
-        <mesh key={ring.scale} rotation={[-Math.PI / 2, 0, 0]} position={[ring.x, 0.215, ring.z]}>
-          <ringGeometry args={[ring.scale, ring.scale + 0.008, 96]} />
-          <meshBasicMaterial color="#f59e0b" transparent opacity={Math.max(0.08, ring.opacity)} side={THREE.DoubleSide} />
-        </mesh>
-      ))}
-    </group>
-  )
-}
-
-function CartographicScene({ activePreset }) {
+function CartographicScene({ activeMode }) {
   const groupRef = useRef()
   const cameraTarget = useRef(new THREE.Vector3())
   const reduceMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
   useFrame(({ camera }) => {
-    const preset = CAMERA_PRESETS[activePreset] || CAMERA_PRESETS.site
-    const targetPosition = new THREE.Vector3(...preset.position)
-    const targetLookAt = new THREE.Vector3(...preset.target)
+    const view = SURFACE_VIEWS[activeMode] || SURFACE_VIEWS.elevation
+    const targetPosition = new THREE.Vector3(...view.position)
+    const targetLookAt = new THREE.Vector3(...view.target)
 
     camera.position.lerp(targetPosition, reduceMotion ? 1 : 0.045)
     cameraTarget.current.lerp(targetLookAt, reduceMotion ? 1 : 0.07)
@@ -211,15 +186,14 @@ function CartographicScene({ activePreset }) {
       <ambientLight intensity={0.42} />
       <directionalLight position={[4, 7, 4]} intensity={1.35} color="#f8e1ad" />
       <pointLight position={[-4, 3, -3]} intensity={0.55} color="#38bdf8" />
-      <TerrainSurface />
-      <Contours />
-      <ParcelShape />
-      <ConstraintLayers activePreset={activePreset} />
-      <SiteMassing />
-      <gridHelper args={[7.2, 12, '#7a8493', '#242424']} position={[0, 0.02, 0]} />
+      <Suspense fallback={null}>
+        <LidarTerrainModel mode={activeMode} />
+      </Suspense>
     </group>
   )
 }
+
+useGLTF.preload(TERRAIN_GLB_URL)
 
 function ShowcaseFallback() {
   return (
@@ -234,8 +208,9 @@ function ShowcaseFallback() {
 }
 
 export default function CartographicProductShowcase() {
-  const [activePreset, setActivePreset] = useState('site')
+  const [activeMode, setActiveMode] = useState('elevation')
   const webglAvailable = useMemo(() => canUseWebGL(), [])
+  const activeView = SURFACE_VIEWS[activeMode]
 
   return (
     <section className="section section-cartographic-products" id="cartographic-products">
@@ -243,9 +218,9 @@ export default function CartographicProductShowcase() {
         <div className="carto-layout">
           <div className="carto-copy">
             <div className="section-label">// LIDAR SHOWCASE</div>
-            <h2 className="section-title">LiDAR proof surfaces for decisions about real places.</h2>
+            <h2 className="section-title">Filament-ready 3D LiDAR terrain demo.</h2>
             <p className="section-sub carto-sub">
-              The right first impression is not generic 3D. It is a LiDAR-informed surface that turns terrain, parcels, scan detail, and site constraints into something inspectable and decision-ready.
+              A real LiDAR-derived GLB terrain asset shown in the web preview and shaped for a native Google Filament-style analysis surface. Each view changes both the inspection angle and the surface symbology.
             </p>
             <div className="carto-module-list" aria-label="3D cartographic product modules">
               {PRODUCT_MODULES.map((module) => (
@@ -256,55 +231,55 @@ export default function CartographicProductShowcase() {
               ))}
             </div>
             <a className="btn btn-outline carto-cta" href="#contact">
-              SCOPE A LIDAR PROOF
+              DISCUSS 3D GEOSPATIAL UI
             </a>
           </div>
 
-          <div className="carto-showcase" aria-label="Interactive LiDAR parcel and terrain proof">
-            <div className="carto-toolbar" aria-label="Map camera presets">
-              {Object.entries(CAMERA_PRESETS).map(([key, preset]) => (
+          <div className="carto-showcase" aria-label="Interactive Filament-ready LiDAR terrain GLB demo">
+            <div className="carto-toolbar" aria-label="Surface symbology and camera presets">
+              {Object.entries(SURFACE_VIEWS).map(([key, view]) => (
                 <button
-                  className={activePreset === key ? 'active' : ''}
+                  className={activeMode === key ? 'active' : ''}
                   key={key}
                   type="button"
-                  onClick={() => setActivePreset(key)}
+                  onClick={() => setActiveMode(key)}
                 >
-                  {preset.label}
+                  {view.label}
                 </button>
               ))}
             </div>
             <div className="carto-canvas-wrap">
               {webglAvailable ? (
                 <Canvas
-                  camera={{ position: CAMERA_PRESETS.site.position, fov: 43, near: 0.1, far: 100 }}
+                  camera={{ position: SURFACE_VIEWS.elevation.position, fov: 43, near: 0.1, far: 100 }}
                   gl={{ antialias: true, alpha: true }}
                 >
-                  <CartographicScene activePreset={activePreset} />
+                  <CartographicScene activeMode={activeMode} />
                 </Canvas>
               ) : (
                 <ShowcaseFallback />
               )}
               <div className="carto-map-label carto-map-label-primary">
-                <span>LiDAR capture</span>
-                <strong>18.7 ac terrain + parcel review</strong>
+                <span>Terrain GLB</span>
+                <strong>17K vertices · 33K faces</strong>
               </div>
               <div className="carto-map-label carto-map-label-secondary">
-                <span>Constraint stack</span>
-                <strong>slope · access · drainage</strong>
+                <span>Active view</span>
+                <strong>{activeView.metric}</strong>
               </div>
             </div>
             <div className="carto-readout">
               <div>
-                <span>Output</span>
-                <strong>reviewable LiDAR site brief</strong>
+                <span>Mode</span>
+                <strong>{activeView.label}</strong>
               </div>
               <div>
-                <span>Proof</span>
-                <strong>scan → terrain → decision</strong>
+                <span>Symbology</span>
+                <strong>{activeView.readout}</strong>
               </div>
               <div>
-                <span>Data path</span>
-                <strong>capture, clean, model, communicate</strong>
+                <span>Asset</span>
+                <strong>LiDAR, color ramp, GLB, viewer</strong>
               </div>
             </div>
           </div>

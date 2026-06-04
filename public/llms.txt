@@ -1,45 +1,36 @@
 # TR Ingram
 
-> GIS / GeoAI systems builder for teams that need spatial workflows, maps, data products, and AI-assisted operations to become working software.
+> Software engineer and GIS professional with 4+ years designing and delivering spatial applications, responsive user interfaces, automation workflows, and ArcGIS-based solution delivery.
 
 Official site: https://ingramgeoai.com/
 Contact: tr@ingramgeoai.com
-Primary CTA: Send a rough GIS / AI workflow brief or request a consult call.
+Location: Cheyenne, WY
+GitHub: 14-TR
 
-## What TR Builds
+## Professional Summary
 
-- GIS and GeoAI product proofs for maps, dashboards, parcel intelligence, and decision-support tools.
-- ArcGIS workflow automation for repeated AGOL, Portal, map-update, reporting, QA, and handoff steps.
-- Agent operations loops with durable tasks, memory, blockers, verification evidence, and human review gates.
-- 3D cartographic product surfaces for terrain, parcels, constraints, report views, and inspectable site decisions.
+TR Ingram works across JavaScript, TypeScript, Python, React, SQL, REST integration, and ArcGIS-based solution delivery, with a front-end focus on clarity, performance, and maintainability. Public work spans ArcGIS web map workflows, parcel mapping, graph-based dashboards, Python data pipelines, mobile geospatial UX, and decision-support interfaces.
 
-## Best-Fit Starting Points
+## Core Skills
 
-- A spatial workflow, dataset, map viewer, report, or handoff is repeated often enough that friction compounds.
-- A reviewer can inspect a narrow prototype and say what would make it trustworthy.
-- The useful output is a scoped build, pause, or hardening decision rather than an open-ended strategy deck.
+- JavaScript, TypeScript, Python, SQL
+- React, React Native / Expo, HTML, CSS, responsive UI design
+- REST APIs, front-end integration patterns, application architecture
+- Mobile geospatial UX, GPS workflows, Mapbox-based map interfaces, GeoJSON/vector map layers
+- ArcGIS Maps SDK for JavaScript, ArcGIS API for Python, ArcPy, ArcGIS Enterprise, ArcGIS Online
+- ArcGIS Pro, Experience Builder, Calcite, Field Maps, Dashboards, StoryMaps
+- PostgreSQL, PostGIS, enterprise geodatabases, relationship classes, spatial data pipelines
+- Python automation, ETL, geoprocessing workflows
+- Git, CI/CD quality gates, peer review, Docker, Linux, cloud-native delivery
+- Agile delivery, cross-functional collaboration, stakeholder demos
 
-## Proof Surfaces
+## Selected Technical Highlights
 
-- ParcelIQ: live Laramie County parcel intelligence with 46,000+ public records, map search, value symbology, draw/query workflows, aerial context, and Pro-gated exports.
-- Git-Map: Git-like version control for ArcGIS web maps, including clone, pull, commit, branch, and merge workflows.
-- ProjectIQ / OpenClaw: local-first operations layer for AI-assisted project work with durable issues, memory, dashboards, and native tools.
-- Open World Model: geospatial reasoning benchmark focused on provenance, trust precedence, conflict handling, and visible uncertainty.
+- Git-Map: Git-like version control for ArcGIS web map configurations, including clone, branch, diff, merge, and push workflows.
+- ParcelIQ: parcel-focused web application with interactive ArcGIS web mapping, dynamic filtering, Cloudflare Workers, D1 search/export paths, and Python data pipelines.
+- ProjectIQ: React and TypeScript project intelligence dashboard with graph-aware project tracking and decision-support views.
+- Barkie: front-end and geospatial mobile engineering for a React Native / Expo golf GPS product. Public details are intentionally high-level for client confidentiality.
 
-## Engagement Packages
+## Writing
 
-- Parcel / Spatial Data Product Audit: source inventory, user task, trust gaps, first demo surface, and one metric that proves whether the idea deserves hardening.
-- ArcGIS Workflow Proof: narrow local build around one real workflow, before/after steps, failure modes, and a human review gate before production use.
-- Agent Ops Review Loop: lightweight operating loop that turns work into issues, artifacts, verification notes, and approval gates.
-
-## What To Send First
-
-- The workflow, decision, or handoff that is costing time now.
-- Current maps, data sources, tools, screenshots, users, and constraints.
-- What a credible first proof should answer in 2-4 weeks.
-
-## Boundaries
-
-- First proofs should be reviewable before public launch, paid plans, or production hardening.
-- Sensitive data, production deployment, public launch, outreach, and account changes require explicit human approval.
-- Static demos should be labeled as demos until connected to real approved data sources.
+Articles cover public GIS projects, ArcGIS workflows, spatial interfaces, and general software delivery lessons.

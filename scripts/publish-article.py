@@ -10,6 +10,7 @@ BUILD_LOG  = os.path.expanduser('~/Desktop/tr-jig/build-log/current-week.md')
 REPO       = '14-TR/TR.dev'
 ARTICLES_PATH = 'public/articles.json'
 GH_TOKEN_CMD  = ['gh', 'auth', 'token']
+BLOCKED_ARTICLE_TERMS = ('barkie', 'granite', 'narkie')
 
 def gh_token():
     return subprocess.check_output(GH_TOKEN_CMD).decode().strip()
@@ -35,6 +36,15 @@ def gh_put(path, content_str, sha, message, token):
     with urllib.request.urlopen(req) as r:
         return json.loads(r.read())
 
+def article_has_blocked_subject(article):
+    content = ' '.join([
+        str(article.get('title', '')),
+        str(article.get('excerpt', '')),
+        str(article.get('content', '')),
+        ' '.join(str(tag) for tag in article.get('tags', [])),
+    ]).lower()
+    return any(term in content for term in BLOCKED_ARTICLE_TERMS)
+
 def ai_format_article(log_content):
     now   = datetime.datetime.now()
     week  = now.strftime('Week %U')
@@ -47,6 +57,11 @@ Return ONLY valid JSON with these fields:
 - date: string (e.g. "{now.strftime('%b %d, %Y')}")
 - excerpt: string (2 sentences, engaging summary for the article card, ~150 chars)
 - tags: array of 3-4 relevant tags
+
+Do not write about Barkie, Granite, private client repositories, NDA-bound work,
+or protected implementation details. If the build log is mostly about those
+subjects, return a general public engineering-process article that omits names,
+repository details, implementation specifics, and client/product details.
 
 Build log:
 {log_content}
@@ -99,6 +114,9 @@ def main():
     try:
         article = ai_format_article(log_content)
         article['link'] = '#'
+        if article_has_blocked_subject(article):
+            print("Article references blocked Barkie/Granite/private subjects - skipping publish")
+            return
         print(f"Article: {article['title']}")
     except Exception as e:
         print(f"AI formatting failed: {e}")

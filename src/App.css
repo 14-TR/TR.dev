@@ -10,6 +10,7 @@
   --steel:    #7a8493;
   --steel-lt: #9ca3af;
   --white:    #f8f8f8;
+  --fg:       #f8f8f8;
   --border:   rgba(245,158,11,0.18);
   --border-hl:rgba(245,158,11,0.5);
   --mono:     ui-monospace, 'SFMono-Regular', 'SF Mono', Consolas, 'Liberation Mono', monospace;
@@ -694,6 +695,199 @@ button:focus-visible {
   border: 1px solid var(--border);
   padding: 0.2rem 0.55rem;
   letter-spacing: 0.05em;
+}
+
+/* ─── RESUME SECTIONS ───────────────────────────────────────────────────── */
+.section-resume-summary {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.025), transparent 42%),
+    var(--bg);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.resume-summary-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.resume-summary-panel p {
+  color: var(--steel-lt);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.resume-skill-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.resume-skill-item {
+  min-height: 100%;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-left: 3px solid var(--amber);
+  background: rgba(10,10,10,0.58);
+  color: var(--steel-lt);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  padding: 1rem 1.1rem;
+}
+
+.section-experience {
+  background:
+    linear-gradient(135deg, rgba(245,158,11,0.055), transparent 38%),
+    var(--bg);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.experience-timeline {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.experience-item {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.35fr) minmax(0, 1fr);
+  gap: 1.4rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(20,20,20,0.76);
+  padding: 1.35rem;
+}
+
+.experience-kicker {
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+.experience-body h3 {
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 1rem;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+
+.experience-org {
+  color: var(--steel);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.9rem;
+  text-transform: uppercase;
+}
+
+.experience-bullets {
+  display: grid;
+  gap: 0.65rem;
+  list-style: none;
+}
+
+.experience-bullets li {
+  position: relative;
+  color: var(--steel-lt);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  padding-left: 1.1rem;
+}
+
+.experience-bullets li::before {
+  content: '';
+  position: absolute;
+  top: 0.72em;
+  left: 0;
+  width: 0.42rem;
+  height: 1px;
+  background: var(--amber);
+}
+
+.education-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.85fr) minmax(0, 1.15fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+.education-grid {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 2rem;
+}
+
+.education-card {
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(10,10,10,0.58);
+  padding: 1.1rem 1.2rem;
+}
+
+.education-card h3 {
+  color: var(--white);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.45rem;
+  text-transform: uppercase;
+}
+
+.education-card p,
+.education-card span {
+  color: var(--steel-lt);
+  display: block;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.tech-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 2rem;
+}
+
+.article-boundary {
+  display: grid;
+  gap: 0.35rem;
+  margin: -1.25rem 0 2rem;
+  border: 1px solid rgba(56,189,248,0.22);
+  border-left: 3px solid #38bdf8;
+  background: rgba(56,189,248,0.055);
+  padding: 1rem 1.1rem;
+}
+
+.article-boundary span {
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.article-boundary strong {
+  color: var(--steel-lt);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.contact-simple {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.42fr);
+  gap: 2rem;
+  align-items: center;
+}
+
+.contact-link-list {
+  display: grid;
+  gap: 0.8rem;
 }
 
 /* ─── CONTACT ─────────────────────────────────────────────────────────── */
@@ -1510,6 +1704,11 @@ button:focus-visible {
   .projects-grid,
   .engagement-grid,
   .carto-layout,
+  .resume-summary-panel,
+  .resume-skill-list,
+  .experience-item,
+  .education-layout,
+  .contact-simple,
   .proof-package-grid,
   .fit-check-grid,
   .articles-grid {
