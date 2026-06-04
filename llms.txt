@@ -29,7 +29,7 @@ TR Ingram works across JavaScript, TypeScript, Python, React, SQL, REST integrat
 - Git-Map: Git-like version control for ArcGIS web map configurations, including clone, branch, diff, merge, and push workflows.
 - ParcelIQ: parcel-focused web application with interactive ArcGIS web mapping, dynamic filtering, Cloudflare Workers, D1 search/export paths, and Python data pipelines.
 - ProjectIQ: React and TypeScript project intelligence dashboard with graph-aware project tracking and decision-support views.
-- Barkie: front-end and geospatial mobile engineering for a React Native / Expo golf GPS product. Public details are intentionally high-level for client confidentiality.
+- Barkie: spatial AI and GIS engineering for a React Native / Expo golf GPS product. Public details are intentionally high-level for client confidentiality.
 
 ## Writing
 
