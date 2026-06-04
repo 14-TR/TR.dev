@@ -56,7 +56,7 @@ const TECHNICAL_HIGHLIGHTS = [
   },
   {
     title: 'Barkie',
-    problem: 'Front-end geospatial engineering for an App Store-shipped golf GPS product.',
+    problem: 'Spatial AI and GIS engineering for an App Store-shipped golf GPS product.',
     artifact: 'Work across React Native / Expo, mobile map UX, course maps, tee and hole workflows, GPS interactions, and Mapbox-based rendering.',
     proof: 'Public details are intentionally high-level because the work is client-confidential.',
     status: 'Current contract role',
@@ -81,14 +81,14 @@ const EXPERIENCE = [
     ],
   },
   {
-    role: 'Front-End / Geospatial Mobile Engineer',
+    role: 'Spatial AI and GIS Engineer',
     org: 'Barkie',
     place: 'Remote',
     dates: 'Mar 2026 - Present',
     bullets: [
       'Serve as a front-end and geospatial mobile engineering contributor for an App Store-shipped React Native / Expo golf GPS application.',
       'Support mobile-first map controls, course map workflows, GPS interactions, and Mapbox-based rendering patterns.',
-      'Shape frontend requirements for elevation, slope, wind, and plays-like surfaces.',
+      'Research and develop spatial AI concepts, prototype API pipelines, and build true spatial AI workflows around terrain, course geometry, and player context.',
       'Keep public descriptions high-level for client confidentiality.',
     ],
   },
