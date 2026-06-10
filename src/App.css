@@ -1670,6 +1670,7 @@ button:focus-visible {
     padding: 5rem 0 3rem;
   }
   .hero-content { padding: 0 1.25rem; }
+  .hero-content > * { max-width: 100%; }
   .hero-scroll-hint { display: none; }
   .hero-status {
     font-size: 0.62rem;
@@ -1681,13 +1682,21 @@ button:focus-visible {
     line-height: 1;
   }
   .hero-sub {
-    font-size: 0.74rem;
+    font-size: clamp(0.58rem, 2.25vw, 0.7rem);
     line-height: 1.45;
+    letter-spacing: 0.03em;
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
   }
   .hero-tagline {
     font-size: 1rem;
     line-height: 1.48;
     margin-bottom: 1.7rem;
+    width: 100%;
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
   .hero-audience {
     gap: 0.45rem;
