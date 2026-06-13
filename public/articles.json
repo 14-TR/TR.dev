@@ -1,35 +1,47 @@
 [
   {
-    "title": "Designing GIS Interfaces People Can Actually Use",
-    "date": "June 4, 2026",
-    "excerpt": "Good GIS software turns complex spatial data into a clear next action. The interface has to respect the map, the workflow, and the person making the decision.",
+    "title": "How Our System Works: Launch Gates Before Growth",
+    "date": "June 9, 2026",
+    "excerpt": "A GIS or AI product earns better growth when the proof is inspectable first: real workflows, visible boundaries, verification evidence, and a clear next decision.",
+    "tags": [
+      "TR.dev",
+      "GIS",
+      "Product Strategy",
+      "Verification"
+    ],
+    "content": "## The launch gate is not the enemy\n\nThe fastest way to make a GIS or AI product look real is to polish the landing page, describe the vision clearly, and promise the rest is coming soon.\n\nThat is also how teams end up marketing a workflow they cannot yet verify.\n\nThe pattern I trust more is simpler: make the proof inspectable first, then grow the story around it. That applies whether the work is a parcel product, an ArcGIS workflow tool, or an agent-assisted operations system.\n\nPeople want to know:\n\n- Does the data path work?\n- Can someone review the output and understand the tradeoffs?\n- Is there a clear line between what is proven and what is still draft?\n\nFor the work I do, a credible first proof usually needs four parts:\n\n1. A real workflow or decision worth improving\n2. A narrow artifact someone can inspect\n3. Evidence that the key path works\n4. A clear next decision: build forward, pause, or harden the system first\n\n## ParcelIQ: visible product, visible boundary\n\nParcelIQ is useful public proof because it is not just a pretty map.\n\nThe stronger part is the boundary around what was actually verified. Public parcel search works. Draw and query flows work. Map context works. Export behavior has a gate instead of pretending every user should have every capability.\n\nThat matters because product trust comes from the combination of surface and constraint. A tool becomes easier to believe when the working path is visible and the protected path is honest about its limits.\n\n## Git-Map: software needs a review path, not just a feature list\n\n\"Git for ArcGIS web maps\" is interesting in one sentence. What makes it credible is everything around the sentence: clone, pull, commit, branch, merge workflows; safety framing for first-user trials; and enough tests and docs coverage to catch regressions before someone depends on the workflow.\n\nA feature list says what a product claims to do. A review path shows how someone can inspect whether the claim holds up.\n\n## The site should convert the right kind of conversation\n\nThe goal for TR.dev is not maximum attention. It is better conversations.\n\nThe best first message is usually not \"Can you build us something with AI?\"\n\nIt is closer to:\n\n- Here is the workflow that keeps breaking\n- Here are the maps, systems, or reports involved\n- Here is the decision we need to make faster or more reliably\n- Here is what a credible proof would need to show in the next few weeks\n\nThat is why I keep pushing the public copy toward proof, operating boundaries, and inspectable artifacts. The cleaner that path gets, the less time both sides waste on broad conversations that never had a real workflow behind them.\n\n## What I want the public surface to communicate\n\nIf the site is doing its job, a visitor should leave with a few grounded impressions:\n\n- The work is GIS- and GeoAI-specific, not generic AI consulting\n- The strongest proof is working software with evidence, not abstract strategy language\n- Review gates matter before launch, not after a preventable failure\n- A good first engagement ends with a decision, not just a prettier demo\n\nThe common thread is the same: growth is more valuable when the proof can already stand on its own."
+  },
+  {
+    "title": "How Our System Works: Local Proof Before Public Polish",
+    "date": "May 14, 2026",
+    "excerpt": "The current TR.dev refresh is being rebuilt around proof: shipped products, current operating systems, verification evidence, and public copy that stays focused on outcomes.",
+    "tags": [
+      "TR.dev",
+      "Verification",
+      "Product Positioning"
+    ],
+    "content": "## What changed\n\nThe site refresh moved away from generic portfolio language and toward visible proof of work. The case-study section now centers ParcelIQ, Git-Map, ProjectIQ / OpenClaw, and Open World Model as evidence-led examples instead of a long undifferentiated project list.\n\n### Why it matters\n\nA public site for GIS and AI consulting should make the work inspectable. The useful questions are simple: what problem was solved, what artifact exists, what evidence supports it, and what a reader can safely evaluate.\n\n### Current gate\n\n- Keep public copy focused on outcomes and evidence.\n- Keep sensitive infrastructure, credential paths, and operator-only workflow details out of public-facing text.\n- Verify the rendered page before any deploy or public release.\n\n### Next content\n\nThe next durable article should turn the homepage refresh into a short public note: how to make AI-assisted project work credible through evidence, review gates, and clear boundaries."
+  },
+  {
+    "title": "How Our System Works: Durable Agent Operations",
+    "date": "May 14, 2026",
+    "excerpt": "ProjectIQ and OpenClaw are converging into an operations layer where agent-assisted work leaves behind issues, evidence, blockers, and reviewable handoffs.",
+    "tags": [
+      "OpenClaw",
+      "ProjectIQ",
+      "Project Ops"
+    ],
+    "content": "## The system behind the work\n\nThe useful part of agent-assisted development is not chat. It is the trail left after the work: issue state, comments, proof artifacts, verification output, blockers, and a clear next action.\n\n### Current pattern\n\nEach meaningful work slice should answer four questions:\n\n- What changed?\n- How was it verified?\n- What is still blocked?\n- Who owns the next action?\n\n### Recent proof\n\nProjectIQ now has 119 native tools and 1,149+ tests. The operations layer around it is being shaped to assign work, record evidence, and force clear terminal states instead of vague progress notes.\n\n### Why this belongs on TR.dev\n\nThis is the operating pattern behind the public-facing products. Showing the pattern, without exposing operator-only details, helps explain why the work can move quickly while still staying reviewable."
+  },
+  {
+    "title": "How Our System Works: GIS Products Need Verification Paths",
+    "date": "May 14, 2026",
+    "excerpt": "ParcelIQ and Git-Map are useful proof because they pair GIS workflows with specific checks: production smokes, export gates, docs builds, and repeatable tests.",
     "tags": [
       "GIS",
-      "Interface Design",
-      "ArcGIS"
+      "ParcelIQ",
+      "Git-Map"
     ],
-    "content": "## The job of a GIS interface\n\nA strong GIS interface does more than put data on a map. It helps someone inspect a place, understand what changed, compare the right details, and decide what to do next.\n\n### What matters\n\n- Keep map interactions close to the user task.\n- Make selected features, related records, attachments, and imagery easy to inspect.\n- Preserve context when users move between map, table, dashboard, and field workflows.\n- Treat performance and readability as part of the product, not polish at the end.\n\n### Where I focus\n\nMy work is strongest where spatial data, operational constraints, and user interface decisions meet: ArcGIS applications, parcel tools, dashboards, mobile map workflows, and Python-backed data pipelines."
-  },
-  {
-    "title": "Why ArcGIS Workflows Need Safer Change Paths",
-    "date": "June 4, 2026",
-    "excerpt": "Maps and configurations change constantly. Safer clone, diff, validation, and review paths make those changes easier to trust.",
-    "tags": [
-      "ArcGIS",
-      "Version Control",
-      "GIS Workflows"
-    ],
-    "content": "## Change is part of the map\n\nArcGIS web maps often carry operational meaning: layers, popups, renderers, filters, fields, relationships, and access settings. When those configurations change, teams need a way to understand what changed and recover when something goes wrong.\n\n### A safer pattern\n\n- Work on copies before touching production maps.\n- Compare configuration changes before pushing them forward.\n- Validate credentials, environments, and target maps early.\n- Document the first-user path so adoption does not depend on tribal knowledge.\n\n### Why it matters\n\nThe goal is not to make GIS teams think like software teams. It is to give them enough version-control behavior to protect real map workflows."
-  },
-  {
-    "title": "From Spatial Data To Decision Support",
-    "date": "June 4, 2026",
-    "excerpt": "Parcel records, GPS data, elevation surfaces, and dashboards become useful when they are shaped around a decision someone needs to make.",
-    "tags": [
-      "Spatial Data",
-      "Decision Support",
-      "Geospatial Software"
-    ],
-    "content": "## Data becomes useful through shape\n\nSpatial software has to translate raw inputs into something someone can inspect. That might be a parcel detail view, a mobile course map, an elevation surface, a related-record panel, or a dashboard showing the state of a workflow.\n\n### The pattern\n\n- Start with the decision or field workflow.\n- Keep the data path understandable.\n- Make uncertainty and constraints visible.\n- Build interfaces that work across desktop, dashboard, and mobile contexts.\n\n### The result\n\nThe best geospatial tools feel calm because the complexity is handled in the right layer: data pipelines, API contracts, map rendering, and interface design all serving the same user task."
+    "content": "## GIS proof is more than a demo\n\nA map can look convincing while the underlying workflow is still fragile. The stronger proof is a working path that can be rerun: API smoke checks, export authorization checks, docs builds, test suites, and public-safe descriptions of what was verified.\n\n### ParcelIQ\n\nParcelIQ turns Laramie County parcel records into a public search product with map workflows, value symbology, draw/query behavior, aerial context, and gated export paths. The important part is not just the map; it is knowing which public requests work and which paid-tier exports stay protected.\n\n### Git-Map\n\nGit-Map brings Git-like workflows to ArcGIS web maps. The credible path is first-user safety: disposable test maps, clear clone/pull/commit/branch/merge documentation, and a test suite broad enough to catch workflow regressions.\n\n### Next content\n\nThe next GIS article should compare these two systems as a practical pattern: build the visible tool, then build the verification path that makes it safe to trust."
   }
 ]
