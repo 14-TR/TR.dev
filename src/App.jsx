@@ -209,6 +209,94 @@ function articleMentionsBlockedSubject(article) {
   return BLOCKED_ARTICLE_TERMS.some((term) => haystack.includes(term))
 }
 
+function DeferredShowcaseSection() {
+  const [shouldLoadShowcase, setShouldLoadShowcase] = useState(
+    () => typeof window !== 'undefined' && typeof window.IntersectionObserver === 'undefined'
+  )
+
+  useEffect(() => {
+    if (shouldLoadShowcase || typeof window === 'undefined') return undefined
+
+    const target = document.getElementById('cartographic-products-anchor')
+    if (!target || typeof IntersectionObserver === 'undefined') return undefined
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return
+        setShouldLoadShowcase(true)
+        observer.disconnect()
+      },
+      { rootMargin: '240px 0px' }
+    )
+
+    observer.observe(target)
+
+    return () => observer.disconnect()
+  }, [shouldLoadShowcase])
+
+  return (
+    <div id="cartographic-products-anchor">
+      {shouldLoadShowcase ? (
+        <Suspense fallback={null}>
+          <CartographicProductShowcase />
+        </Suspense>
+      ) : (
+        <section className="section section-cartographic-preview" aria-labelledby="cartographic-preview-title">
+          <div className="container cartographic-preview">
+            <div>
+              <div className="section-label">// PERFORMANCE-FIRST 3D PREVIEW</div>
+              <h2 className="section-title" id="cartographic-preview-title">
+                LiDAR terrain demo loads on approach, not on first paint.
+              </h2>
+              <p className="section-sub cartographic-preview-copy">
+                The full 3D surface stays available, but its heavier runtime waits until a visitor actually scrolls toward the showcase. That keeps the trust surface faster for first-time traffic.
+              </p>
+            </div>
+            <div className="cartographic-preview-panel" aria-hidden="true">
+              <div className="cartographic-preview-surface" />
+              <div className="cartographic-preview-grid" />
+            </div>
+          </div>
+        </section>
+      )}
+    </div>
+  )
+}
+
+function DeferredHeroRuntime() {
+  const [shouldLoadHeroRuntime, setShouldLoadHeroRuntime] = useState(false)
+
+  return (
+    <>
+      {shouldLoadHeroRuntime ? (
+        <>
+          <Suspense fallback={null}>
+            <CodeGraphBg />
+          </Suspense>
+          <div className="hero-canvas-wrap">
+            <Suspense fallback={<div className="hero-canvas-fallback" aria-hidden="true" />}>
+              <HeroCanvas />
+            </Suspense>
+          </div>
+        </>
+      ) : (
+        <div className="hero-canvas-wrap">
+          <div className="hero-canvas-fallback" aria-hidden="true" />
+        </div>
+      )}
+
+      <button
+        type="button"
+        className="btn btn-outline btn-hero-runtime"
+        onClick={() => setShouldLoadHeroRuntime(true)}
+        disabled={shouldLoadHeroRuntime}
+      >
+        {shouldLoadHeroRuntime ? 'LIVE 3D LOADED' : 'ENABLE LIVE 3D'}
+      </button>
+    </>
+  )
+}
+
 export default function App() {
   const [articles, setArticles] = useState([])
   const [articlesStatus, setArticlesStatus] = useState('loading')
@@ -285,16 +373,8 @@ export default function App() {
     <div className="app">
       <a className="skip-link" href="#content">Skip to main content</a>
 
-      <Suspense fallback={null}>
-        <CodeGraphBg />
-      </Suspense>
-
       <section className="hero" id="home">
-        <div className="hero-canvas-wrap">
-          <Suspense fallback={<div className="hero-canvas-fallback" aria-hidden="true" />}>
-            <HeroCanvas />
-          </Suspense>
-        </div>
+        <DeferredHeroRuntime />
 
         <div className="hero-grid-overlay" />
         <div className="hero-grain" />
@@ -317,6 +397,10 @@ export default function App() {
             <a href="#projects" className="btn btn-primary">VIEW SELECTED HIGHLIGHTS</a>
             <a href="#experience" className="btn btn-outline">SEE EXPERIENCE</a>
           </div>
+
+          <p className="hero-runtime-note">
+            The live background is opt-in so the homepage can skip the heavier Three.js runtime on first paint.
+          </p>
 
           <div className="hero-audience" aria-label="Primary technical focus">
             <span>ArcGIS solution delivery</span>
@@ -381,9 +465,7 @@ export default function App() {
           </div>
         </section>
 
-        <Suspense fallback={null}>
-          <CartographicProductShowcase />
-        </Suspense>
+        <DeferredShowcaseSection />
 
         <section className="section section-experience" id="experience">
           <div className="container">

@@ -126,6 +126,21 @@ button:focus-visible {
     linear-gradient(135deg, rgba(245,158,11,0.08), transparent 55%);
 }
 
+.btn-hero-runtime {
+  position: absolute;
+  top: 1.6rem;
+  right: 2rem;
+  z-index: 5;
+  min-width: 196px;
+  background: rgba(10,10,10,0.72);
+  backdrop-filter: blur(10px);
+}
+
+.btn-hero-runtime[disabled] {
+  opacity: 0.72;
+  cursor: default;
+}
+
 /* Structural grid overlay */
 .hero-grid-overlay {
   position: absolute;
@@ -219,6 +234,15 @@ button:focus-visible {
   max-width: 760px;
   margin-bottom: 2.1rem;
   line-height: 1.5;
+}
+
+.hero-runtime-note {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  color: var(--steel);
+  margin: -1.25rem 0 1.8rem;
+  max-width: 42rem;
 }
 
 .hero-ctas {
@@ -536,6 +560,60 @@ button:focus-visible {
 .carto-fallback-node-b {
   right: 24%;
   bottom: 34%;
+}
+
+.section-cartographic-preview {
+  background:
+    linear-gradient(180deg, rgba(56,189,248,0.035), transparent 44%),
+    linear-gradient(135deg, rgba(245,158,11,0.055), transparent 48%),
+    var(--bg-mid);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  border-bottom: 1px solid rgba(245,158,11,0.12);
+}
+
+.cartographic-preview {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+  gap: 2rem;
+  align-items: center;
+}
+
+.cartographic-preview-copy {
+  max-width: 42rem;
+}
+
+.cartographic-preview-panel {
+  position: relative;
+  min-height: 300px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(245,158,11,0.18), transparent 32%),
+    linear-gradient(145deg, rgba(11,15,23,0.98), rgba(8,12,18,0.9));
+  box-shadow: 0 28px 70px rgba(0,0,0,0.28);
+}
+
+.cartographic-preview-surface {
+  position: absolute;
+  inset: 12% 10%;
+  border-radius: 24px;
+  background:
+    linear-gradient(150deg, rgba(37,99,235,0.45), rgba(8,145,178,0.22)),
+    radial-gradient(circle at 68% 28%, rgba(250,204,21,0.28), transparent 20%);
+  clip-path: polygon(12% 62%, 30% 26%, 56% 18%, 82% 34%, 88% 58%, 70% 78%, 42% 84%, 18% 74%);
+  filter: drop-shadow(0 18px 26px rgba(0,0,0,0.28));
+  opacity: 0.95;
+}
+
+.cartographic-preview-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148,163,184,0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148,163,184,0.07) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: linear-gradient(180deg, rgba(0,0,0,0.82), transparent 92%);
 }
 
 /* ─── PROJECTS ──────────────────────────────────────────────────────────── */
@@ -1677,6 +1755,11 @@ button:focus-visible {
     letter-spacing: 0.1em;
     margin-bottom: 1.45rem;
   }
+  .btn-hero-runtime {
+    position: static;
+    width: 100%;
+    margin-bottom: 1.2rem;
+  }
   .hero-name {
     font-size: 3.1rem;
     line-height: 1;
@@ -1702,6 +1785,10 @@ button:focus-visible {
     gap: 0.45rem;
     margin: -0.85rem 0 1.4rem;
   }
+  .hero-runtime-note {
+    margin: -0.6rem 0 1.35rem;
+    max-width: 100%;
+  }
   .hero-audience span {
     font-size: 0.62rem;
     padding: 0.32rem 0.52rem;
@@ -1713,6 +1800,7 @@ button:focus-visible {
   .projects-grid,
   .engagement-grid,
   .carto-layout,
+  .cartographic-preview,
   .resume-summary-panel,
   .resume-skill-list,
   .experience-item,
@@ -1746,6 +1834,9 @@ button:focus-visible {
   }
   .carto-showcase {
     margin-top: 0.4rem;
+  }
+  .cartographic-preview-panel {
+    min-height: 240px;
   }
   .carto-toolbar {
     grid-template-columns: repeat(2, minmax(0, 1fr));
