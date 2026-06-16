@@ -368,6 +368,60 @@ function createPackageInquiryMailto(title) {
   return `mailto:tr@ingramgeoai.com?subject=${subject}&body=${body}`
 }
 
+function DeferredShowcaseSection() {
+  const [shouldLoadShowcase, setShouldLoadShowcase] = useState(
+    () => typeof window !== 'undefined' && typeof window.IntersectionObserver === 'undefined'
+  )
+
+  useEffect(() => {
+    if (shouldLoadShowcase || typeof window === 'undefined') return undefined
+
+    const target = document.getElementById('cartographic-products-anchor')
+    if (!target || typeof IntersectionObserver === 'undefined') return undefined
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return
+        setShouldLoadShowcase(true)
+        observer.disconnect()
+      },
+      { rootMargin: '240px 0px' }
+    )
+
+    observer.observe(target)
+
+    return () => observer.disconnect()
+  }, [shouldLoadShowcase])
+
+  return (
+    <div id="cartographic-products-anchor">
+      {shouldLoadShowcase ? (
+        <Suspense fallback={null}>
+          <CartographicProductShowcase />
+        </Suspense>
+      ) : (
+        <section className="section section-cartographic-preview" aria-labelledby="cartographic-preview-title">
+          <div className="container cartographic-preview">
+            <div>
+              <div className="section-label">// PERFORMANCE-FIRST 3D PREVIEW</div>
+              <h2 className="section-title" id="cartographic-preview-title">
+                LiDAR terrain demo loads on approach, not on first paint.
+              </h2>
+              <p className="section-sub cartographic-preview-copy">
+                The full 3D surface stays available, but its heavier runtime waits until a visitor actually scrolls toward the showcase. That keeps the trust surface faster for first-time traffic.
+              </p>
+            </div>
+            <div className="cartographic-preview-panel" aria-hidden="true">
+              <div className="cartographic-preview-surface" />
+              <div className="cartographic-preview-grid" />
+            </div>
+          </div>
+        </section>
+      )}
+    </div>
+  )
+}
+
 export default function App() {
   const [articles, setArticles] = useState([])
   const [articlesStatus, setArticlesStatus] = useState('loading')
@@ -577,9 +631,7 @@ export default function App() {
           </div>
         </section>
 
-        <Suspense fallback={null}>
-          <CartographicProductShowcase />
-        </Suspense>
+        <DeferredShowcaseSection />
 
         {/* ── PROJECTS ── */}
         <section className="section section-project-index" id="project-index">
