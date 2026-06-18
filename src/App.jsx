@@ -2,6 +2,7 @@ import { Suspense, lazy, useCallback, useEffect, useState } from 'react'
 import ProjectCard from './components/ProjectCard'
 import ArticleCard from './components/ArticleCard'
 import ArticleModal from './components/ArticleModal'
+import { CTA_EVENT_NAMES, trackCtaClick } from './lib/analytics'
 import './App.css'
 
 const HeroCanvas = lazy(() => import('./components/HeroCanvas'))
@@ -288,7 +289,14 @@ function DeferredHeroRuntime() {
       <button
         type="button"
         className="btn btn-outline btn-hero-runtime"
-        onClick={() => setShouldLoadHeroRuntime(true)}
+        onClick={() => {
+          trackCtaClick(CTA_EVENT_NAMES.heroRuntimeOptInClick, {
+            location: 'hero',
+            target: 'live_3d',
+            interaction: 'button',
+          })
+          setShouldLoadHeroRuntime(true)
+        }}
         disabled={shouldLoadHeroRuntime}
       >
         {shouldLoadHeroRuntime ? 'LIVE 3D LOADED' : 'ENABLE LIVE 3D'}
@@ -369,6 +377,32 @@ export default function App() {
     }
   }, [articlesStatus, scrollToCurrentHash])
 
+  const handleHeroCtaClick = useCallback((target) => {
+    trackCtaClick(CTA_EVENT_NAMES.heroCtaClick, {
+      location: 'hero',
+      target,
+      interaction: 'anchor',
+    })
+  }, [])
+
+  const handleProjectOutboundClick = useCallback((project) => {
+    trackCtaClick(CTA_EVENT_NAMES.projectOutboundClick, {
+      location: 'selected_work',
+      target: project.title,
+      href: project.link,
+      interaction: 'outbound_link',
+    })
+  }, [])
+
+  const handleContactClick = useCallback((target, location, href) => {
+    trackCtaClick(CTA_EVENT_NAMES.contactClick, {
+      location,
+      target,
+      href,
+      interaction: href.startsWith('mailto:') ? 'mailto' : 'outbound_link',
+    })
+  }, [])
+
   return (
     <div className="app">
       <a className="skip-link" href="#content">Skip to main content</a>
@@ -394,8 +428,20 @@ export default function App() {
           </p>
 
           <div className="hero-ctas">
-            <a href="#projects" className="btn btn-primary">VIEW SELECTED HIGHLIGHTS</a>
-            <a href="#experience" className="btn btn-outline">SEE EXPERIENCE</a>
+            <a
+              href="#projects"
+              className="btn btn-primary"
+              onClick={() => handleHeroCtaClick('projects')}
+            >
+              VIEW SELECTED HIGHLIGHTS
+            </a>
+            <a
+              href="#experience"
+              className="btn btn-outline"
+              onClick={() => handleHeroCtaClick('experience')}
+            >
+              SEE EXPERIENCE
+            </a>
           </div>
 
           <p className="hero-runtime-note">
@@ -459,7 +505,12 @@ export default function App() {
 
             <div className="case-grid">
               {TECHNICAL_HIGHLIGHTS.map((project) => (
-                <ProjectCard key={project.title} variant="case" {...project} />
+                <ProjectCard
+                  key={project.title}
+                  variant="case"
+                  {...project}
+                  onLinkClick={project.link ? () => handleProjectOutboundClick(project) : undefined}
+                />
               ))}
             </div>
           </div>
@@ -564,9 +615,31 @@ export default function App() {
               </p>
             </div>
             <div className="contact-link-list">
-              <a className="btn btn-primary" href="mailto:tr@ingramgeoai.com">EMAIL</a>
-              <a className="btn btn-outline" href="https://github.com/14-TR" target="_blank" rel="noreferrer">GITHUB</a>
-              <a className="btn btn-outline" href="https://linkedin.com/in/tr-ingram" target="_blank" rel="noreferrer">LINKEDIN</a>
+              <a
+                className="btn btn-primary"
+                href="mailto:tr@ingramgeoai.com"
+                onClick={() => handleContactClick('email', 'contact_section', 'mailto:tr@ingramgeoai.com')}
+              >
+                EMAIL
+              </a>
+              <a
+                className="btn btn-outline"
+                href="https://github.com/14-TR"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => handleContactClick('github', 'contact_section', 'https://github.com/14-TR')}
+              >
+                GITHUB
+              </a>
+              <a
+                className="btn btn-outline"
+                href="https://linkedin.com/in/tr-ingram"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => handleContactClick('linkedin', 'contact_section', 'https://linkedin.com/in/tr-ingram')}
+              >
+                LINKEDIN
+              </a>
             </div>
           </div>
         </section>
@@ -586,6 +659,7 @@ export default function App() {
                 href={link.href}
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noopener noreferrer' : undefined}
+                onClick={() => handleContactClick(link.label.toLowerCase(), 'footer', link.href)}
               >
                 {link.label}
               </a>

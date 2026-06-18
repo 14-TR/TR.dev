@@ -8,6 +8,7 @@ export default function ProjectCard({
   tags,
   link,
   linkLabel,
+  onLinkClick,
   variant = 'project',
 }) {
   const isCase = variant === 'case'
@@ -52,6 +53,7 @@ export default function ProjectCard({
       className={`project-card ${isCase ? 'case-study-card' : ''}`}
       target="_blank"
       rel="noreferrer"
+      onClick={onLinkClick}
       aria-label={`${title} ${isCase ? 'selected work link' : 'project link'}`}
     >
       {body}
