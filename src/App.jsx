@@ -8,6 +8,28 @@ const HeroCanvas = lazy(() => import('./components/HeroCanvas'))
 const CodeGraphBg = lazy(() => import('./components/CodeGraphBg'))
 const CartographicProductShowcase = lazy(() => import('./components/CartographicProductShowcase'))
 
+const NAV_LINKS = [
+  { label: 'Work', href: '#projects' },
+  { label: 'LiDAR', href: '#cartographic-products-anchor' },
+  { label: 'Offers', href: '#starter-packages' },
+  { label: 'Writing', href: '#articles' },
+]
+
+const HERO_PROOF_POINTS = [
+  {
+    label: 'Specialty',
+    value: 'Geospatial web, mobile, ArcGIS, and GeoAI proof systems',
+  },
+  {
+    label: 'Proof',
+    value: 'Parcel products, LiDAR terrain, ArcGIS workflows, agent ops',
+  },
+  {
+    label: 'Stack',
+    value: 'React, Python, PostGIS, Mapbox, Esri, Three.js, cloud delivery',
+  },
+]
+
 const PROJECTS = [
   {
     title: 'ParcelIQ',
@@ -96,8 +118,11 @@ const CASE_STUDIES = [
     proof: '46,000+ public parcel records indexed; live production smoke confirms JSON /bbox works while anonymous exports stay Pro-gated.',
     status: 'Live product proof',
     tags: ['GIS', 'Parcel Data', 'Cloudflare'],
+    scope: 'Public parcel search, map UX, gated exports, smoke checks',
+    impact: '46,000+ public parcel records made inspectable through a live GIS product.',
     link: 'https://parcel-iq.org',
     linkLabel: 'View live site',
+    featured: true,
   },
   {
     title: 'Git-Map',
@@ -106,6 +131,8 @@ const CASE_STUDIES = [
     proof: 'Current proof collects 794 core tests plus strict docs-build coverage for the onboarding and trust path.',
     status: 'First-user proof',
     tags: ['ArcGIS', 'CLI', 'Version Control'],
+    scope: 'CLI architecture, docs, validation, first-user safety path',
+    impact: 'ArcGIS web-map changes get branch, commit, merge, and rollback semantics.',
     link: 'https://github.com/14-TR/Git-Map',
     linkLabel: 'View repo',
   },
@@ -116,6 +143,8 @@ const CASE_STUDIES = [
     proof: 'ProjectIQ native now has 119 tools and 1,149+ tests; dashboard and smoke gates verify the local work surface.',
     status: 'AI ops proof',
     tags: ['AI Ops', 'SQLite', 'React'],
+    scope: 'Durable task state, evidence trails, dashboards, native tools',
+    impact: 'Agent-assisted project work becomes reviewable after the chat is over.',
     link: 'https://github.com/14-TR/Know-Flow',
     linkLabel: 'View repo',
   },
@@ -126,6 +155,8 @@ const CASE_STUDIES = [
     proof: 'Current 26-case replay evidence validates source ranking, replay gates, conflict handling, and public-safe benchmark reporting.',
     status: 'GeoAI benchmark proof',
     tags: ['GeoAI', 'Benchmarks', 'Provenance'],
+    scope: 'Source precedence, benchmark replay, conflict handling, trust reporting',
+    impact: 'GeoAI answers stay tied to visible provenance before anyone relies on them.',
     link: null,
     linkLabel: 'Content checklist',
   },
@@ -535,7 +566,20 @@ export default function App() {
       <Suspense fallback={null}>
         <CodeGraphBg />
       </Suspense>
-      {/* ── HERO ── */}
+
+      <header className="site-nav" aria-label="Primary navigation">
+        <a className="site-mark" href="#home" aria-label="TR Ingram home">
+          <span>TR</span>
+          <small>Spatial Software Engineer</small>
+        </a>
+        <nav className="site-nav-links" aria-label="Site sections">
+          {NAV_LINKS.map((link) => (
+            <a key={link.href} href={link.href}>{link.label}</a>
+          ))}
+        </nav>
+        <a className="site-nav-cta" href="#contact">Contact</a>
+      </header>
+
       <section className="hero" id="home">
         <div className="hero-canvas-wrap">
           <Suspense fallback={<div className="hero-canvas-fallback" aria-hidden="true" />}>
@@ -547,28 +591,46 @@ export default function App() {
         <div className="hero-grain" />
 
         <div className="hero-content">
-          <div className="hero-status">
-            <span className="status-dot" />
-            GIS / GEOAI PRODUCT SYSTEMS
-          </div>
+          <div className="hero-layout">
+            <div className="hero-copy">
+              <div className="hero-status">
+                <span className="status-dot" />
+                PREMIUM SPATIAL SOFTWARE ENGINEER
+              </div>
 
-          <h1 className="hero-name">TR INGRAM</h1>
-          <p className="hero-sub">
-            GIS systems builder for maps, data products, and agent-assisted operations
-          </p>
-          <p className="hero-tagline">
-            I turn messy geospatial workflows into working software: parcel intelligence, ArcGIS automation, GeoAI prototypes, and team-facing tools with proof you can inspect.
-          </p>
+              <h1 className="hero-name">TR INGRAM</h1>
+              <p className="hero-sub">
+                Geospatial product engineering for maps, terrain, field workflows, and spatial data systems.
+              </p>
+              <p className="hero-tagline">
+                I turn complex geography into production-minded software across React, mobile GPS, ArcGIS, PostGIS, Python automation, GeoAI proof loops, and cloud delivery.
+              </p>
 
-          <div className="hero-ctas">
-            <a href="#projects" className="btn btn-primary">SEE SHIPPED PROOF</a>
-            <a href="#contact" className="btn btn-outline">START A GIS / AI CONSULT</a>
-          </div>
+              <div className="hero-ctas">
+                <a href="#projects" className="btn btn-primary">VIEW CASE STUDIES</a>
+                <a href="#contact" className="btn btn-outline">DISCUSS A BUILD</a>
+              </div>
 
-          <div className="hero-audience" aria-label="Primary audience and offer">
-            <span>ArcGIS workflow automation</span>
-            <span>parcel and map products</span>
-            <span>GeoAI proof builds</span>
+              <div className="hero-audience" aria-label="Primary technical focus">
+                <span>ArcGIS workflow automation</span>
+                <span>parcel and map products</span>
+                <span>LiDAR terrain UI</span>
+                <span>GeoAI proof builds</span>
+              </div>
+            </div>
+
+            <aside className="hero-proof-panel" aria-label="Premium spatial software proof points">
+              <span className="hero-panel-kicker">Selected signal</span>
+              <strong>Spatial systems that are built for operators, analysts, and field teams.</strong>
+              <div className="hero-proof-list">
+                {HERO_PROOF_POINTS.map((point) => (
+                  <div key={point.label}>
+                    <span>{point.label}</span>
+                    <p>{point.value}</p>
+                  </div>
+                ))}
+              </div>
+            </aside>
           </div>
 
           <div className="hero-coords">
@@ -579,7 +641,7 @@ export default function App() {
         </div>
 
         <div className="hero-scroll-hint">
-          <span>PROOF BELOW</span>
+          <span>WORK BELOW</span>
           <div className="scroll-line" />
         </div>
       </section>
@@ -617,8 +679,8 @@ export default function App() {
         {/* ── PROJECTS ── */}
         <section className="section" id="projects">
           <div className="container">
-            <div className="section-label">// PROOF</div>
-            <h2 className="section-title">Case Studies</h2>
+            <div className="section-label">// SELECTED CASE STUDIES</div>
+            <h2 className="section-title">Spatial products with proof baked in.</h2>
             <p className="section-sub">
               Evidence-led snapshots of shipped GIS products, ArcGIS workflow tools, GeoAI benchmarks, and the operating systems behind them.
             </p>
