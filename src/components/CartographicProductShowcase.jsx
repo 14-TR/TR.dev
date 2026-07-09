@@ -491,12 +491,6 @@ function CartographicScene({ activeMode, dragState, shotRequest, shotConfig, res
   const terrainGroupRef = useRef()
   const [terrainBounds, setTerrainBounds] = useState(null)
 
-  useFrame(({ camera }) => {
-    if (interactionMode === 'navigate') return
-    camera.position.set(0, 8.4, 5.6)
-    camera.lookAt(0, -0.15, -0.8)
-  })
-
   return (
     <group>
       <ambientLight intensity={0.42} />
