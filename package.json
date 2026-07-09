@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "verify:analytics": "node scripts/verify-analytics-baseline.mjs",
+    "verify:performance": "node scripts/verify-performance-budget.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

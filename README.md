@@ -1,17 +1,23 @@
-# React + Vite
+# TR Site
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portfolio site for `ingramgeoai.com`, built with React and Vite.
 
-Currently, two official plugins are available:
+## QA commands
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `npm run verify:analytics`
+- `npm run lint`
+- `npm run build`
+- `npm run verify:performance`
 
-## React Compiler
+## Homepage performance budget
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The homepage keeps the heavier Three.js experience behind deferred runtime entry points instead of shipping it on first paint. `npm run verify:performance` is the proof path for that policy.
 
-## Expanding the ESLint configuration
+Current enforced budgets:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Entry JS: <= 250 kB raw and <= 80 kB gzip
+- Entry CSS: <= 40 kB raw and <= 8 kB gzip
+- Deferred 3D runtime bundle set: <= 1000 kB raw and <= 280 kB gzip
+- `dist/index.html` must not eagerly reference the deferred 3D runtime chunks
 
+This budget is meant to protect the public launch surface while still allowing an opt-in 3D showcase lower on the page.

@@ -1,55 +1,43 @@
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useGLTF } from '@react-three/drei'
-import { Suspense, useMemo, useRef, useState } from 'react'
+import { OrbitControls, useGLTF } from '@react-three/drei'
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 
 const SURFACE_VIEWS = {
-  elevation: {
-    label: 'Elevation',
-    metric: 'colored by height',
-    readout: 'low - high terrain',
-    position: [4.6, 3.1, 5.6],
-    target: [0.1, 0, 0.15],
-  },
-  slope: {
-    label: 'Slope',
-    metric: 'steepness response',
-    readout: 'flat - steep surface',
-    position: [1.2, 5.4, 4.4],
-    target: [-0.45, 0, 0.2],
-  },
-  aspect: {
-    label: 'Aspect',
-    metric: 'surface direction',
-    readout: 'north/east/south/west',
-    position: [-4.8, 3.8, 3.6],
-    target: [0.25, 0.05, -0.2],
-  },
-  relief: {
-    label: 'Relief',
-    metric: 'shaded terrain',
-    readout: 'hillshade + elevation',
-    position: [0, 7.2, 0.01],
-    target: [0, 0, 0],
-  },
+  elevation: { label: 'Elevation', metric: 'colored by height', readout: 'low - high terrain' },
+  slope: { label: 'Slope', metric: 'steepness response', readout: 'flat - steep surface' },
+  aspect: { label: 'Aspect', metric: 'surface direction', readout: 'north/east/south/west' },
+  relief: { label: 'Relief', metric: 'shaded terrain', readout: 'hillshade + elevation' },
 }
 
 const PRODUCT_MODULES = [
   {
-    title: 'Real Terrain Asset',
-    summary: 'A LiDAR-derived GLB mesh rendered as an inspection-ready surface rather than a static screenshot.',
+    title: 'Terrain Collision Surface',
+    summary: 'The LiDAR GLB is treated like a playable surface so the shot rolls with slope, not along a canned spline.',
   },
   {
-    title: 'Analytical Symbology',
-    summary: 'Elevation, slope, aspect, and shaded relief modes show how one asset can support multiple spatial reads.',
+    title: 'Drag-To-Aim Shot Planning',
+    summary: 'Drag on the demo to aim, build power, and preview the expected shot line before release.',
   },
   {
-    title: 'Native 3D Path',
-    summary: 'The GLB workflow keeps a path open for mobile rendering with a Filament-style native surface.',
+    title: 'Filament-Ready Terrain GLB',
+    summary: 'The same terrain mesh still works as a portable 3D asset for native mobile rendering.',
+  },
+  {
+    title: 'Surface Symbology',
+    summary: 'Elevation, slope, aspect, and relief views keep the inspection layer intact while the ball stays playable.',
   },
 ]
 
 const TERRAIN_GLB_URL = '/models/lidar-terrain-demo.glb'
+const TERRAIN_TRANSFORM = {
+  rotation: [-Math.PI / 2, 0, Math.PI],
+  scale: 0.045,
+  position: [0, 0.02, 0],
+}
+const BALL_RADIUS = 0.32
+const PREVIEW_LENGTH = 3.4
+const PREVIEW_HEIGHT = 1.6
 
 function canUseWebGL() {
   if (typeof document === 'undefined') return false
@@ -129,11 +117,50 @@ function applySurfaceSymbology(geometry, mode) {
   geometry.attributes.color.needsUpdate = true
 }
 
-function LidarTerrainModel({ mode }) {
+function LidarTerrainModel({ mode, onBoundsReady }) {
   const { scene } = useGLTF(TERRAIN_GLB_URL)
 
   const model = useMemo(() => {
     const clone = scene.clone(true)
+    const box = new THREE.Box3().setFromObject(clone)
+    const center = box.getCenter(new THREE.Vector3())
+    const offset = center.multiplyScalar(-1)
+    clone.position.copy(offset)
+
+    const centeredBox = new THREE.Box3().setFromObject(clone)
+    const highestPoint = new THREE.Vector2(0, 0)
+    const lowestPoint = new THREE.Vector2(0, 0)
+    let highestZ = -Infinity
+    let lowestZ = Infinity
+
+    clone.traverse((child) => {
+      if (!child.isMesh) return
+      const position = child.geometry.attributes.position
+      if (!position) return
+
+      for (let i = 0; i < position.count; i += 1) {
+        const x = position.getX(i)
+        const y = position.getY(i)
+        const z = position.getZ(i)
+
+        if (z > highestZ) {
+          highestZ = z
+          highestPoint.set(x, y)
+        }
+
+        if (z < lowestZ) {
+          lowestZ = z
+          lowestPoint.set(x, y)
+        }
+      }
+    })
+
+    onBoundsReady?.({
+      min: centeredBox.min.clone(),
+      max: centeredBox.max.clone(),
+      highestPoint: highestPoint.clone(),
+      lowestPoint: lowestPoint.clone(),
+    })
 
     clone.traverse((child) => {
       if (!child.isMesh) return
@@ -148,47 +175,363 @@ function LidarTerrainModel({ mode }) {
       child.castShadow = false
       child.receiveShadow = true
     })
-
     return clone
-  }, [mode, scene])
+  }, [mode, onBoundsReady, scene])
 
+  return <primitive object={model} />
+}
+
+function sampleTerrainAt(localXZ, terrainGroup, raycaster, downVector, temp) {
+  temp.worldOrigin.set(localXZ.x, 18, localXZ.y)
+  terrainGroup.localToWorld(temp.worldOrigin)
+  raycaster.set(temp.worldOrigin, downVector)
+  temp.meshes.length = 0
+
+  terrainGroup.traverse((child) => {
+    if (child.isMesh) temp.meshes.push(child)
+  })
+
+  const [hit] = raycaster.intersectObjects(temp.meshes, false)
+  if (!hit) {
+    return {
+      y: BALL_RADIUS,
+      surfaceY: 0,
+      point: new THREE.Vector3(localXZ.x, 0, localXZ.y),
+      normal: new THREE.Vector3(0, 1, 0),
+      hit: false,
+    }
+  }
+
+  temp.localPoint.copy(hit.point)
+  terrainGroup.worldToLocal(temp.localPoint)
+
+  const worldNormal = hit.face?.normal
+    ? temp.localNormal.copy(hit.face.normal).transformDirection(hit.object.matrixWorld).normalize()
+    : temp.up
+
+  temp.terrainNormal.copy(worldNormal)
+  terrainGroup.worldToLocal(temp.terrainNormal.add(hit.point)).sub(temp.localPoint).normalize()
+
+  return {
+    y: temp.localPoint.y + BALL_RADIUS,
+    surfaceY: temp.localPoint.y,
+    point: temp.localPoint.clone(),
+    normal: temp.terrainNormal.clone(),
+    hit: true,
+  }
+}
+
+function AimOverlay({ dragState, power, interactionMode }) {
   return (
-    <primitive
-      object={model}
-      rotation={[-Math.PI / 2, 0, Math.PI]}
-      scale={0.045}
-      position={[0, 0.02, 0]}
-    />
+    <div className="carto-shot-overlay" aria-hidden="true">
+      <div className="carto-shot-chip">
+        <span>Shot planner</span>
+        <strong>
+          {interactionMode === 'navigate'
+            ? 'navigate mode: orbit, pan, zoom'
+            : dragState.isDragging
+              ? 'release to fire'
+              : 'drag from tee lane to aim'}
+        </strong>
+      </div>
+      <div className="carto-power-meter">
+        <span>Power</span>
+        <div className="carto-power-track">
+          <div className="carto-power-fill" style={{ transform: `scaleX(${power.toFixed(3)})` }} />
+        </div>
+      </div>
+      <div className="carto-cup-chip">
+        <span>Target</span>
+        <strong>play uphill into the cup</strong>
+      </div>
+    </div>
   )
 }
 
-function CartographicScene({ activeMode }) {
-  const groupRef = useRef()
-  const cameraTarget = useRef(new THREE.Vector3())
-  const reduceMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+function PlayableBall({ terrainGroupRef, dragState, shotRequest, shotConfig, resetRequest, terrainBounds }) {
+  const playBounds = useMemo(() => {
+    if (!terrainBounds) return null
+    return {
+      xMin: terrainBounds.min.x,
+      xMax: terrainBounds.max.x,
+      zMin: terrainBounds.min.z,
+      zMax: terrainBounds.max.z,
+    }
+  }, [terrainBounds])
+  const anchorsRef = useRef(null)
+  const ballRef = useRef()
+  const markerRef = useRef()
+  const cupRef = useRef()
+  const teeRef = useRef()
+  const trailRef = useRef()
+  const stateRef = useRef({
+    position: new THREE.Vector2(),
+    velocity: new THREE.Vector2(),
+    height: 0,
+    verticalVelocity: 0,
+    inCup: false,
+  })
+  const lastShotRequest = useRef(0)
+  const lastResetRequest = useRef(0)
+  const raycaster = useMemo(() => new THREE.Raycaster(), [])
+  const downVector = useMemo(() => new THREE.Vector3(0, -1, 0), [])
+  const trailMaterial = useRef()
+  const temp = useMemo(() => ({
+    worldOrigin: new THREE.Vector3(),
+    localPoint: new THREE.Vector3(),
+    localNormal: new THREE.Vector3(),
+    terrainNormal: new THREE.Vector3(),
+    up: new THREE.Vector3(0, 1, 0),
+    meshes: [],
+  }), [])
 
-  useFrame(({ camera }) => {
-    const view = SURFACE_VIEWS[activeMode] || SURFACE_VIEWS.elevation
-    const targetPosition = new THREE.Vector3(...view.position)
-    const targetLookAt = new THREE.Vector3(...view.target)
+  useEffect(() => {
+    if (!terrainBounds || !terrainGroupRef.current || !playBounds) return
 
-    camera.position.lerp(targetPosition, reduceMotion ? 1 : 0.045)
-    cameraTarget.current.lerp(targetLookAt, reduceMotion ? 1 : 0.07)
-    camera.lookAt(cameraTarget.current)
+    const highest = { point: null, y: -Infinity }
+    const lowest = { point: null, y: Infinity }
+    const steps = 36
 
-    if (!reduceMotion && groupRef.current) {
-      groupRef.current.rotation.y += 0.0008
+    for (let ix = 0; ix <= steps; ix += 1) {
+      for (let iz = 0; iz <= steps; iz += 1) {
+        const probe = new THREE.Vector2(
+          THREE.MathUtils.lerp(playBounds.xMin, playBounds.xMax, ix / steps),
+          THREE.MathUtils.lerp(playBounds.zMin, playBounds.zMax, iz / steps)
+        )
+        const sample = sampleTerrainAt(probe, terrainGroupRef.current, raycaster, downVector, temp)
+
+        if (sample.surfaceY > highest.y) {
+          highest.y = sample.surfaceY
+          highest.point = probe.clone()
+        }
+
+        if (sample.surfaceY < lowest.y) {
+          lowest.y = sample.surfaceY
+          lowest.point = probe.clone()
+        }
+      }
+    }
+
+    if (!highest.point || !lowest.point) return
+
+    anchorsRef.current = {
+      tee: highest.point,
+      cup: lowest.point,
+    }
+    stateRef.current.position.copy(highest.point)
+  }, [terrainBounds, playBounds, raycaster, downVector, temp, terrainGroupRef])
+
+  useEffect(() => {
+    if (!anchorsRef.current) return
+    if (resetRequest === lastResetRequest.current) return
+    lastResetRequest.current = resetRequest
+    stateRef.current.position.copy(anchorsRef.current.tee)
+    stateRef.current.velocity.set(0, 0)
+    stateRef.current.height = 0
+    stateRef.current.verticalVelocity = 0
+    stateRef.current.inCup = false
+  }, [resetRequest])
+
+  useFrame((_, delta) => {
+    const terrainGroup = terrainGroupRef.current
+    const anchors = anchorsRef.current
+    if (!terrainGroup || !ballRef.current || !markerRef.current || !cupRef.current || !teeRef.current || !trailRef.current || !playBounds || !anchors) return
+
+    if (shotRequest !== lastShotRequest.current) {
+      lastShotRequest.current = shotRequest
+      const impulse = 1.8 + shotConfig.power * 3.4
+      stateRef.current.velocity.set(shotConfig.direction.x * impulse, shotConfig.direction.y * impulse)
+      stateRef.current.verticalVelocity = 0.28 + shotConfig.power * 0.45
+      stateRef.current.height = 0.015
+      stateRef.current.inCup = false
+    }
+
+    const dt = Math.min(delta, 1 / 30)
+    const state = stateRef.current
+    const terrainAtTee = sampleTerrainAt(anchors.tee, terrainGroup, raycaster, downVector, temp)
+    const terrainAtCup = sampleTerrainAt(anchors.cup, terrainGroup, raycaster, downVector, temp)
+
+    teeRef.current.position.set(terrainAtTee.point.x, terrainAtTee.surfaceY + 0.02, terrainAtTee.point.z)
+    cupRef.current.position.set(terrainAtCup.point.x, terrainAtCup.surfaceY, terrainAtCup.point.z)
+    trailRef.current.position.set(terrainAtTee.point.x, terrainAtTee.surfaceY + BALL_RADIUS + 0.03, terrainAtTee.point.z)
+
+    if (state.inCup) {
+      ballRef.current.position.set(terrainAtCup.point.x, terrainAtCup.y - BALL_RADIUS * 0.35, terrainAtCup.point.z)
+      markerRef.current.position.set(terrainAtCup.point.x, terrainAtCup.surfaceY + 0.02, terrainAtCup.point.z)
+      return
+    }
+
+    const terrainNow = sampleTerrainAt(state.position, terrainGroup, raycaster, downVector, temp)
+    const slopeForce = new THREE.Vector2(-terrainNow.normal.x, -terrainNow.normal.z).multiplyScalar(2.2)
+    state.velocity.addScaledVector(slopeForce, dt)
+
+    const rollingDamping = state.height > 0.02 ? 0.992 : 0.968
+    state.velocity.multiplyScalar(Math.pow(rollingDamping, dt * 60))
+    state.position.addScaledVector(state.velocity, dt)
+
+    state.position.x = THREE.MathUtils.clamp(state.position.x, playBounds.xMin, playBounds.xMax)
+    state.position.y = THREE.MathUtils.clamp(state.position.y, playBounds.zMin, playBounds.zMax)
+
+    if (state.position.x === playBounds.xMin || state.position.x === playBounds.xMax) {
+      state.velocity.x *= -0.32
+    }
+    if (state.position.y === playBounds.zMin || state.position.y === playBounds.zMax) {
+      state.velocity.y *= -0.32
+    }
+
+    state.verticalVelocity -= 8.2 * dt
+    state.height += state.verticalVelocity * dt
+
+    const terrainAfterMove = sampleTerrainAt(state.position, terrainGroup, raycaster, downVector, temp)
+    if (state.height <= 0) {
+      if (Math.abs(state.verticalVelocity) > 0.45) {
+        state.height = 0
+        state.verticalVelocity = -state.verticalVelocity * 0.08
+        state.velocity.multiplyScalar(0.94)
+      } else {
+        state.height = 0
+        state.verticalVelocity = 0
+      }
+    }
+
+    const cupDistance = state.position.distanceTo(anchors.cup)
+    if (cupDistance < 0.34 && state.height < 0.06 && state.velocity.length() < 1.45) {
+      state.position.copy(anchors.cup)
+      state.velocity.set(0, 0)
+      state.height = 0
+      state.verticalVelocity = 0
+      state.inCup = true
+    }
+
+    ballRef.current.position.set(terrainAfterMove.point.x, terrainAfterMove.y + state.height, terrainAfterMove.point.z)
+    markerRef.current.position.set(terrainAfterMove.point.x, terrainAfterMove.surfaceY + 0.02, terrainAfterMove.point.z)
+
+    const spin = state.velocity.length()
+    ballRef.current.rotation.z -= spin * dt * 0.7
+    ballRef.current.rotation.x += spin * dt * 0.55
+
+    const trailOpacity = dragState.isDragging ? 0.92 : 0.34
+    if (trailMaterial.current) {
+      trailMaterial.current.opacity = trailOpacity
     }
   })
 
+  const previewPointArray = useMemo(() => {
+    const start = new THREE.Vector3(0, 0, 0)
+    const end = new THREE.Vector3(
+      dragState.direction.x * (1.8 + shotConfig.power * 3.3),
+      0.45 + shotConfig.power * 0.75,
+      dragState.direction.y * (1.8 + shotConfig.power * 3.3)
+    )
+    const mid = new THREE.Vector3(
+      dragState.direction.x * (0.9 + shotConfig.power * 1.8),
+      0.95 + shotConfig.power * 1.2,
+      dragState.direction.y * (0.9 + shotConfig.power * 1.8)
+    )
+    return new Float32Array([...start.toArray(), ...mid.toArray(), ...end.toArray()])
+  }, [dragState.direction.x, dragState.direction.y, shotConfig.power])
+
   return (
-    <group ref={groupRef}>
+    <>
+      <group ref={teeRef}>
+        <mesh rotation={[-Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[0.2, 0.34, 40]} />
+          <meshBasicMaterial color="#f8fafc" transparent opacity={0.88} side={THREE.DoubleSide} />
+        </mesh>
+      </group>
+
+      <group ref={cupRef}>
+        <mesh rotation={[-Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[0.18, 0.3, 40]} />
+          <meshBasicMaterial color="#38bdf8" transparent opacity={0.92} side={THREE.DoubleSide} />
+        </mesh>
+        <mesh position={[0, 0.42, 0]}>
+          <cylinderGeometry args={[0.014, 0.014, 0.85, 10]} />
+          <meshStandardMaterial color="#f8fafc" roughness={0.45} metalness={0.1} />
+        </mesh>
+        <mesh position={[0.18, 0.72, 0]}>
+          <boxGeometry args={[0.34, 0.18, 0.02]} />
+          <meshBasicMaterial color="#f59e0b" />
+        </mesh>
+      </group>
+
+      <group ref={ballRef}>
+        <mesh castShadow={false} receiveShadow={false}>
+          <sphereGeometry args={[BALL_RADIUS, 28, 28]} />
+          <meshStandardMaterial color="#f8fafc" roughness={0.68} metalness={0.02} />
+        </mesh>
+      </group>
+
+      <mesh ref={markerRef} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.22, 0.32, 40]} />
+        <meshBasicMaterial color="#f59e0b" transparent opacity={0.24} side={THREE.DoubleSide} />
+      </mesh>
+
+      <line ref={trailRef}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={previewPointArray.length / 3}
+            array={previewPointArray}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <lineBasicMaterial
+          ref={trailMaterial}
+          color="#f8fafc"
+          transparent
+          opacity={0.34}
+        />
+      </line>
+    </>
+  )
+}
+
+function CartographicScene({ activeMode, dragState, shotRequest, shotConfig, resetRequest, interactionMode }) {
+  const terrainGroupRef = useRef()
+  const [terrainBounds, setTerrainBounds] = useState(null)
+
+  useFrame(({ camera }) => {
+    if (interactionMode === 'navigate') return
+    camera.position.set(0, 8.4, 5.6)
+    camera.lookAt(0, -0.15, -0.8)
+  })
+
+  return (
+    <group>
       <ambientLight intensity={0.42} />
       <directionalLight position={[4, 7, 4]} intensity={1.35} color="#f8e1ad" />
       <pointLight position={[-4, 3, -3]} intensity={0.55} color="#38bdf8" />
-      <Suspense fallback={null}>
-        <LidarTerrainModel mode={activeMode} />
-      </Suspense>
+      <group
+        ref={terrainGroupRef}
+        rotation={TERRAIN_TRANSFORM.rotation}
+        scale={TERRAIN_TRANSFORM.scale}
+        position={TERRAIN_TRANSFORM.position}
+      >
+        <Suspense fallback={null}>
+          <LidarTerrainModel mode={activeMode} onBoundsReady={setTerrainBounds} />
+        </Suspense>
+        <PlayableBall
+          terrainGroupRef={terrainGroupRef}
+          dragState={dragState}
+          shotRequest={shotRequest}
+          shotConfig={shotConfig}
+          resetRequest={resetRequest}
+          terrainBounds={terrainBounds}
+        />
+      </group>
+      <OrbitControls
+        makeDefault
+        enabled={interactionMode === 'navigate'}
+        enablePan
+        enableZoom
+        enableRotate
+        target={[0, -0.15, -0.8]}
+        minDistance={4}
+        maxDistance={16}
+        minPolarAngle={0.35}
+        maxPolarAngle={1.45}
+      />
     </group>
   )
 }
@@ -209,8 +552,67 @@ function ShowcaseFallback() {
 
 export default function CartographicProductShowcase() {
   const [activeMode, setActiveMode] = useState('elevation')
+  const [interactionMode, setInteractionMode] = useState('shot')
+  const [shotRequest, setShotRequest] = useState(0)
+  const [resetRequest, setResetRequest] = useState(0)
+  const [shotConfig, setShotConfig] = useState({
+    direction: { x: 0.72, y: 0.44 },
+    power: 0.46,
+  })
+  const [dragState, setDragState] = useState({
+    isDragging: false,
+    direction: { x: 0.72, y: 0.44 },
+  })
+  const dragStartRef = useRef(null)
   const webglAvailable = useMemo(() => canUseWebGL(), [])
   const activeView = SURFACE_VIEWS[activeMode]
+  const handlePointerDown = (event) => {
+    if (interactionMode !== 'shot') return
+    const rect = event.currentTarget.getBoundingClientRect()
+    dragStartRef.current = {
+      x: rect.left + rect.width * 0.5,
+      y: rect.top + rect.height * 0.78,
+      width: rect.width,
+      height: rect.height,
+    }
+    setDragState((current) => ({
+      ...current,
+      isDragging: true,
+    }))
+  }
+
+  const handlePointerMove = (event) => {
+    if (interactionMode !== 'shot') return
+    if (!dragStartRef.current) return
+
+    const dx = (event.clientX - dragStartRef.current.x) / dragStartRef.current.width
+    const dy = (event.clientY - dragStartRef.current.y) / dragStartRef.current.height
+    const pullX = THREE.MathUtils.clamp(-dx * 3.2, -1, 1)
+    const pullY = THREE.MathUtils.clamp(-dy * 3.2, -1, 1)
+    const vector = new THREE.Vector2(pullX, pullY)
+
+    if (vector.lengthSq() < 0.002) return
+
+    const direction = vector.clone().normalize()
+    const power = THREE.MathUtils.clamp(vector.length(), 0.08, 0.72)
+
+    setShotConfig({
+      direction: { x: direction.x, y: direction.y },
+      power,
+    })
+    setDragState({
+      isDragging: true,
+      direction: { x: direction.x, y: direction.y },
+    })
+  }
+
+  const handlePointerEnd = () => {
+    if (interactionMode !== 'shot') return
+    if (!dragStartRef.current) return
+    dragStartRef.current = null
+    setDragState((current) => ({ ...current, isDragging: false }))
+    setShotRequest((count) => count + 1)
+  }
 
   return (
     <section className="section section-cartographic-products" id="cartographic-products">
@@ -218,9 +620,9 @@ export default function CartographicProductShowcase() {
         <div className="carto-layout">
           <div className="carto-copy">
             <div className="section-label">// LIDAR SHOWCASE</div>
-            <h2 className="section-title">A premium 3D terrain surface, built from real LiDAR.</h2>
+            <h2 className="section-title">Playable LiDAR terrain with a real shot-planning surface.</h2>
             <p className="section-sub carto-sub">
-              This is the strongest visual proof on the site: a real LiDAR-derived GLB terrain asset, rendered in-browser with view-specific camera movement and analytical surface symbology.
+      Pull back from the tee area to aim and set power, then release to fire. The terrain stays locked in a stable playable frame instead of rotating like a showcase.
             </p>
             <div className="carto-module-list" aria-label="3D cartographic product modules">
               {PRODUCT_MODULES.map((module) => (
@@ -231,12 +633,12 @@ export default function CartographicProductShowcase() {
               ))}
             </div>
             <a className="btn btn-outline carto-cta" href="#contact">
-              DISCUSS SPATIAL UI
+              DISCUSS 3D GEOSPATIAL UI
             </a>
           </div>
 
           <div className="carto-showcase" aria-label="Interactive Filament-ready LiDAR terrain GLB demo">
-            <div className="carto-toolbar" aria-label="Surface symbology and camera presets">
+            <div className="carto-toolbar" aria-label="Surface symbology, shot controls, and reset">
               {Object.entries(SURFACE_VIEWS).map(([key, view]) => (
                 <button
                   className={activeMode === key ? 'active' : ''}
@@ -247,14 +649,38 @@ export default function CartographicProductShowcase() {
                   {view.label}
                 </button>
               ))}
+              <button type="button" onClick={() => setResetRequest((count) => count + 1)}>
+                Reset Ball
+              </button>
+              <button
+                type="button"
+                className={interactionMode === 'navigate' ? 'active' : ''}
+                onClick={() => setInteractionMode((current) => (current === 'shot' ? 'navigate' : 'shot'))}
+              >
+                {interactionMode === 'navigate' ? 'Shot Mode' : 'Navigate'}
+              </button>
             </div>
-            <div className="carto-canvas-wrap">
+            <div
+              className={`carto-canvas-wrap ${interactionMode === 'navigate' ? 'is-navigating' : ''}`}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerEnd}
+              onPointerLeave={handlePointerEnd}
+            >
+              <AimOverlay dragState={dragState} power={shotConfig.power} interactionMode={interactionMode} />
               {webglAvailable ? (
                 <Canvas
-                  camera={{ position: SURFACE_VIEWS.elevation.position, fov: 43, near: 0.1, far: 100 }}
+                  camera={{ position: [0, 8.4, 5.6], fov: 34, near: 0.1, far: 100 }}
                   gl={{ antialias: true, alpha: true }}
                 >
-                  <CartographicScene activeMode={activeMode} />
+                  <CartographicScene
+                    activeMode={activeMode}
+                    dragState={dragState}
+                    shotRequest={shotRequest}
+                    shotConfig={shotConfig}
+                    resetRequest={resetRequest}
+                    interactionMode={interactionMode}
+                  />
                 </Canvas>
               ) : (
                 <ShowcaseFallback />
@@ -270,16 +696,16 @@ export default function CartographicProductShowcase() {
             </div>
             <div className="carto-readout">
               <div>
-                <span>Mode</span>
-                <strong>{activeView.label}</strong>
+                <span>Interaction</span>
+                <strong>{interactionMode === 'navigate' ? 'Use drag plus pinch/scroll to inspect terrain' : 'Pull back from the tee area, then release to shoot'}</strong>
               </div>
               <div>
-                <span>Symbology</span>
-                <strong>{activeView.readout}</strong>
+                <span>Power</span>
+                <strong>{Math.round(shotConfig.power * 100)}% shot strength</strong>
               </div>
               <div>
-                <span>Asset</span>
-                <strong>LiDAR, color ramp, GLB, viewer</strong>
+                <span>Objective</span>
+                <strong>Work the ball uphill and into the flagged cup</strong>
               </div>
             </div>
           </div>
