@@ -100,6 +100,82 @@ const OFFER_FIT = [
   },
 ]
 
+const PROOF_PACKAGES = [
+  {
+    title: 'Rapid workflow audit',
+    outcome: 'Find the friction point that is slowing a GIS, parcel, or spatial product workflow down.',
+    deliverable: 'A short written teardown with the highest-leverage fix, implementation notes, and a recommended first slice.',
+    bestFor: 'Teams that know something is clunky or brittle but need the right first move before spending a sprint.',
+    ctaLabel: 'Start with an audit',
+  },
+  {
+    title: 'Proof-of-value build',
+    outcome: 'Turn one high-friction spatial workflow into a concrete, testable product slice.',
+    deliverable: 'A draft or local build with supporting notes, validation checks, and a handoff path for review.',
+    bestFor: 'ArcGIS, parcel, map, or dashboard teams that need to prove a flow before broader rollout.',
+    ctaLabel: 'Scope a proof build',
+  },
+  {
+    title: 'Delivery hardening pass',
+    outcome: 'Tighten a working product surface so it is easier to trust, demo, and maintain.',
+    deliverable: 'Focused fixes around clarity, analytics, QA, performance, or contact conversion with visible evidence.',
+    bestFor: 'Teams with something already live that needs sharper execution before broader use or launch.',
+    ctaLabel: 'Harden a launch surface',
+  },
+]
+
+const PROOF_SPRINT_STEPS = [
+  {
+    title: 'Map the stuck workflow',
+    detail: 'Start with the user path, operational handoff, or GIS process that is costing the most time, trust, or momentum.',
+  },
+  {
+    title: 'Build the smallest convincing slice',
+    detail: 'Turn that pressure point into a focused web, mobile, data, or automation improvement instead of a vague future roadmap item.',
+  },
+  {
+    title: 'Attach proof and constraints',
+    detail: 'Show the artifact, QA result, technical tradeoff, or metric hypothesis so the next decision is grounded in something real.',
+  },
+  {
+    title: 'Hand off the next move',
+    detail: 'Package what should ship, what needs approval, and what the follow-on implementation path should be.',
+  },
+]
+
+const CONTACT_EXPECTATIONS = [
+  {
+    title: 'Start with the actual stuck workflow',
+    detail: 'Share the product surface, GIS handoff, parcel flow, or map-heavy user path that is costing the most trust or time right now.',
+  },
+  {
+    title: 'Get a scoped first response',
+    detail: 'The first pass should identify the highest-leverage slice, the likely implementation shape, and what proof would make the next decision easier.',
+  },
+  {
+    title: 'Keep the next move concrete',
+    detail: 'If there is a fit, the follow-on should become a draft build, audit, or hardening pass with explicit approval gates for anything public or production-facing.',
+  },
+]
+
+const FAQ_ITEMS = [
+  {
+    question: 'What kinds of projects are the best fit?',
+    answer:
+      'The best fit is geospatial or operational software that needs both product clarity and technical delivery: ArcGIS workflows, parcel tools, mobile map experiences, automation-heavy GIS systems, and front-end trust surfaces.',
+  },
+  {
+    question: 'What should a first message include?',
+    answer:
+      'A useful first message includes the workflow or product surface, where it is stuck, what is brittle or confusing today, and what outcome would make the work clearly better for users or operators.',
+  },
+  {
+    question: 'What happens after initial contact?',
+    answer:
+      'The next step is usually a scoped response that identifies the highest-leverage slice, what artifact or draft can be produced locally, and what approval would be needed before anything public, production, or permanent ships.',
+  },
+]
+
 const EXPERIENCE = [
   {
     role: 'GIS Analyst Programmer',
@@ -626,6 +702,80 @@ export default function App() {
           </div>
         </section>
 
+        <section className="section section-proof-packages" id="engagements">
+          <div className="container">
+            <div className="proof-packages-header">
+              <div>
+                <div className="section-label">// ENGAGEMENT PATHS</div>
+                <h2 className="section-title">Clear ways to start when the product problem is real but the next move is still fuzzy.</h2>
+              </div>
+              <p className="section-sub proof-packages-sub">
+                The fastest progress usually comes from scoping one tractable slice, proving it locally, and then deciding whether it deserves broader rollout.
+              </p>
+            </div>
+
+            <div className="proof-package-grid">
+              {PROOF_PACKAGES.map((pkg) => (
+                <article className="proof-package-card" key={pkg.title}>
+                  <h3>{pkg.title}</h3>
+                  <dl>
+                    <div>
+                      <dt>Outcome</dt>
+                      <dd>{pkg.outcome}</dd>
+                    </div>
+                    <div>
+                      <dt>Deliverable</dt>
+                      <dd>{pkg.deliverable}</dd>
+                    </div>
+                    <div>
+                      <dt>Best fit</dt>
+                      <dd>{pkg.bestFor}</dd>
+                    </div>
+                  </dl>
+                  <a
+                    className="proof-package-link"
+                    href="#contact"
+                    onClick={() => handleContactClick(pkg.ctaLabel.toLowerCase(), 'engagement_packages', '#contact', 'anchor')}
+                  >
+                    {pkg.ctaLabel}
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section section-proof-sprint" id="delivery-loop">
+          <div className="container proof-sprint-layout">
+            <div className="proof-sprint-copy">
+              <div className="section-label">// DELIVERY LOOP</div>
+              <h2 className="section-title">A practical way to move from vague pain to a shipped spatial product slice.</h2>
+              <p className="section-sub">
+                This is the working pattern behind the public projects on the site: identify the friction, build the smallest convincing fix, attach proof, then hand off the next decision clearly.
+              </p>
+              <a
+                className="btn btn-primary proof-sprint-link"
+                href="#contact"
+                onClick={() => handleContactClick('delivery_loop', 'delivery_loop_section', '#contact', 'anchor')}
+              >
+                TALK THROUGH YOUR WORKFLOW
+              </a>
+            </div>
+
+            <div className="proof-loop">
+              {PROOF_SPRINT_STEPS.map((step, index) => (
+                <article className="proof-loop-item" key={step.title}>
+                  <div className="proof-loop-step">0{index + 1}</div>
+                  <div>
+                    <h3>{step.title}</h3>
+                    <p>{step.detail}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <DeferredShowcaseSection />
 
         <section className="section section-experience" id="experience">
@@ -710,6 +860,37 @@ export default function App() {
               )}
               {articles.map((article) => (
                 <ArticleCard key={article.title} {...article} onClick={() => setActiveArticle(article)} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section section-dark section-contact-expectations" id="contact-expectations">
+          <div className="container contact-expectations-layout">
+            <div>
+              <div className="section-label">// STARTING THE CONVERSATION</div>
+              <h2 className="section-title">What a strong first reach-out looks like.</h2>
+              <p className="section-sub">
+                The goal is not a polished brief. It is enough context to identify the stuck workflow, name the highest-leverage slice, and decide whether the next move should be an audit, draft build, or hardening pass.
+              </p>
+            </div>
+
+            <div className="contact-expectations-grid">
+              {CONTACT_EXPECTATIONS.map((item, index) => (
+                <article className="contact-expectation-card" key={item.title}>
+                  <span className="contact-expectation-step">0{index + 1}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.detail}</p>
+                </article>
+              ))}
+            </div>
+
+            <div className="contact-expectations-faq" aria-label="Frequently asked questions">
+              {FAQ_ITEMS.map((item) => (
+                <details className="contact-faq-item" key={item.question}>
+                  <summary>{item.question}</summary>
+                  <p>{item.answer}</p>
+                </details>
               ))}
             </div>
           </div>
