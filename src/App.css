@@ -101,6 +101,14 @@ button:focus-visible {
   margin-bottom: 3rem;
 }
 
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
 /* ─── HERO ─────────────────────────────────────────────────────────────── */
 .hero {
   position: relative;
@@ -354,6 +362,106 @@ button:focus-visible {
     var(--bg-mid);
   border-top: 1px solid rgba(255,255,255,0.08);
   border-bottom: 1px solid var(--border);
+}
+
+.section-contact-expectations {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-contact-expectations::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(56,189,248,0.1), transparent 24%),
+    radial-gradient(circle at 82% 24%, rgba(245,158,11,0.08), transparent 22%);
+  pointer-events: none;
+}
+
+.contact-expectations-layout {
+  position: relative;
+  display: grid;
+  gap: 2rem;
+}
+
+.contact-expectations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.contact-expectation-card {
+  position: relative;
+  min-height: 100%;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(10,10,10,0.72);
+  padding: 1.2rem 1.1rem 1.1rem;
+}
+
+.contact-expectation-step {
+  display: inline-flex;
+  margin-bottom: 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--amber);
+}
+
+.contact-expectation-card h3 {
+  font-family: var(--mono);
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.55rem;
+  color: var(--white);
+}
+
+.contact-expectation-card p {
+  color: var(--steel-lt);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.contact-expectations-faq {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.contact-faq-item {
+  border: 1px solid rgba(245,158,11,0.18);
+  background: rgba(10,10,10,0.62);
+  padding: 1rem 1rem 1.05rem;
+}
+
+.contact-faq-item summary {
+  position: relative;
+  cursor: pointer;
+  padding-right: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--white);
+}
+
+.contact-faq-item summary::after {
+  content: '+';
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: var(--amber);
+  font-size: 1rem;
+}
+
+.contact-faq-item[open] summary::after {
+  content: '−';
+}
+
+.contact-faq-item p {
+  margin-top: 0.85rem;
+  color: var(--steel-lt);
+  font-size: 0.9rem;
+  line-height: 1.65;
 }
 
 .carto-layout {
@@ -2280,6 +2388,10 @@ button:focus-visible {
   }
   .offer-fit-cta .btn {
     width: 100%;
+  }
+  .contact-expectations-grid,
+  .contact-expectations-faq {
+    grid-template-columns: 1fr;
   }
 }
 
