@@ -5,9 +5,17 @@ Portfolio site for `ingramgeoai.com`, built with React and Vite.
 ## QA commands
 
 - `npm run verify:analytics`
+- `npm run verify:security`
 - `npm run lint`
 - `npm run build`
 - `npm run verify:performance`
+
+`verify:analytics` includes a regression check that contact briefs and compose URLs
+are excluded from custom events, debug logs, and optional vendor event properties.
+
+Cloudflare DNS, redirect, and response-header changes are applied separately from
+the site build. Follow [the security maintenance runbook](docs/security-maintenance.md)
+and validate the live site after applying them.
 
 ## Homepage performance budget
 
