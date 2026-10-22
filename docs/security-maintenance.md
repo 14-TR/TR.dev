@@ -9,6 +9,23 @@ Scope: fix HTTPS for `www.ingramgeoai.com`, redirect it to the canonical HTTPS
 apex, and add initial response security headers to the HTTPS apex only. Other
 subdomains and applications are outside this change.
 
+## Publish the dependency and analytics updates
+
+GitHub Pages currently publishes the root of the `gh-pages` branch (confirmed
+through the Pages API on 2026-10-22). Merging source changes into `master` alone
+does not publish this repair.
+
+Build the reviewed source with `npm ci`, then run `npm run verify:analytics`,
+`npm run verify:security`, `npm run lint`, `npm run build`, and
+`npm run verify:performance`. Publish the resulting `dist/` contents to the root
+of `gh-pages` using the existing static deployment process. Preserve the
+`CNAME` file containing `ingramgeoai.com`; do not upload the source checkout or
+`node_modules`. Wait for the GitHub Pages build to succeed, then compare the
+live homepage's asset filenames with the new `dist/index.html` and repeat the
+browser checks below. Keep the previous `gh-pages` commit as the rollback point.
+
+The Cloudflare configuration below is independent of that static deployment.
+
 ## Before applying
 
 1. Save the current `www` DNS record, active certificate coverage, and the
