@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "verify:analytics": "node scripts/verify-analytics-baseline.mjs",
+    "verify:analytics": "node scripts/verify-analytics-baseline.mjs && node --experimental-vm-modules scripts/verify-analytics-privacy.mjs",
+    "verify:security": "npm audit --audit-level=low",
     "verify:performance": "node scripts/verify-performance-budget.mjs"
   },
   "dependencies": {
@@ -27,6 +28,6 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "vite": "^7.3.1"
+    "vite": "^7.3.7"
   }
 }

@@ -1,0 +1,16 @@
+{
+  "ref": "personal_site_www_to_apex",
+  "description": "Redirect personal site www to HTTPS apex",
+  "expression": "(http.host eq \"www.ingramgeoai.com\")",
+  "action": "redirect",
+  "action_parameters": {
+    "from_value": {
+      "target_url": {
+        "expression": "concat(\"https://ingramgeoai.com\", http.request.uri.path)"
+      },
+      "status_code": 301,
+      "preserve_query_string": true
+    }
+  },
+  "enabled": true
+}
